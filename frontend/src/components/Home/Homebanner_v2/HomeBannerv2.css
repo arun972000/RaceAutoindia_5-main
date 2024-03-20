@@ -1,0 +1,49 @@
+.first-Img {
+    aspect-ratio: auto 900 / 600;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.last-Img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+
+.carosel-edit {
+    height: 200px;
+}
+
+.banner__hover{
+    position: relative;
+}
+
+.home__overlay--text {
+    top:95px;
+    opacity: 0; 
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 20px;
+    color: white;
+    transition: opacity 0.3s ease; 
+}
+
+.home__overlay--text h6{
+    font-size: smaller;
+}
+
+.home__overlay--text p{
+    font-size: xx-small;
+}
+
+.banner__hover:hover .home__overlay--text {
+    opacity: 1; /* Show on hover */
+}
+.banner__hover:hover .sideBanner_image {
+   filter: brightness(60%); /* Show on hover */
+}
+
+

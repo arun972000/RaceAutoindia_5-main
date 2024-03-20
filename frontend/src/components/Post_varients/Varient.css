@@ -1,0 +1,13 @@
+.image-container{
+    overflow: hidden;
+}
+
+.varient-image {
+
+    
+    transition:  transform 0.5s;
+}
+
+.varient-image:hover {
+   transform: scale(1.1);
+}

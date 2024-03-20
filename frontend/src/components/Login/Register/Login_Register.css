@@ -1,0 +1,103 @@
+@media (min-width: 576px) {
+
+  .modal-dialog {
+    max-width: 300px !important;
+    font-size: 16px !important;
+  }
+
+  .model-style input::placeholder {
+    font-size: 14px;
+  }
+
+
+
+
+  .modal-header {
+    padding: 5px 15px 5px 10px !important;
+
+  }
+
+
+
+  .myform .btn {
+    font-size: 16px !important;
+  }
+}
+
+.myform .error {
+  font-size: 14px;
+  color: red;
+}
+
+.myform p {
+  font-size: 14px;
+  padding: 0;
+  margin: 0;
+}
+
+.myform .form-control {
+  width: 100% !important;
+}
+
+.errorBlock {
+  border: 1px solid;
+  margin: 10px auto;
+  padding: 15px 10px 15px 50px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  font-size: 14px;
+  color: #D8000C;
+  background-color: #FFBABA;
+  background-image: url('https://i.imgur.com/GnyDvKN.png');
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-5px);
+  }
+
+  40% {
+    transform: translateX(5px);
+  }
+
+  60% {
+    transform: translateX(-5px);
+  }
+
+  80% {
+    transform: translateX(5px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.lock-invalid {
+  color: #ff000d;
+  animation: shake 0.5s ease-in-out;
+}
+
+
+.lock-success {
+  color: #1faa00;
+  animation: rotateLock 1s ease-in-out;
+}
+
+@keyframes rotateLock {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(360deg);
+  }
+
+  100% {
+    transform: rotate(720deg);
+  }
+}

@@ -1,0 +1,55 @@
+.swiper-slide-content{
+    position: relative;
+}
+
+.slider__img {
+    margin-top: 10px;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    filter: brightness(90%);
+}
+
+
+.slider__overlay--text{
+    position: absolute;
+    bottom: 0px;
+    left: 9px;
+    color: white;
+    z-index: 1;
+}
+
+.slider__overlay--text p{
+    font-size: 10px;
+}
+
+.slick-prev,
+.slick-next {
+  z-index: 1; /* Ensure arrows are above images */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+   /* Adjust arrow background color */
+  width: 40px; /* Adjust arrow width */
+  height: 40px; /* Adjust arrow height */
+  border-radius: 50%; /* Make arrows circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slick-prev {
+  left: 10px; /* Adjust left position of previous arrow */
+}
+
+.slick-next {
+  right: 10px; /* Adjust right position of next arrow */
+}
+
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}

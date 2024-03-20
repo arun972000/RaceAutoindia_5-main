@@ -1,0 +1,12 @@
+.parallax {
+    background-image: url("http://raceautoindia.com/uploads/images/202401/image_750x_65b7567314c09.jpg");
+    min-height: 500px; 
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .black-bg-opacity {
+    background-color: rgba(0, 0, 0, 0.5); /* Black color with 50% opacity */
+}
