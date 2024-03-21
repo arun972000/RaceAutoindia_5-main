@@ -57,11 +57,11 @@ function MyNavbar() {
         <div className="collapse py-2 navbar-collapse nav-list__bg-red" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <a className={active == "home" ? "nav-link border_bottom active-nav mx-2" : "nav-link border_bottom mx-2"} href="#" onClick={() => setActive("home")}>HOME</a>
+              <a className={active == "home" ? "nav-link border_bottom active-nav mx-2 " : "nav-link border_bottom mx-2"} href="#" onClick={() => setActive("home")}>HOME</a>
             </li>
             {Main_Category}
-            <li className="nav-item dropdown mx-1">
-              <a className={active == "more" ? "nav-link border_bottom dropdown-toggle active-nav mx-2" : "nav-link dropdown-toggle border_bottom mx-2"} href="#" onClick={() => setActive("more")}>
+            <li className="nav-item dropdown mx-1 ">
+              <a className={active == "more" ? "nav-link border_bottom dropdown-toggle active-nav mx-2 " : "nav-link dropdown-toggle border_bottom mx-2"} href="#" onClick={() => setActive("more")}>
                 MORE
               </a>
               <div className="dropdown-menu">

@@ -11,6 +11,7 @@
   border-radius: 5px;
   color: white;
   text-decoration: none;
+  border-radius: 20px;
 }
 
 .youtube { background-color: #FF0000; }
@@ -25,4 +26,40 @@
   width: 24px;
   height: 24px;
   margin-right: 8px;
+}
+
+ .whatsapp:hover {
+  background-color: white; 
+  color: #25D366; 
+}
+
+.youtube:hover {
+  background-color: white; 
+  color: #FF0000; 
+}
+
+.facebook:hover {
+  background-color: white; 
+  color: #1877F2; 
+}
+
+.twitter:hover {
+  background-color: white; 
+  color: #1DA1F2; 
+}
+
+.instagram:hover {
+  background-color: white; 
+  color: #E4405F; 
+}
+
+.linkedin:hover {
+  background-color: white; 
+  color: #0077B5; 
+}
+
+.pinterest:hover {
+  background-color: white; 
+  color: #BD081C; 
+
 }

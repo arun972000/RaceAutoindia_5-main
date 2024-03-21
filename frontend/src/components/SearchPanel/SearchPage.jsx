@@ -22,7 +22,7 @@ const SearchPage = () => {
 
     const [search, setSearch] = useState("")
 
-  
+
 
     // const handleSelectChange = (event) => {
     //     setSelectedValue(event.target.value);
@@ -61,8 +61,8 @@ const SearchPage = () => {
 
     }
 
-  
-      
+
+
 
 
     useEffect(() => {
@@ -83,15 +83,15 @@ const SearchPage = () => {
                     </div>
                         <h3 className="mt-3 text-center text-bold">{data.length} Search results for "{word}" </h3>
 
-               <div style={{width:200}}>
-               <Select
-      defaultValue={selectedOption}
-      onChange={setSelectedOption}
-      options={options}
+                        <div style={{ width: 200 }}>
+                            <Select
+                                defaultValue={selectedOption}
+                                onChange={setSelectedOption}
+                                options={options}
 
-    />
-               </div>
-                       
+                            />
+                        </div>
+
 
                         <div className="row mt-3">
 

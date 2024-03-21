@@ -4,6 +4,7 @@ import { Card, Col, Row } from "react-bootstrap"
 import "../Varient.css"
 import SubCardV5_2 from "./Varient5_card2";
 import SubCardV5_1 from "./Varient5_card1";
+import { Link } from "react-router-dom";
 
 
 const Varient5 = ({ item, single }) => {
@@ -30,23 +31,25 @@ const Varient5 = ({ item, single }) => {
 
             <Col sm={12}>
                 <Card className="mb-1 border-0 mb-3">
-                    <Card.Body>
-                        <div className="row">
-                            <div className="col-md-6">
-                                <div className="image-container">
-                                    <Card.Img variant="top" src={`https://raceautoindia.com/${single.image_mid}`} className="varient-image" style={{ aspectRatio: "16/9", objectFit: "fill", borderRadius: 0 }} />
+                    <Link className="link-style"to={`/post/${single.title_slug}`}>
+                        <Card.Body>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <div className="image-container">
+                                        <Card.Img variant="top" src={`https://raceautoindia.com/${single.image_mid}`} className="varient-image" style={{ aspectRatio: "16/9", objectFit: "fill", borderRadius: 0 }} />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col-md-6">
-                                <div className="content mt-4">
-                                    <h6>{single.title.length > 40 ? `${single.title}` : single.title}</h6>
+                                <div className="col-md-6">
+                                    <div className="content mt-4">
+                                        <h6 className="card-heading">{single.title.length > 40 ? `${single.title}` : single.title}</h6>
 
-                                    <p className="card-text text-muted small">{formatDate(single.created_at)}</p>
-                                    <p>{single.summary}</p>
+                                        <p className="card-text text-muted small">{formatDate(single.created_at)}</p>
+                                        <p>{single.summary}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </Card.Body>
+                        </Card.Body>
+                    </Link>
                 </Card>
             </Col>
             <Col sm={12}>

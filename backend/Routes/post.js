@@ -234,5 +234,17 @@ postRoutes.get("/slider", async (req, res) => {
 })
 
 
+postRoutes.get("/single/:title_slug", async (req, res) => {
+    try {
+        const { title_slug } = req.params;
+
+        const [results] = await db.execute(`SELECT * FROM posts WHERE title_slug = ?`, [title_slug])
+        res.status(200).json(results)
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ message: "internal server error" })
+    }
+})
+
 
 export default postRoutes;

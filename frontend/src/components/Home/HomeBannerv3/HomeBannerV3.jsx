@@ -30,7 +30,7 @@ const HomeBannerV3 = () => {
     return (
 
         <Row className="g-2 mb-4">
-            <Col lg-3>
+            <Col lg={3}>
                 <Row className="">
                     {sideBannerData}
                 </Row>
@@ -39,7 +39,7 @@ const HomeBannerV3 = () => {
             <Col lg={6}>
                 <SliderImage />
             </Col>
-            <Col lg-3>
+            <Col lg={3}>
                 <Row className="">
                     {sideBannerData}
                 </Row>

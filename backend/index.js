@@ -6,6 +6,7 @@ import postRoutes from './Routes/post.js';
 import categoryRoutes from './Routes/categories.js';
 import searchRouter from './Routes/search.js';
 import loginRoutes from './Routes/login.js';
+import routingRouter from './Routes/route.js';
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use("/api/post", postRoutes)
 app.use("/api/category", categoryRoutes)
 app.use("/api/search", searchRouter)
 app.use("/api/user", loginRoutes)
+app.use("/api/routing",routingRouter)
 app.use(express.static('public'))
 
 

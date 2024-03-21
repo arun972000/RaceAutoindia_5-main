@@ -2,6 +2,7 @@
 import { Card } from "react-bootstrap"
 import "../Varient.css"
 import "./Varient2.css"
+import { Link } from "react-router-dom";
 
 const SubcardV2_2 = ({ item }) => {
 
@@ -21,6 +22,7 @@ const SubcardV2_2 = ({ item }) => {
 
 
         <Card className="border-0">
+          <Link className="link-style" to={`/post/${item.title_slug}`}>
           <Card.Body>
             <div className="row">
               <div className="col-6">
@@ -30,7 +32,7 @@ const SubcardV2_2 = ({ item }) => {
               </div>
               <div className="col-6 mt-2">
                 <div className="content-card2">
-                  <h6>{item.title.length > 40 ? `${item.title.slice(0, 40)}...` : item.title}</h6>
+                  <h6 className="card-heading">{item.title.length > 40 ? `${item.title.slice(0, 40)}...` : item.title}</h6>
                   <Card.Text>
                     {formatDate(item.created_at)}
                   </Card.Text>
@@ -38,6 +40,7 @@ const SubcardV2_2 = ({ item }) => {
               </div>
             </div>
           </Card.Body>
+          </Link>
         </Card>
       </div>
     </>

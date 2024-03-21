@@ -30,7 +30,7 @@ const NavMainCategory = ({ item, active, setActive }) => {
             <a className={active == item.name ? "nav-link dropdown-toggle border_bottom active-nav" : "nav-link dropdown-toggle border_bottom"} href="#" onClick={() => setActive(item.name)}>
                 {item.name.toUpperCase()}
             </a>
-            <div className="dropdown-menu">
+            <div className="dropdown-menu shadow-sm">
                 {sub_Category}
             </div>
         </li>

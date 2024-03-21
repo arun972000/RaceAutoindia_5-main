@@ -12,6 +12,10 @@ import Home from './components/Home/Home'
 import Footer from './components/Footer/Footer'
 import SearchPage from './components/SearchPanel/SearchPage'
 import MyNavbar from './components/Header/Navbar'
+import { useContext } from 'react'
+import { RouterDataContext } from './components/RoutingData/Route'
+import PostPage from './components/PostPage/Post'
+import ScrollToTop from './components/ScrollToTop'
 
 
 
@@ -20,21 +24,28 @@ import MyNavbar from './components/Header/Navbar'
 
 function App() {
 
+  const routerData = useContext(RouterDataContext)
+
+
+
   return (
     <>
-      <MyNavbar/>
+      <MyNavbar />
+      <ScrollToTop />
       <Routes>
-        <Route path="/"  element={<Home/>}/>
+        <Route path="/" element={<Home />} />
         <Route path="/newsletter" element={<NewsLetter />} />
-        <Route path="/pdf/:title" element={<PDFPage/>}/>
+        <Route path="/pdf/:title" element={<PDFPage />} />
         <Route path="/event" element={<Layout1 />} />
         <Route path="/eventlist/:category" element={<Layout2 />} />
         <Route path="/eventpage/:title" element={<Layout3 />} />
-        <Route path="admin_newsletter" element={<Admin_newLetter/>}/>
-        <Route path="admin_event" element={<Admin_Event/>}/>
-        <Route path="search/:word" element={<SearchPage/>}/>
+        <Route path="admin_newsletter" element={<Admin_newLetter />} />
+        <Route path="admin_event" element={<Admin_Event />} />
+        <Route path="search/:word" element={<SearchPage />} />
+        <Route path="post/:title_slug" element={<PostPage />} />
       </Routes>
-      <Footer/>
+
+      <Footer />
     </>
   )
 }

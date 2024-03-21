@@ -23,9 +23,9 @@ const PostCategory = () => {
     const showHome = data.filter(item => item.show_at_homepage == 1).map(item => (<HomepageCategory key={item.id} item={item} />))
     return (
         <>
-         { showHome }
+            {showHome}
         </>
-       
+
     )
 }
 

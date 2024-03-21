@@ -4,8 +4,14 @@
     box-sizing: border-box !important;
 }
 
+
 a{
     text-decoration: none;
+
+}
+
+.link-style{
+    color:inherit
 }
 
 .card-body{

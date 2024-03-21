@@ -2,6 +2,7 @@
 import { Card, Col } from "react-bootstrap"
 import SubCardV3 from "./Varient3_card2";
 import "../Varient.css"
+import { Link } from "react-router-dom";
 
 const Varient3 = ({ item,single }) => {
 
@@ -23,14 +24,17 @@ const Varient3 = ({ item,single }) => {
 
 
             <Col md={6}>
+
                 <Card className="h-100 border-0 mb-3">
+                    <Link className="link-style" to={`/post/${single.title_slug}`}>
                     <div className="image-container">
                         <Card.Img variant="top" src={`https://raceautoindia.com/${single.image_mid}`} className="varient-image" style={{ aspectRatio: "16/9", objectFit: "fill", borderRadius: 0 }} />
                     </div>
                     <Card.Body>
-                        <h6 className="mt-3">{single.title.length > 40 ? `${single.title.slice(0, 40)}...` : single.title}</h6>
+                        <h6 className="mt-3 card-heading">{single.title.length > 40 ? `${single.title.slice(0, 40)}...` : single.title}</h6>
                         <p className="card-text text-muted small">{formatDate(single.created_at)}</p>
                     </Card.Body>
+                    </Link>
                 </Card>
             </Col>
             <Col md={6}>
