@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 // RouterDataContext.js
-import { createContext, useState, useEffect } from 'react';
-import axios from "axios"
-import { Url } from '../../url';
+import { createContext, useState, useEffect } from "react";
+import axios from "axios";
+import { Url } from "../../url";
 
 const RouterDataContext = createContext();
 
@@ -11,7 +11,7 @@ const RouterDataProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(`${Url}api/routing/all-routes`)
+      const res = await axios.get(`${Url}api/routing/all-routes`);
       setRouterData(res.data);
     };
 

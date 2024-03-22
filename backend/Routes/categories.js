@@ -18,7 +18,7 @@ categoryRoutes.get("/main_sub/:category", async (req, res) => {
     try {
         const { category } = req.params;
 
-        const [row] = await db.execute(`SELECT * FROM categories WHERE name = ?`, [category])
+        const [row] = await db.execute(`SELECT * FROM categories WHERE name_slug = ?`, [category])
 
         if (row.length > 0) {
             const parent = row[0].id;
