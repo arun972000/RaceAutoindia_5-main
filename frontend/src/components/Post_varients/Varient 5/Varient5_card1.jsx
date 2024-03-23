@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import "../Varient.css";
 import { Link } from "react-router-dom";
 
-const SubCardV5_1 = ({ item, main_title }) => {
+const SubCardV5_1 = ({ item }) => {
   const months = [
     "January",
     "February",
@@ -31,7 +31,7 @@ const SubCardV5_1 = ({ item, main_title }) => {
 
   return (
     <Card className="mb-1 border-0 mb-3">
-      <Link className="link-style" to={`/article/${main_title}/${item.title_slug}`}>
+      <Link className="link-style" to={`/post/${item.title_slug}`}>
         <Card.Body>
           <div className="row">
             <div className="col-6">

@@ -47,13 +47,18 @@ const LoginPage = ({ showLogin, hideLogin }) => {
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
       if (isLoginForm) {
-        await axios.post(`${Url}api/user/login`, values);
+        const res = await axios.post(`${Url}api/user/login`, values);
+        localStorage.setItem("token", res.data);
         setloginError("login");
+
+        setTimeout(() => {
+          hideLogin();
+        }, 2000);
       } else {
         await axios.post(`${Url}api/user/register`, values);
         setSubmitting(true);
         setRegisterError(false);
-        hideLogin();
+        setIsLoginForm(true);
       }
     } catch (err) {
       if (err.response && err.response.status === 409) {
@@ -66,7 +71,7 @@ const LoginPage = ({ showLogin, hideLogin }) => {
         setloginError("invalid");
         setTimeout(() => {
           setloginError(null);
-          resetForm(); // Reset the form fields to empty
+          resetForm();
         }, 3000);
       } else {
         console.log(err);
@@ -75,7 +80,7 @@ const LoginPage = ({ showLogin, hideLogin }) => {
         setloginError("invalid");
         setTimeout(() => {
           setloginError(null);
-          resetForm(); // Reset the form fields to empty
+          resetForm();
         }, 3000);
       }
     }

@@ -10,6 +10,8 @@ import { Url } from "../../url";
 import SideContent from "../SideContent/SideContent";
 import Ad_1 from "../Ads/Ad_1";
 import DOMPurify from "dompurify";
+import MyNavbar from "../Header/Navbar";
+import Footer from "../Footer/Footer";
 
 const PostPage = () => {
   const { title_slug } = useParams();
@@ -55,6 +57,7 @@ const PostPage = () => {
 
   return (
     <>
+    <MyNavbar/>
       <div className="container mt-3">
         <div className="row mb-3">
           <div className="col-12 d-flex justify-content-center">
@@ -62,7 +65,7 @@ const PostPage = () => {
           </div>
         </div>
         <div className="row  justify-content-center">
-          <div className="col-md-7 mt-3">
+          <div className="col-lg-7 mt-3">
             {data.map((post) => (
               <div key={post.id}>
                 <h3>
@@ -106,6 +109,7 @@ const PostPage = () => {
           <SideContent />
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

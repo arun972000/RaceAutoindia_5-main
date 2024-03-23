@@ -4,7 +4,7 @@ import "../Varient.css";
 import "./Varient2.css";
 import { Link } from "react-router-dom";
 
-const SubcardV2_2 = ({ item ,main_title }) => {
+const SubcardV2_2 = ({ item }) => {
   const months = [
     "January",
     "February",
@@ -32,7 +32,7 @@ const SubcardV2_2 = ({ item ,main_title }) => {
     <>
       <div className="col-md-6 mb-3">
         <Card className="border-0">
-          <Link className="link-style" to={`/article/${main_title}/${item.title_slug}`}>
+          <Link className="link-style" to={`/post/${item.title_slug}`}>
             <Card.Body>
               <div className="row">
                 <div className="col-6">

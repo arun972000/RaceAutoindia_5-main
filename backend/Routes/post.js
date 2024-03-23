@@ -7,6 +7,17 @@ import fs from "fs";
 
 const postRoutes = express.Router();
 
+function verifyToken(req, res, next) {
+  const token = req.header("Authorization");
+  if (!token) return res.status(401).json({ error: "Access denied" });
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_KEY);
+    next();
+  } catch (error) {
+    res.status(401).json({ error: "Invalid token" });
+  }
+}
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/postUpload");
@@ -22,7 +33,7 @@ const upload = multer({ storage: storage });
 
 const singleUpload = upload.single("image_default");
 
-postRoutes.get("/", async (req, res) => {
+postRoutes.get("/", verifyToken, async (req, res) => {
   try {
     const [results] = await db.execute("SELECT * FROM posts");
     res.json(results);
@@ -156,7 +167,7 @@ postRoutes.post("/upload", singleUpload, async (req, res) => {
 postRoutes.get("/main/:maincategory/:subcategory", async (req, res) => {
   try {
     const { subcategory } = req.params;
-    console.log(subcategory)
+    console.log(subcategory);
 
     const [row] = await db.execute(
       `SELECT * FROM categories WHERE name_slug = ?`,
@@ -167,7 +178,7 @@ postRoutes.get("/main/:maincategory/:subcategory", async (req, res) => {
       const category_id = row[0].id;
 
       const [results] = await db.execute(
-        `SELECT * FROM posts WHERE category_id = ?`,
+        `SELECT id, title, title_slug, summary, image_big, image_mid, created_at FROM posts WHERE category_id = ?`,
         [category_id]
       );
 
@@ -201,7 +212,7 @@ postRoutes.get("/main/:maincategory", async (req, res) => {
       const subId = subElement.map((item) => item.id);
 
       const results = await db.execute(
-        `SELECT * FROM posts WHERE category_id IN (${placeholder})`,
+        `SELECT id, title, title_slug, summary, image_big, image_mid, created_at FROM posts WHERE category_id IN (${placeholder})`,
         subId
       );
 

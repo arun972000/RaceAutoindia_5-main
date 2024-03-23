@@ -6,7 +6,7 @@ import PopularPost from "../PopularPost/PopularPostContent";
 const SideContent = () => {
   return (
     <>
-      <div className="col-md-4">
+      <div className="col-lg-4">
         <div className="row mt-3">
           {/* <div className="col-12 d-flex justify-content-center">
             <ReactPlayer

@@ -58,7 +58,7 @@ const HomepageCategory = ({ postData }) => {
 
   return (
     <>
-      <div className="d-flex justify-content-between mt-4 align-items-center">
+      <div className="d-flex justify-content-between mt-5 align-items-center">
         <h6 className="">
           <span
             style={{
@@ -76,7 +76,7 @@ const HomepageCategory = ({ postData }) => {
             onChange={(e) => setSelectedOption(e.target.value)}
             aria-label="Default select example"
           >
-            <option defaultValue={""}>All</option>
+            <option value={" "}>All</option>
             {categoryList.map((item) => (
               <option key={item.id} value={item.name_slug}>
                 {item.name}
@@ -88,36 +88,18 @@ const HomepageCategory = ({ postData }) => {
       <Row className="mt-3">
         {postData.block_type == "block-1" &&
           data
-            .map((item) => (
-              <Varient1
-                item={item}
-                key={item.id}
-                main_title={postData.name_slug}
-              />
-            ))
+            .map((item) => <Varient1 item={item} key={item.id} />)
             .slice(0, 3)}
         {postData.block_type == "block-2" && (
-          <Varient3
-            item={v3data}
-            single={v3Single}
-            main_title={postData.name_slug}
-          />
+          <Varient3 item={v3data} single={v3Single} />
         )}
-        {postData.block_type == "block-3" && (
-          <Varient2 item={v2data} main_title={postData.name_slug} />
-        )}
+        {postData.block_type == "block-3" && <Varient2 item={v2data} />}
         {postData.block_type == "block-4" && (
           <Varient5 item={v3data} single={v3Single} />
         )}
         {postData.block_type == "block-5" &&
           data
-            .map((item) => (
-              <Varient4
-                key={item.id}
-                item={item}
-                main_title={postData.name_slug}
-              />
-            ))
+            .map((item) => <Varient4 key={item.id} item={item} />)
             .slice(0, 2)}
       </Row>
       <div className="col-12 mt-3 d-flex justify-content-center">

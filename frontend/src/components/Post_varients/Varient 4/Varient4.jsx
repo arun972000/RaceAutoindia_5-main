@@ -2,7 +2,7 @@
 import { Card, Col } from "react-bootstrap";
 import "../Varient.css";
 import { Link } from "react-router-dom";
-const Varient4 = ({ item ,main_title}) => {
+const Varient4 = ({ item }) => {
   const months = [
     "January",
     "February",
@@ -30,7 +30,7 @@ const Varient4 = ({ item ,main_title}) => {
   return (
     <Col md={6} className="mb-3">
       <Card className="border-0">
-        <Link className="link-style" to={`/article/${main_title}/${item.title_slug}`}>
+        <Link className="link-style" to={`/post/${item.title_slug}`}>
           <div className="image-container">
             <Card.Img
               variant="top"

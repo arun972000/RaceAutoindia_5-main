@@ -9,6 +9,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import Select from "react-select";
+import MyNavbar from "../Header/Navbar";
+import Footer from "../Footer/Footer";
 
 const SearchPage = () => {
   const { word } = useParams();
@@ -59,6 +61,7 @@ const SearchPage = () => {
 
   return (
     <>
+    <MyNavbar/>
       <div className="container mt-3">
         <div className="row">
           <div className="col-md-8 mt-3">
@@ -100,6 +103,7 @@ const SearchPage = () => {
           <SideContent />
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

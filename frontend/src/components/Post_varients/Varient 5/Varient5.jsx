@@ -6,7 +6,7 @@ import SubCardV5_2 from "./Varient5_card2";
 import SubCardV5_1 from "./Varient5_card1";
 import { Link } from "react-router-dom";
 
-const Varient5 = ({ item, single, main_title }) => {
+const Varient5 = ({ item, single}) => {
   const months = [
     "January",
     "February",
@@ -31,14 +31,14 @@ const Varient5 = ({ item, single, main_title }) => {
     return `${month} ${day}, ${year}`;
   };
 
-  const data1 = item.map((item) => <SubCardV5_1 key={item.id} item={item} main_title={main_title}/>);
-  const data2 = item.map((item) => <SubCardV5_2 key={item.id} item={item} main_title={main_title}/>);
+  const data1 = item.map((item) => <SubCardV5_1 key={item.id} item={item} />);
+  const data2 = item.map((item) => <SubCardV5_2 key={item.id} item={item} />);
   return (
     <>
       {single.map((item) => (
         <Col sm={12} key={item.id}>
           <Card className="mb-1 border-0 mb-3">
-            <Link className="link-style" to={`/article/${main_title}/${item.title_slug}`}>
+            <Link className="link-style" to={`/post/${item.title_slug}`}>
               <Card.Body>
                 <div className="row">
                   <div className="col-md-6">

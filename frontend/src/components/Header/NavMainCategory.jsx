@@ -26,18 +26,23 @@ const NavMainCategory = ({ item, active, setActive }) => {
   }, []);
 
   const sub_Category = data.map((post) => (
-    <NavSubCategory item={post} key={post.id} main_title={item.name_slug} />
+    <NavSubCategory item={post} key={post.id} main_title={item.name_slug}/>
   ));
   return (
     <li className="nav-item dropdown mx-2">
       <Link
-        to={`/article/${item.name_slug}`}
+        to={`/category/${item.name_slug}`}
         className={
           active == item.name
             ? "nav-link dropdown-toggle border_bottom active-nav"
             : "nav-link dropdown-toggle border_bottom"
         }
-        onClick={() => setActive(item.name)}
+        onClick={() => {
+          setActive(item.name);
+          sessionStorage.setItem('activeItem', item.name)
+        
+        }
+        }
       >
         {item.name.toUpperCase()}
       </Link>

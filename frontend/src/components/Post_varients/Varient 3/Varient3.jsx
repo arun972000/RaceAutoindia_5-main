@@ -5,7 +5,7 @@ import SubCardV3 from "./Varient3_card2";
 import "../Varient.css";
 import { Link } from "react-router-dom";
 
-const Varient3 = ({ item, single, main_title }) => {
+const Varient3 = ({ item, single }) => {
   const months = [
     "January",
     "February",
@@ -20,7 +20,6 @@ const Varient3 = ({ item, single, main_title }) => {
     "November",
     "December",
   ];
-  console.log(single, "hello");
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const monthIndex = date.getMonth();
@@ -30,13 +29,13 @@ const Varient3 = ({ item, single, main_title }) => {
     return `${month} ${day}, ${year}`;
   };
 
-  const data2 = item.map((item) => <SubCardV3 key={item.id} item={item} main_title={main_title}/>);
+  const data2 = item.map((item) => <SubCardV3 key={item.id} item={item} />);
   return (
     <>
       {single.map((item) => (
         <Col md={6} key={item.id} single={item}>
           <Card className="h-100 border-0 mb-3">
-            <Link className="link-style" to={`/article/${main_title}/${single.title_slug}`}>
+            <Link className="link-style" to={`/post/${single.title_slug}`}>
               <div className="image-container">
                 <Card.Img
                   variant="top"

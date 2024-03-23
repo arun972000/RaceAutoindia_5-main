@@ -2,6 +2,7 @@
 
 import { Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import "./PostList.css";
 
 const PostListCard = ({ item }) => {
   const months = [
@@ -27,6 +28,7 @@ const PostListCard = ({ item }) => {
     const year = date.getFullYear();
     return `${month} ${day}, ${year}`;
   };
+
   return (
     <Col md={6} className="mb-3">
       <Card className="border-0 bg-transparent ">

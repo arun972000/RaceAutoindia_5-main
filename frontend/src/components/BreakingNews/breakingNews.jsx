@@ -34,7 +34,7 @@ const BreakingNews = () => {
 
   useEffect(()=>{
     breakingNewsApi()
-  })
+  },[])
 
 const breakingNewsData=data.map(item=>(<div key={item.id}>
   <p>{item.title}</p>

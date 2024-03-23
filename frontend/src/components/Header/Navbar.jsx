@@ -6,7 +6,7 @@ import { Url } from "../../url";
 import NavMainCategory from "./NavMainCategory";
 import "./Navbar.css";
 import "./TopLogo.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import LoginPage from "../Login/Register/Login_Register";
 
 function MyNavbar() {
@@ -18,7 +18,9 @@ function MyNavbar() {
 
   const [search, setSearch] = useState("");
 
-  const [active, setActive] = useState("home");
+  const [active, setActive] = useState(
+    sessionStorage.getItem("activeItem") || "home"
+  );
 
   const navigate = useNavigate();
 
@@ -51,14 +53,14 @@ function MyNavbar() {
   return (
     <div className="position-Nav">
       <nav className="navbar shadow navbar-expand-lg navbar-light bg-light">
-        <a className="navbar-brand" href="#">
+        <Link to="/" className="navbar-brand">
           <img
             src={logo}
             className="img-fluid mx-2"
             alt="Responsive image"
             width="190px"
           />
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -77,17 +79,17 @@ function MyNavbar() {
         >
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <a
+              <Link
+                to="/"
                 className={
                   active == "home"
                     ? "nav-link border_bottom active-nav mx-2 "
                     : "nav-link border_bottom mx-2"
                 }
-                href="#"
                 onClick={() => setActive("home")}
               >
                 HOME
-              </a>
+              </Link>
             </li>
             {Main_Category}
             <li className="nav-item dropdown mx-1 ">

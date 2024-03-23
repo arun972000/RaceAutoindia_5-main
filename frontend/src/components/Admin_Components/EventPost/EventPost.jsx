@@ -123,9 +123,9 @@ const EventPost = () => {
         } catch (err) {
             console.log(err)
         }
-        for (const pair of formData.entries()) {
-            console.log(pair[0], pair[1]);
-        }
+        // for (const pair of formData.entries()) {
+        //     console.log(pair[0], pair[1]);
+        // }
 
     };
 
