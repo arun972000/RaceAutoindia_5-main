@@ -5,6 +5,7 @@ import multer from "multer";
 import sharp from "sharp";
 import fs from "fs";
 
+
 const postRoutes = express.Router();
 
 function verifyToken(req, res, next) {
@@ -167,7 +168,6 @@ postRoutes.post("/upload", singleUpload, async (req, res) => {
 postRoutes.get("/main/:maincategory/:subcategory", async (req, res) => {
   try {
     const { subcategory } = req.params;
-    console.log(subcategory);
 
     const [row] = await db.execute(
       `SELECT * FROM categories WHERE name_slug = ?`,

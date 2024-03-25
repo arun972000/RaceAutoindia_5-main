@@ -1,18 +1,26 @@
 /* eslint-disable react/prop-types */
-import { jwtDecode } from "jwt-decode";
 
+import Cookies from "js-cookie";
 import ErrorPage from "./ErrorPage";
 
 const PrivateRoute = ({ element }) => {
-  const token = localStorage.getItem("token");
-  const decoded = jwtDecode(token);
+  const token = Cookies.get("token");
 
+  if (!token || typeof token !== "string") {
+    return <ErrorPage />;
+  }
 
+  try {
+    const userTypeString = localStorage.getItem("userType");
+    const userType = JSON.parse(userTypeString);
 
-  if (decoded.status == 1) {
-    return element;
-  } else {
-    return <ErrorPage/>;
+    if (userType[0].admin_panel === 0) {
+      return element;
+    } else {
+      return <ErrorPage />;
+    }
+  } catch (error) {
+    return <ErrorPage />;
   }
 };
 

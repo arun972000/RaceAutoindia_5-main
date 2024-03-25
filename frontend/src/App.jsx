@@ -15,8 +15,12 @@ import PostList_Sub from "./components/PostComponentList/PostList_sub_category";
 import PostList_Main from "./components/PostComponentList/PostList_main_category";
 import PrivateRoute from "./components/PrivateRoute";
 import ErrorPage from "./components/ErrorPage";
+import Admin_dashboard from "./components/Admin_Components/Admin_dashboard";
+
 
 function App() {
+  
+  
   return (
     <>
       <ScrollToTop />
@@ -27,9 +31,13 @@ function App() {
         <Route path="/event" element={<Layout1 />} />
         <Route path="/eventlist/:category" element={<Layout2 />} />
         <Route path="/eventpage/:title" element={<Layout3 />} />
-        <Route path="/admin_newsletter" element={<Admin_newLetter />} />
         <Route
-          path="/admin_event"
+          path="/admin"
+          element={<PrivateRoute element={<Admin_dashboard/>} />}
+        />
+        <Route path="/admin/newsletter" element={<Admin_newLetter />} />
+        <Route
+          path="/admin/event"
           element={<PrivateRoute element={<Admin_Event />} />}
         />
         <Route path="/search/:word" element={<SearchPage />} />

@@ -9,6 +9,8 @@ import axios from "axios";
 import { Url } from "../../../url";
 import { FaLock } from "react-icons/fa";
 import { FaLockOpen } from "react-icons/fa";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 const LoginPage = ({ showLogin, hideLogin }) => {
   const [isLoginForm, setIsLoginForm] = useState(true);
@@ -48,11 +50,11 @@ const LoginPage = ({ showLogin, hideLogin }) => {
     try {
       if (isLoginForm) {
         const res = await axios.post(`${Url}api/user/login`, values);
-        localStorage.setItem("token", res.data);
+        Cookies.set("token", res.data.token, { expires: 7 });
         setloginError("login");
-
         setTimeout(() => {
           hideLogin();
+          setloginError(null);
         }, 2000);
       } else {
         await axios.post(`${Url}api/user/register`, values);
@@ -85,6 +87,26 @@ const LoginPage = ({ showLogin, hideLogin }) => {
       }
     }
   };
+
+  if (loginError == "login") {
+    const token = Cookies.get("token");
+
+    const fetchData = async () => {
+      if (!token || typeof token !== "string") {
+        return;
+      }
+      try {
+        const decoded = jwtDecode(token);
+        const res = await axios.get(`${Url}api/user/role/${decoded.role}`);
+        localStorage.setItem("userType", JSON.stringify(res.data));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }
+
   return (
     <Modal
       show={showLogin}

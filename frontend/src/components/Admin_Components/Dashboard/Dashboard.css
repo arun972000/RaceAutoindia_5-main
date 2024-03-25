@@ -1,0 +1,6 @@
+.dashboard__card {
+  border-right: 5px solid #ba0000 !important;
+  border-radius: 7px;
+  transition: all 0.2s ease-in-out;
+}
+

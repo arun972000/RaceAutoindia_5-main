@@ -6,11 +6,19 @@ import { Url } from "../../url";
 import NavMainCategory from "./NavMainCategory";
 import "./Navbar.css";
 import "./TopLogo.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import LoginPage from "../Login/Register/Login_Register";
+import { FaUser } from "react-icons/fa";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 function MyNavbar() {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
+
+  const params = useParams();
+
+  const token = Cookies.get("token");
 
   const [showLogin, setShowLogin] = useState(false);
 
@@ -22,7 +30,82 @@ function MyNavbar() {
     sessionStorage.getItem("activeItem") || "home"
   );
 
-  const navigate = useNavigate();
+  let userComponent;
+
+  if (!token || typeof token !== "string") {
+    userComponent = (
+      <button
+        type="button"
+        className="mx-3 btn btn-light"
+        onClick={() => setShowLogin(true)}
+      >
+        Login
+      </button>
+    );
+  } else {
+    try {
+      const decode = jwtDecode(token);
+      if (decode.email) {
+        userComponent = (
+          <div className="dropdown mx-3">
+            <button
+              className="btn btn-secondary dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <FaUser /> <span className="ms-3">USER</span>
+            </button>
+            <ul className="dropdown-menu " aria-labelledby="dropdownMenuButton">
+              <li>
+                <a className="dropdown-item" href="#">
+                  Profile
+                </a>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/admin">
+                  Admin
+                </Link>
+              </li>
+              <li>
+                <a
+                  className="dropdown-item"
+                  onClick={() => {
+                    Cookies.remove("token");
+                    localStorage.removeItem("userType");
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        );
+      } else {
+        userComponent = (
+          <button
+            type="button"
+            className="mx-3 btn btn-light"
+            onClick={() => setShowLogin(true)}
+          >
+            Login
+          </button>
+        );
+      }
+    } catch (err) {
+      userComponent = (
+        <button
+          type="button"
+          className="mx-3 btn btn-light"
+          onClick={() => setShowLogin(true)}
+        >
+          Login
+        </button>
+      );
+    }
+  }
 
   const mainCategory = async () => {
     try {
@@ -32,7 +115,9 @@ function MyNavbar() {
       console.log(err);
     }
   };
-
+  if (Object.keys(params).length === 0) {
+    sessionStorage.setItem("activeItem", "home");
+  }
   const handlecloseLogin = () => setShowLogin(false);
 
   useEffect(() => {
@@ -83,10 +168,13 @@ function MyNavbar() {
                 to="/"
                 className={
                   active == "home"
-                    ? "nav-link border_bottom active-nav mx-2 "
+                    ? "nav-link border_bottom nav-home_btn active-nav mx-2 "
                     : "nav-link border_bottom mx-2"
                 }
-                onClick={() => setActive("home")}
+                onClick={() => {
+                  setActive("home");
+                  sessionStorage.setItem("activeItem", "home");
+                }}
               >
                 HOME
               </Link>
@@ -100,7 +188,9 @@ function MyNavbar() {
                     : "nav-link dropdown-toggle border_bottom mx-2"
                 }
                 href="#"
-                onClick={() => setActive("more")}
+                onClick={() => {
+                  setActive("more");
+                }}
               >
                 MORE
               </a>
@@ -140,15 +230,38 @@ function MyNavbar() {
                 </form>
               </div>
             )}
-            <button
+            {/* <button
               type="button"
               className="mx-3 btn btn-light"
               onClick={() => setShowLogin(true)}
             >
               Login
-            </button>
+            </button> */}
+            {userComponent}
             <LoginPage showLogin={showLogin} hideLogin={handlecloseLogin} />
           </div>
+          {/* <div>
+            <FaUser />
+            <li className="nav-item dropdown mx-1 ">
+              <a
+                className="nav-link dropdown-toggle border_bottom mx-2"
+                href="#"
+                onClick={() => {
+                  setActive("more");
+                }}
+              >
+                USER
+              </a>
+              <div className="dropdown-menu">
+                <a className="dropdown-item" href="#">
+                  Admin
+                </a>
+                <a className="dropdown-item" href="#">
+                  ABOUT US
+                </a>
+              </div>
+            </li>
+          </div> */}
         </div>
       </nav>
     </div>

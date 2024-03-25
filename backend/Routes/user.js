@@ -76,16 +76,29 @@ loginRoutes.post("/login", async (req, res) => {
           return res.status(400).send("invalid credentials");
         } else {
           const token = jwt.sign(
-            { email: payload.email, status:verifyEmail[0].email_status },
-            process.env.JWT_KEY,
-            { expiresIn: "1h" }
+            { email: payload.email, role: verifyEmail[0].role },
+            process.env.JWT_KEY
           );
 
-          res.status(200).json(token);
+          res.status(200).json({ message: "user login success", token: token });
         }
       }
     );
   } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+loginRoutes.get("/role/:type", async (req, res) => {
+  try {
+    const { type } = req.params;
+    const [results] = await db.execute(
+      `SELECT * FROM roles_permissions WHERE role = ?`,[type]
+    );
+
+    res.json(results);
+  } catch (err) {
+    console.log(err);
     res.status(500).send(err.message);
   }
 });

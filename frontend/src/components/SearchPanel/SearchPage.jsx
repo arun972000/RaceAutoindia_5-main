@@ -64,7 +64,7 @@ const SearchPage = () => {
     <MyNavbar/>
       <div className="container mt-3">
         <div className="row">
-          <div className="col-md-8 mt-3">
+          <div className="col-lg-8 mt-3">
             <div className="d-flex justify-content-center">
               <MDBInputGroup style={{ zIndex: 0 }}>
                 <input

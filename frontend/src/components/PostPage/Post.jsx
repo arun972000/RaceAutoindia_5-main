@@ -57,7 +57,7 @@ const PostPage = () => {
 
   return (
     <>
-    <MyNavbar/>
+      <MyNavbar />
       <div className="container mt-3">
         <div className="row mb-3">
           <div className="col-12 d-flex justify-content-center">
@@ -109,7 +109,7 @@ const PostPage = () => {
           <SideContent />
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 };
