@@ -1,6 +1,9 @@
-.dashboard__card {
+.dashboard__card:hover {
   border-right: 5px solid #ba0000 !important;
   border-radius: 7px;
   transition: all 0.2s ease-in-out;
 }
 
+.dashboard-heading {
+  font-size: 14px;
+}

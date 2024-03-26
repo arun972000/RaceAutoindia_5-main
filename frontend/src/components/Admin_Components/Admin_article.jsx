@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import AdminNavbar from "./Admin Navbar/Navbar";
-import NewsLetterPost from "./NewsLetterForm/PostForm";
+import Article from "./Article_post/Article";
+
 import SideBar from "./Sidebar";
 
-const Admin_newLetter = ({ isOpen, handleTrigger }) => {
+const Admin_article = ({ isOpen, handleTrigger }) => {
   return (
     <>
       <div className="container-fluid custom-container-fluid">
@@ -18,7 +19,7 @@ const Admin_newLetter = ({ isOpen, handleTrigger }) => {
           >
             <div className="row">
               <AdminNavbar />
-              <NewsLetterPost />
+              <Article />
             </div>
           </div>
         </div>
@@ -27,4 +28,4 @@ const Admin_newLetter = ({ isOpen, handleTrigger }) => {
   );
 };
 
-export default Admin_newLetter;
+export default Admin_article;

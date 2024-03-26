@@ -16,11 +16,14 @@ import PostList_Main from "./components/PostComponentList/PostList_main_category
 import PrivateRoute from "./components/PrivateRoute";
 import ErrorPage from "./components/ErrorPage";
 import Admin_dashboard from "./components/Admin_Components/Admin_dashboard";
-
+import { useState } from "react";
+import Admin_article from "./components/Admin_Components/Admin_article";
 
 function App() {
-  
-  
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleTrigger = () => setIsOpen(!isOpen);
+
   return (
     <>
       <ScrollToTop />
@@ -33,12 +36,42 @@ function App() {
         <Route path="/eventpage/:title" element={<Layout3 />} />
         <Route
           path="/admin"
-          element={<PrivateRoute element={<Admin_dashboard/>} />}
+          element={
+            <PrivateRoute
+              element={
+                <Admin_dashboard
+                  isOpen={isOpen}
+                  handleTrigger={handleTrigger}
+                />
+              }
+            />
+          }
         />
-        <Route path="/admin/newsletter" element={<Admin_newLetter />} />
+        <Route
+          path="/admin/newsletter"
+          element={
+            <Admin_newLetter isOpen={isOpen} handleTrigger={handleTrigger} />
+          }
+        />
         <Route
           path="/admin/event"
-          element={<PrivateRoute element={<Admin_Event />} />}
+          element={
+            <PrivateRoute
+              element={
+                <Admin_Event isOpen={isOpen} handleTrigger={handleTrigger} />
+              }
+            />
+          }
+        />
+        <Route
+          path="/admin/article"
+          element={
+            <PrivateRoute
+              element={
+                <Admin_article isOpen={isOpen} handleTrigger={handleTrigger} />
+              }
+            />
+          }
         />
         <Route path="/search/:word" element={<SearchPage />} />
         <Route path="/post/:title_slug" element={<PostPage />} />

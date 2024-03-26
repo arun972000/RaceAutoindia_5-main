@@ -5,7 +5,6 @@ import multer from "multer";
 import sharp from "sharp";
 import fs from "fs";
 
-
 const postRoutes = express.Router();
 
 function verifyToken(req, res, next) {
@@ -59,15 +58,25 @@ postRoutes.get("/sliced-all", async (req, res) => {
 postRoutes.post("/upload", singleUpload, async (req, res) => {
   try {
     const { originalname } = req.file;
+    const {
+      title,
+      keywords,
+      summary,
+      content,
+      is_slider,
+      is_featured,
+      is_recommended,
+      is_breaking,
+      category_id,
+    } = req.body;
+    const title_slug = title.split(" ").join("-");
 
     const image_default = "./public/postUpload/" + originalname;
+    const image_big = "./public/postUpload/750" + originalname;
+    const image_small = "./public/postUpload/140" + originalname;
+    const image_mid = "./public/postUpload/380" + originalname;
 
-    const image_big = "./public/postUpload/" + "750" + originalname;
-
-    const image_small = "./public/postUpload/" + "140" + originalname;
-
-    const image_mid = "./public/postUpload/" + "380" + originalname;
-
+    // Create directories if they don't exist
     try {
       await fs.promises.access("./public/postUpload");
     } catch (err) {
@@ -78,89 +87,49 @@ postRoutes.post("/upload", singleUpload, async (req, res) => {
       }
     }
 
-    res.status(200).json({ message: "post submitted successfully" });
+    const query = [
+      title,
+      title_slug,
+      keywords,
+      summary,
+      content,
+      category_id,
+      image_big,
+      image_default,
+      image_mid,
+      image_small,
+      is_slider,
+      is_featured,
+      is_recommended,
+      is_breaking,
+    ];
 
-    if (res.statusCode == 200) {
-      try {
-        const {
-          title,
-          title_slug,
-          keywords,
-          summary,
-          content,
-          image_slider,
-          optional_url,
-          is_slider,
-          is_featured,
-          is_recommended,
-          is_breaking,
-          show_right_column,
-          image_description,
-          category,
-          created_at,
-        } = req.body;
+    await db.execute(
+      `
+      INSERT INTO posts (
+        title, title_slug, keywords, summary, content, category_id, image_big, image_default, 
+        image_mid, image_small, is_slider, is_featured, is_recommended,
+        is_breaking
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `,
+      query
+    );
 
-        const [row] = await db.execute(
-          `SELECT id FROM categories WHERE name = ?`,
-          [category]
-        );
-        if (row.length > 0) {
-          const category_id = row[0].id;
+    // Resize images
+    await sharp(`postUpload/${originalname}`)
+      .resize(750, 500)
+      .toFile(image_big);
+    await sharp(`postUpload/${originalname}`)
+      .resize(140, 90)
+      .toFile(image_small);
+    await sharp(`postUpload/${originalname}`)
+      .resize(380, 226)
+      .toFile(image_mid);
 
-          const query = [
-            title,
-            title_slug,
-            keywords,
-            summary,
-            content,
-            category_id,
-            image_big,
-            image_default,
-            image_slider,
-            image_mid,
-            image_small,
-            optional_url,
-            is_slider,
-            is_featured,
-            is_recommended,
-            is_breaking,
-            show_right_column,
-            image_description,
-            created_at,
-          ];
-
-          const [results] = await db.execute(
-            `
-                    INSERT INTO posts (
-                        title, title_slug, keywords, summary, content, category_id, image_big, image_default, image_slider,
-                        image_mid, image_small, optional_url, is_slider, is_featured, is_recommended,
-                        is_breaking, show_right_column, image_description, created_at
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                `,
-            query
-          );
-
-          await sharp(`./public/postUpload/${originalname}`)
-            .resize(750, 500)
-            .toFile(image_big);
-
-          await sharp(`./public/postUpload/${originalname}`)
-            .resize(140, 90)
-            .toFile(image_small);
-
-          await sharp(`./public/postUpload/${originalname}`)
-            .resize(380, 226)
-            .toFile(image_mid);
-
-          console.log("post submitted");
-        }
-      } catch (err) {
-        console.error(err);
-        throw new Error("Image processing failed.");
-      }
-    }
+    console.log("Post submitted successfully");
+    res.status(200).json({ message: "Post submitted successfully" });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });

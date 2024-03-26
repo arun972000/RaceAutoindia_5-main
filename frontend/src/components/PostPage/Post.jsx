@@ -89,7 +89,7 @@ const PostPage = () => {
                     alt="Post Image"
                     fluid
                     className="my-3"
-                    style={{ aspectRatio: "16/9", objectFit: "fill" }}
+                    style={{ aspectRatio: "16/9", objectFit: "cover" }}
                   />
 
                   <div

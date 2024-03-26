@@ -64,10 +64,10 @@ const LoginPage = ({ showLogin, hideLogin }) => {
       }
     } catch (err) {
       if (err.response && err.response.status === 409) {
-        setRegisterErrMsg("Email ID already exists");
+        setRegisterErrMsg("Email ID already registered");
         setRegisterError(true);
       } else if (err.response && err.response.status === 408) {
-        setRegisterErrMsg("Username already registered");
+        setRegisterErrMsg("Username already exists");
         setRegisterError(true);
       } else if (err.response && err.response.status === (400 || 404)) {
         setloginError("invalid");

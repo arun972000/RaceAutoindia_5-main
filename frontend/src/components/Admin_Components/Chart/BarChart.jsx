@@ -24,6 +24,8 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
+  maintainAspectRatio: true,
+  aspectRatio: 2,
   plugins: {
     title: {
       display: true,
@@ -59,7 +61,6 @@ export function BarChart({ value }) {
       },
     ],
   };
-
 
   return (
 
