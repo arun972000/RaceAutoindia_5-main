@@ -18,6 +18,7 @@ import ErrorPage from "./components/ErrorPage";
 import Admin_dashboard from "./components/Admin_Components/Admin_dashboard";
 import { useState } from "react";
 import Admin_article from "./components/Admin_Components/Admin_article";
+import Admin_ArticleList from "./components/Admin_Components/Admin_articleList";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,6 +60,19 @@ function App() {
             <PrivateRoute
               element={
                 <Admin_Event isOpen={isOpen} handleTrigger={handleTrigger} />
+              }
+            />
+          }
+        />
+        <Route
+          path="/admin/articlelist"
+          element={
+            <PrivateRoute
+              element={
+                <Admin_ArticleList
+                  isOpen={isOpen}
+                  handleTrigger={handleTrigger}
+                />
               }
             />
           }

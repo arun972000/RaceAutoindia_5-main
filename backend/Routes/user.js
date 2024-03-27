@@ -8,6 +8,8 @@ dotenv.config();
 
 const loginRoutes = express.Router();
 
+
+
 loginRoutes.post("/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
