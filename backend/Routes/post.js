@@ -48,7 +48,7 @@ postRoutes.get("/", async (req, res) => {
 postRoutes.get("/admin-postList", async (req, res) => {
   try {
     const [joinedRow] = await db.execute(
-      `SELECT posts.id, posts.image_small, posts.title, posts.pageviews, posts.user_id, posts.is_slider, posts.is_breaking, posts.is_featured, posts.category_id, categories.name_slug AS name_slug, categories.parent_id AS parent_id, categories.name AS sub_category, users.username AS username 
+      `SELECT posts.id, posts.image_small, posts.title, posts.pageviews, posts.user_id, posts.is_slider, posts.is_breaking, posts.is_featured, posts.category_id, categories.color AS color, categories.name_slug AS name_slug, categories.parent_id AS parent_id, categories.name AS sub_category, users.username AS username 
       FROM posts 
       INNER JOIN users ON posts.user_id = users.id
       INNER JOIN categories ON posts.category_id = categories.id ORDER BY posts.id DESC`
@@ -79,12 +79,85 @@ postRoutes.get("/admin-postList", async (req, res) => {
   }
 });
 
+postRoutes.get("/is_available/:postType", async (req, res) => {
+  try {
+    const { postType } = req.params;
+
+    // const [results]=await db.execute(`SELECT id, title, image_small, pageviews FROM posts WHERE ${postType} = 1`)
+    const [joinedRow] = await db.execute(
+      `SELECT posts.id, posts.image_small, posts.title, posts.pageviews, posts.user_id, posts.is_slider, posts.is_featured, posts.is_breaking, posts.category_id, categories.name_slug AS name_slug, categories.parent_id AS parent_id, categories.color AS color, categories.name AS sub_category, users.username AS username 
+      FROM posts
+      INNER JOIN users ON posts.user_id = users.id
+      INNER JOIN categories ON posts.category_id = categories.id
+      WHERE ${postType} = 1`
+    );
+
+    const [category] = await db.execute(
+      `SELECT parent_id, name, name_slug, id FROM categories WHERE parent_id = 0`
+    );
+
+    const results = joinedRow.map((item) => {
+      const findParent = category.find((obj) => item.parent_id == obj.id);
+
+      if (findParent) {
+        return {
+          ...item,
+          main_category: findParent.name,
+          main_category_slug: findParent.name_slug,
+        };
+      } else {
+        return { ...item, main_category: null, main_category_slug: null };
+      }
+    });
+
+    res.status(200).json(results);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "internal server error" });
+  }
+});
+
 postRoutes.get("/sliced-all", async (req, res) => {
   try {
     const [results] = await db.execute(
       "SELECT * FROM posts ORDER BY id DESC LIMIT 10"
     );
     res.json(results);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "internal err" });
+  }
+});
+
+postRoutes.put("/update/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    let { is_breaking, is_featured, is_slider } = req.body;
+
+    const [row] = await db.execute(
+      `SELECT is_slider, is_breaking, is_featured FROM posts WHERE id = ${id}`
+    );
+
+    if (is_breaking === null) {
+      is_breaking = row[0].is_breaking;
+    }
+    if (is_featured === null) {
+      is_featured = row[0].is_featured;
+    }
+
+    if (is_slider === null) {
+      is_slider = row[0].is_featured;
+    }
+
+    const query = [is_breaking, is_featured, is_slider];
+
+    const [results] = await db.execute(
+      `UPDATE posts SET is_breaking = ?, is_featured = ?, is_slider = ? WHERE id = ${id}`,
+      query
+    );
+
+    res.json({ message: "updated suceesfully", data: results });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "internal err" });
@@ -300,14 +373,36 @@ postRoutes.get("/slider", async (req, res) => {
   }
 });
 
-postRoutes.get("/single/:title_slug", async (req, res) => {
+postRoutes.get("/single/:id", async (req, res) => {
   try {
-    const { title_slug } = req.params;
+    const { id } = req.params;
 
-    const [results] = await db.execute(
-      `SELECT * FROM posts WHERE title_slug = ?`,
-      [title_slug]
+    const [joinedRow] = await db.execute(
+      `SELECT posts.id, posts.image_mid, posts.summary, posts.title, posts.content, posts.keywords, posts.pageviews, posts.user_id, posts.is_slider, posts.is_featured, posts.is_breaking, posts.category_id, categories.name_slug AS name_slug, categories.parent_id AS parent_id, categories.color AS color, categories.name AS sub_category, users.username AS username 
+      FROM posts
+      INNER JOIN users ON posts.user_id = users.id
+      INNER JOIN categories ON posts.category_id = categories.id
+      WHERE posts.id = ${id}`
     );
+
+    const [category] = await db.execute(
+      `SELECT parent_id, name, name_slug, id FROM categories WHERE parent_id = 0`
+    );
+
+    const results = joinedRow.map((item) => {
+      const findParent = category.find((obj) => item.parent_id == obj.id);
+
+      if (findParent) {
+        return {
+          ...item,
+          main_category: findParent.name,
+          main_category_slug: findParent.name_slug,
+        };
+      } else {
+        return { ...item, main_category: null, main_category_slug: null };
+      }
+    });
+
     res.status(200).json(results);
   } catch (err) {
     console.log(err);

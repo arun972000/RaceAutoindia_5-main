@@ -1,8 +1,12 @@
 /* eslint-disable react/prop-types */
 
 import { useState } from "react";
-import { Button, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
+
 import ReactPaginate from "react-paginate";
+import { Url } from "../../../url";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 function PaginatedArticle({ itemsPerPage, data }) {
   // Here we use item offsets; we could also use page offsets
@@ -23,6 +27,19 @@ function PaginatedArticle({ itemsPerPage, data }) {
     setItemOffset(newOffset);
   };
 
+  // const dropdownApi = async (id) => {
+  //   try {
+  //     const res = await axios.put(`${Url}api/post/update_is_available/${id}`, {
+  //       is_slider: slider,
+  //       is_breaking: breaking,
+  //       is_featured: featured,
+  //     });
+  //     console.log(res);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
   return (
     <>
       <Table striped bordered hover>
@@ -41,16 +58,49 @@ function PaginatedArticle({ itemsPerPage, data }) {
           {currentItems.map((item) => (
             <tr key={item.id}>
               <td>{item.id}</td>
-              <td>{item.title}</td>
               <td>
-                {item.main_category} {"  "} {item.sub_category}
+                <div className="d-flex align-items-center">
+                  <img
+                    src={`https://raceautoindia.com/${item.image_small}`}
+                    className="image-fluid"
+                    alt={item.title}
+                  ></img>
+                  <h6 className="ms-3">{item.title}</h6>
+                </div>
+              </td>
+              <td>
+                <p
+                  className="text-center"
+                  style={{
+                    fontSize: 12,
+                    color: "white",
+                    backgroundColor: item.color,
+                    borderRadius: 5,
+                  }}
+                >
+                  {item.main_category}
+                </p>
+                <p
+                  className="text-center"
+                  style={{
+                    fontSize: 12,
+                    color: "white",
+                    backgroundColor: item.color,
+                    borderRadius: 5,
+                  }}
+                >
+                  {item.sub_category}
+                </p>
               </td>
               <td>{item.username}</td>
               <td>{item.pageviews}</td>
               <td>{item.created_at}</td>
               <td>
-                <Button variant="primary">Edit</Button>{" "}
-                <Button variant="danger">Delete</Button>
+                <Link to={`/admin/edit-post/${item.id}`}>
+                  <button type="button" className="btn btn-info">
+                    Edit
+                  </button>
+                </Link>
               </td>
             </tr>
           ))}

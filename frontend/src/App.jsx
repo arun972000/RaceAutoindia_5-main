@@ -19,6 +19,7 @@ import Admin_dashboard from "./components/Admin_Components/Admin_dashboard";
 import { useState } from "react";
 import Admin_article from "./components/Admin_Components/Admin_article";
 import Admin_ArticleList from "./components/Admin_Components/Admin_articleList";
+import Admin_articleEdit from "./components/Admin_Components/Admin_articleEdit";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -83,6 +84,19 @@ function App() {
             <PrivateRoute
               element={
                 <Admin_article isOpen={isOpen} handleTrigger={handleTrigger} />
+              }
+            />
+          }
+        />
+        <Route
+          path="/admin/edit-post/:id"
+          element={
+            <PrivateRoute
+              element={
+                <Admin_articleEdit
+                  isOpen={isOpen}
+                  handleTrigger={handleTrigger}
+                />
               }
             />
           }

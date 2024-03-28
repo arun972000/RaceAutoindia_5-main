@@ -28,6 +28,7 @@ const ArticleList = () => {
   const [mainCategory_array, setMainCategory_array] = useState([]);
   const [subCategory_array, setSubCategory_array] = useState([]);
 
+
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => setOpen(false);
@@ -120,16 +121,14 @@ const ArticleList = () => {
         console.log(err);
       }
     } else {
-      let filtered = data.filter((item) => {
-        if (selectedPostType === "breaking") {
-          return item.is_breaking === 1;
-        } else if (selectedPostType === "featured") {
-          return item.is_featured === 1;
-        } else if (selectedPostType === "slider") {
-          return item.is_slider === 1;
-        }
-      });
-      setData(filtered);
+      try {
+        const res = await axios.get(
+          `${Url}api/post/is_available/${selectedPostType}`
+        );
+        setData(res.data);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -149,6 +148,8 @@ const ArticleList = () => {
     }
   };
 
+
+
   useEffect(() => {
     userApi();
     allPostApi();
@@ -159,13 +160,29 @@ const ArticleList = () => {
   return (
     <>
       <div className="container-fluid">
-        <div style={{ width: 80 }} className="my-3">
-          <Button variant="primary" onClick={handleOpen}>
-            <FaFilter />
-          </Button>
-          <Button variant="primary" onClick={handlePostType}>
-            <BiCategory />
-          </Button>
+        <div className="d-flex justify-content-between">
+          <div style={{ width: 80 }} className="my-3">
+            <Button variant="primary" onClick={handleOpen}>
+              <FaFilter />
+            </Button>
+          </div>
+          <div className="d-flex align-items-center">
+            <FormGroup>
+              <FormControl
+                as="select"
+                value={selectedPostType}
+                onChange={(e) => setSelectedPostType(e.target.value)}
+              >
+                <option value={"none"}>None</option>
+                <option value={"is_featured"}>Featured</option>
+                <option value={"is_slider"}>Slider</option>
+                <option value={"is_breaking"}>Breaking</option>
+              </FormControl>
+            </FormGroup>
+            <Button variant="primary" className="ms-3" onClick={handlePostType}>
+              <BiCategory />
+            </Button>
+          </div>
         </div>
         <Modal show={open} onHide={handleClose}>
           <Modal.Header closeButton>
@@ -246,20 +263,8 @@ const ArticleList = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-        <FormGroup>
-          <FormLabel>Show</FormLabel>
-          <FormControl
-            as="select"
-            value={selectedPostType}
-            onChange={(e) => setSelectedPostType(e.target.value)}
-          >
-            <option value={"none"}>None</option>
-            <option value={"featured"}>Featured</option>
-            <option value={"slider"}>Slider</option>
-            <option value={"breaking"}>Breaking</option>
-          </FormControl>
-        </FormGroup>
-        <PaginatedArticle data={data} itemsPerPage={selectedTitleCount} />
+
+        <PaginatedArticle data={data} itemsPerPage={selectedTitleCount} allPostApi={allPostApi()}/>
       </div>
     </>
   );
