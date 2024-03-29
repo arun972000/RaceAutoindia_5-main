@@ -20,6 +20,10 @@ import { useState } from "react";
 import Admin_article from "./components/Admin_Components/Admin_article";
 import Admin_ArticleList from "./components/Admin_Components/Admin_articleList";
 import Admin_articleEdit from "./components/Admin_Components/Admin_articleEdit";
+import Admin_mainCategory from "./components/Admin_Components/Admin_mainCategory";
+import Admin_Edit_mainCategory from "./components/Admin_Components/Admin_Edit_mainCategory";
+import Admin_subCategory from "./components/Admin_Components/Admin_subCategory";
+import Admin_Edit_subCategory from "./components/Admin_Components/Admin_Edit_subCategory";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -94,6 +98,58 @@ function App() {
             <PrivateRoute
               element={
                 <Admin_articleEdit
+                  isOpen={isOpen}
+                  handleTrigger={handleTrigger}
+                />
+              }
+            />
+          }
+        />
+        <Route
+          path="/admin/edit-main-category/:id"
+          element={
+            <PrivateRoute
+              element={
+                <Admin_Edit_mainCategory
+                  isOpen={isOpen}
+                  handleTrigger={handleTrigger}
+                />
+              }
+            />
+          }
+        />
+        <Route
+          path="/admin/edit-sub-category/:id"
+          element={
+            <PrivateRoute
+              element={
+                <Admin_Edit_subCategory
+                  isOpen={isOpen}
+                  handleTrigger={handleTrigger}
+                />
+              }
+            />
+          }
+        />
+        <Route
+          path="/admin/main-category"
+          element={
+            <PrivateRoute
+              element={
+                <Admin_mainCategory
+                  isOpen={isOpen}
+                  handleTrigger={handleTrigger}
+                />
+              }
+            />
+          }
+        />
+        <Route
+          path="/admin/sub-category"
+          element={
+            <PrivateRoute
+              element={
+                <Admin_subCategory
                   isOpen={isOpen}
                   handleTrigger={handleTrigger}
                 />

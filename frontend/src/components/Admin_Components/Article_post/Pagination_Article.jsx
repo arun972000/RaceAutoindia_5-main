@@ -2,11 +2,18 @@
 
 import { useState } from "react";
 import { Table } from "react-bootstrap";
-
+import {
+  MDBBadge,
+  MDBBtn,
+  MDBTable,
+  MDBTableHead,
+  MDBTableBody,
+} from "mdb-react-ui-kit";
 import ReactPaginate from "react-paginate";
 import { Url } from "../../../url";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import "./Article.css";
 
 function PaginatedArticle({ itemsPerPage, data }) {
   // Here we use item offsets; we could also use page offsets
@@ -42,8 +49,8 @@ function PaginatedArticle({ itemsPerPage, data }) {
 
   return (
     <>
-      <Table striped bordered hover>
-        <thead>
+      <MDBTable align="middle">
+        <MDBTableHead>
           <tr>
             <th>ID</th>
             <th>Post</th>
@@ -53,8 +60,8 @@ function PaginatedArticle({ itemsPerPage, data }) {
             <th>Posted Date</th>
             <th>Actions</th>
           </tr>
-        </thead>
-        <tbody>
+        </MDBTableHead>
+        <MDBTableBody>
           {currentItems.map((item) => (
             <tr key={item.id}>
               <td>{item.id}</td>
@@ -69,43 +76,33 @@ function PaginatedArticle({ itemsPerPage, data }) {
                 </div>
               </td>
               <td>
-                <p
-                  className="text-center"
-                  style={{
-                    fontSize: 12,
-                    color: "white",
-                    backgroundColor: item.color,
-                    borderRadius: 5,
-                  }}
-                >
-                  {item.main_category}
-                </p>
-                <p
-                  className="text-center"
-                  style={{
-                    fontSize: 12,
-                    color: "white",
-                    backgroundColor: item.color,
-                    borderRadius: 5,
-                  }}
-                >
-                  {item.sub_category}
-                </p>
+                <div className="d-flex table-badge flex-column">
+                  <MDBBadge className="mb-3" color="primary" pill>
+                    {item.main_category}
+                  </MDBBadge>
+                  <MDBBadge color="secondary" pill>
+                    {item.sub_category}
+                  </MDBBadge>
+
+                </div>
               </td>
               <td>{item.username}</td>
               <td>{item.pageviews}</td>
               <td>{item.created_at}</td>
               <td>
                 <Link to={`/admin/edit-post/${item.id}`}>
-                  <button type="button" className="btn btn-info">
+                  <button
+                    type="button"
+                    className="btn btn-link btn-rounded btn-sm fw-bold"
+                  >
                     Edit
                   </button>
                 </Link>
               </td>
             </tr>
           ))}
-        </tbody>
-      </Table>
+        </MDBTableBody>
+      </MDBTable>
       <ReactPaginate
         previousLabel="Previous"
         nextLabel="Next"

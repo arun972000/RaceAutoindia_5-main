@@ -29,7 +29,7 @@ const ArticleEdit = () => {
   });
   const [isFileSelected, setIsFileSelected] = useState(false);
 
-  const [category_main, setCategory_main] = useState("");
+  const [category_main, setCategory_main] = useState(formData.category_main);
   const [category_sub, setCategory_sub] = useState(formData.category_sub);
 
   const [image_default, setImage_default] = useState(null);
@@ -116,7 +116,7 @@ const ArticleEdit = () => {
   const subCategoryApi = async () => {
     try {
       const res = await axios.get(
-        `${Url}api/category/main_sub/${formData.category_main}`
+        `${Url}api/category/main_sub/${category_main}`
       );
       setSubCategory_array(res.data.data);
     } catch (err) {
@@ -167,11 +167,14 @@ const ArticleEdit = () => {
 
   useEffect(() => {
     formDetailApi();
-    MainCategoryApi();
-    subCategoryApi();
   }, []);
 
-  console.log(formData.category_main);
+  useEffect(() => {
+    MainCategoryApi();
+    subCategoryApi();
+  }, [category_main]);
+
+  console.log(category_main);
 
   return (
     <div className="col-12">
@@ -203,11 +206,11 @@ const ArticleEdit = () => {
               />
             </Form.Group>
 
-            <Form.Group controlId="formLocation" className="mb-3">
-              <Form.Label>Location</Form.Label>
+            <Form.Group controlId="formkeywords" className="mb-3">
+              <Form.Label>Keywords</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter location"
+                placeholder="Enter keywords"
                 value={formData.summary}
                 onChange={(e) =>
                   setFormData({ ...formData, summary: e.target.value })
@@ -221,10 +224,8 @@ const ArticleEdit = () => {
               <Form.Label>Category</Form.Label>
               <Form.Control
                 as="select"
-                value={formData.category_main}
-                onChange={(e) =>
-                  setFormData({ ...formData, category_main: e.target.value })
-                }
+                value={category_main}
+                onChange={(e) => setCategory_main(e.target.value)}
               >
                 {mainCategory_array.map((item) => (
                   <option key={item.id} value={item.name_slug}>

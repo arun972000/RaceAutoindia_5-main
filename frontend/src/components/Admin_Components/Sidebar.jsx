@@ -8,9 +8,10 @@ import { IoHome } from "react-icons/io5";
 import "./sideBar.css";
 
 import { Link } from "react-router-dom";
+import { Accordion } from "react-bootstrap";
+import { BiCategory } from "react-icons/bi";
 
-function SideBar({isOpen, handleTrigger}) {
- 
+function SideBar({ isOpen, handleTrigger }) {
   return (
     <div className="col-md-auto sidebar__position p-0">
       <div className={`sidebar ${isOpen ? "sidebar--open" : ""}`}>
@@ -38,10 +39,35 @@ function SideBar({isOpen, handleTrigger}) {
         </Link>
         <Link to="/admin/article">
           <div className="sidebar-position">
-            <MdArticle /> 
+            <MdArticle />
             <span>Post</span>
           </div>
         </Link>
+        <Accordion>
+          <Accordion.Item eventKey="0">
+            <Accordion.Header>
+              <div className="acc-heading">
+                <BiCategory />
+                <span>CATEGORY</span>
+              </div>
+            </Accordion.Header>
+            <Accordion.Body>
+              <Link to="/admin/main-category">
+                <div className="acc-body">
+                  {" "}
+                  <MdEventAvailable />
+                  <span style={{ fontSize: 12 }}>Main Category</span>
+                </div>
+              </Link>
+              <Link to="/admin/sub-category">
+                <div className="mt-3 acc-body">
+                  <MdEventAvailable />{" "}
+                  <span style={{ fontSize: 12 }}>Sub Category</span>
+                </div>
+              </Link>
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
       </div>
     </div>
   );
