@@ -12,8 +12,10 @@ import {
   Modal,
 } from "react-bootstrap";
 import PaginatedArticle from "./Pagination_Article";
-import { FaFilter } from "react-icons/fa";
+import { FaFilter, FaSave } from "react-icons/fa";
 import { BiCategory } from "react-icons/bi";
+import { MdCreateNewFolder } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const ArticleList = () => {
   const [open, setOpen] = useState(false);
@@ -27,7 +29,6 @@ const ArticleList = () => {
   const [selectedPostType, setSelectedPostType] = useState("");
   const [mainCategory_array, setMainCategory_array] = useState([]);
   const [subCategory_array, setSubCategory_array] = useState([]);
-
 
   const handleOpen = () => setOpen(true);
 
@@ -81,35 +82,49 @@ const ArticleList = () => {
     }
   };
 
-  const applyFilters = () => {
-    const filtered = data.filter((item) => {
-      if (
-        selectedCategory !== "none" &&
-        selectedCategory &&
-        item.main_category_slug !== selectedCategory
-      ) {
-        return false;
-      }
+  const applyFilters = async () => {
+    try {
+      const res = await axios.get(`${Url}api/post/admin-postList`);
+      const value = res.data;
 
-      if (
-        selectedSubCategory &&
-        selectedSubCategory !== "none" &&
-        item.name_slug !== selectedSubCategory
-      ) {
-        return false;
-      }
+      const filtered = value.filter((item) => {
+        if (
+          selectedCategory !== "none" &&
+          selectedCategory &&
+          item.main_category_slug !== selectedCategory
+        ) {
+          return false;
+        }
 
-      if (
-        selectedUsers !== "none" &&
-        selectedUsers &&
-        item.username !== selectedUsers
-      ) {
-        return false;
-      }
+        if (
+          selectedSubCategory &&
+          selectedSubCategory !== "none" &&
+          item.name_slug !== selectedSubCategory
+        ) {
+          return false;
+        }
 
-      return true;
-    });
-    return filtered;
+        if (
+          selectedUsers !== "none" &&
+          selectedUsers &&
+          item.username !== selectedUsers
+        ) {
+          return false;
+        }
+
+        return true;
+      });
+
+      return filtered;
+    } catch (err) {
+      console.log(err);
+      return [];
+    }
+  };
+  const [selectedOption, setSelectedOption] = useState(1);
+
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
   };
 
   const handlePostType = async () => {
@@ -132,11 +147,41 @@ const ArticleList = () => {
     }
   };
 
-  const handleApplyFilter = () => {
-    const filteredData = applyFilters();
-    setData(filteredData);
-    handleClose();
-    subCategoryValue();
+  const handleApplyFilter = async () => {
+    try {
+      const filteredData = await applyFilters();
+      setData(filteredData);
+      handleClose();
+      subCategoryValue();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const sliderApi = async () => {
+    try {
+      const res = await axios.get(`${Url}api/post/sliderView`);
+      setSelectedOption(res.data[0].slider_type);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const SliderChangeApi = async () => {
+    try {
+      const res=await axios.put(`${Url}api/post/sliderEdit`, {
+        slider_type: selectedOption,
+      });
+      console.log(res)
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const SliderChange = () => {
+    SliderChangeApi();
+    setSelectedPostType("none");
   };
 
   const allPostApi = async () => {
@@ -148,10 +193,11 @@ const ArticleList = () => {
     }
   };
 
-
+  
 
   useEffect(() => {
     userApi();
+    sliderApi();
     allPostApi();
     MainCategoryApi();
     subCategoryApi();
@@ -160,12 +206,50 @@ const ArticleList = () => {
   return (
     <>
       <div className="container-fluid">
-        <div className="d-flex justify-content-between">
-          <div style={{ width: 80 }} className="my-3">
+        <div className="d-flex justify-content-between align-items-center my-3">
+          <div style={{ width: 80 }}>
             <Button variant="primary" onClick={handleOpen}>
               <FaFilter />
             </Button>
           </div>
+          {selectedPostType == "is_slider" && (
+            <div className="d-flex">
+              <h6>Slider Type</h6>
+              <Form.Check
+                type="radio"
+                label="Option 1"
+                name="options"
+                id="option1"
+                value={1}
+                className="mx-2"
+                checked={selectedOption == 1}
+                onChange={handleOptionChange}
+              />
+              <Form.Check
+                type="radio"
+                label="Option 2"
+                name="options"
+                id="option2"
+                value={2}
+                className="mx-2"
+                checked={selectedOption == 2}
+                onChange={handleOptionChange}
+              />
+              <Form.Check
+                type="radio"
+                label="Option 3"
+                name="options"
+                id="option3"
+                value={3}
+                className="mx-2"
+                checked={selectedOption == 3}
+                onChange={handleOptionChange}
+              />
+              <Button variant="primary" onClick={SliderChange}>
+                <FaSave />
+              </Button>
+            </div>
+          )}
           <div className="d-flex align-items-center">
             <FormGroup>
               <FormControl
@@ -182,6 +266,13 @@ const ArticleList = () => {
             <Button variant="primary" className="ms-3" onClick={handlePostType}>
               <BiCategory />
             </Button>
+          </div>
+          <div>
+            <Link to="/admin/article">
+              <Button variant="primary">
+                <MdCreateNewFolder />
+              </Button>
+            </Link>
           </div>
         </div>
         <Modal show={open} onHide={handleClose}>
@@ -264,7 +355,7 @@ const ArticleList = () => {
           </Modal.Footer>
         </Modal>
 
-        <PaginatedArticle data={data} itemsPerPage={selectedTitleCount} allPostApi={allPostApi()}/>
+        <PaginatedArticle data={data} itemsPerPage={selectedTitleCount} />
       </div>
     </>
   );

@@ -49,7 +49,7 @@ const HomepageCategory = ({ postData }) => {
 
   const v2data = data.slice(0, 6);
 
-  const v3data = data.slice(0, 4);
+  const v3data = data.slice(1, 10);
 
   useEffect(() => {
     categoryListApi();

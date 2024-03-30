@@ -6,7 +6,7 @@ import SubCardV5_2 from "./Varient5_card2";
 import SubCardV5_1 from "./Varient5_card1";
 import { Link } from "react-router-dom";
 
-const Varient5 = ({ item, single}) => {
+const Varient5 = ({ item, single }) => {
   const months = [
     "January",
     "February",
@@ -31,8 +31,12 @@ const Varient5 = ({ item, single}) => {
     return `${month} ${day}, ${year}`;
   };
 
-  const data1 = item.map((item) => <SubCardV5_1 key={item.id} item={item} />);
-  const data2 = item.map((item) => <SubCardV5_2 key={item.id} item={item} />);
+  const data1 = item
+    .map((item) => <SubCardV5_1 key={item.id} item={item} />)
+    .slice(0, 3);
+  const data2 = item
+    .map((item) => <SubCardV5_2 key={item.id} item={item} />)
+    .slice(3, 6);
   return (
     <>
       {single.map((item) => (

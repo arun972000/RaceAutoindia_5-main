@@ -37,7 +37,7 @@ function SideBar({ isOpen, handleTrigger }) {
             <span>Event</span>
           </div>
         </Link>
-        <Link to="/admin/article">
+        <Link to="/admin/articlelist">
           <div className="sidebar-position">
             <MdArticle />
             <span>Post</span>

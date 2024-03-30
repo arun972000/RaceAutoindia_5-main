@@ -1,19 +1,11 @@
 /* eslint-disable react/prop-types */
 
 import { useState } from "react";
-import { Table } from "react-bootstrap";
-import {
-  MDBBadge,
-  MDBBtn,
-  MDBTable,
-  MDBTableHead,
-  MDBTableBody,
-} from "mdb-react-ui-kit";
+import { MDBTable, MDBTableHead, MDBTableBody } from "mdb-react-ui-kit";
 import ReactPaginate from "react-paginate";
-import { Url } from "../../../url";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import "./Article.css";
+import { MdModeEdit } from "react-icons/md";
 
 function PaginatedArticle({ itemsPerPage, data }) {
   // Here we use item offsets; we could also use page offsets
@@ -31,7 +23,33 @@ function PaginatedArticle({ itemsPerPage, data }) {
   // Invoke when user click to request another page.
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % data.length;
-    setItemOffset(newOffset);
+
+ setItemOffset(newOffset);
+
+  };
+
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const monthIndex = date.getMonth();
+    const month = months[monthIndex];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month} ${day}, ${year}`;
   };
 
   // const dropdownApi = async (id) => {
@@ -49,7 +67,7 @@ function PaginatedArticle({ itemsPerPage, data }) {
 
   return (
     <>
-      <MDBTable align="middle">
+      <MDBTable align="middle" responsive className="text-center">
         <MDBTableHead>
           <tr>
             <th>ID</th>
@@ -70,32 +88,47 @@ function PaginatedArticle({ itemsPerPage, data }) {
                   <img
                     src={`https://raceautoindia.com/${item.image_small}`}
                     className="image-fluid"
+                    style={{ width: 80 }}
                     alt={item.title}
                   ></img>
-                  <h6 className="ms-3">{item.title}</h6>
+                  <p className="ms-3 text-small p-0 m-0">{item.title}</p>
                 </div>
               </td>
               <td>
                 <div className="d-flex table-badge flex-column">
-                  <MDBBadge className="mb-3" color="primary" pill>
+                  <p
+                    className="text-small px-2 mb-3"
+                    style={{
+                      backgroundColor: item.color,
+                      borderRadius: 25,
+                      fontSize: 11,
+                      fontWeight: 700,
+                      color: "white",
+                    }}
+                  >
                     {item.main_category}
-                  </MDBBadge>
-                  <MDBBadge color="secondary" pill>
+                  </p>
+                  <p
+                    className="text-small px-2 "
+                    style={{
+                      backgroundColor: item.color,
+                      borderRadius: 25,
+                      fontSize: 11,
+                      fontWeight: 700,
+                      color: "white",
+                    }}
+                  >
                     {item.sub_category}
-                  </MDBBadge>
-
+                  </p>
                 </div>
               </td>
               <td>{item.username}</td>
               <td>{item.pageviews}</td>
-              <td>{item.created_at}</td>
+              <td>{formatDate(item.created_at)}</td>
               <td>
                 <Link to={`/admin/edit-post/${item.id}`}>
-                  <button
-                    type="button"
-                    className="btn btn-link btn-rounded btn-sm fw-bold"
-                  >
-                    Edit
+                  <button className="btn btn-primary me-3">
+                    <MdModeEdit size={20} />
                   </button>
                 </Link>
               </td>
@@ -103,25 +136,27 @@ function PaginatedArticle({ itemsPerPage, data }) {
           ))}
         </MDBTableBody>
       </MDBTable>
-      <ReactPaginate
-        previousLabel="Previous"
-        nextLabel="Next"
-        pageClassName="page-item"
-        pageLinkClassName="page-link"
-        previousClassName="page-item"
-        previousLinkClassName="page-link"
-        nextClassName="page-item"
-        nextLinkClassName="page-link"
-        breakLabel="..."
-        breakClassName="page-item"
-        breakLinkClassName="page-link"
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={3}
-        onPageChange={handlePageClick}
-        containerClassName="pagination"
-        activeClassName="active"
-      />
+      <div className="d-flex justify-content-center">
+        <ReactPaginate
+          previousLabel="Previous"
+          nextLabel="Next"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={3}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          activeClassName="active"
+        />
+      </div>
     </>
   );
 }

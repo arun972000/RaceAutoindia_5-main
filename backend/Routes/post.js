@@ -48,7 +48,7 @@ postRoutes.get("/", async (req, res) => {
 postRoutes.get("/admin-postList", async (req, res) => {
   try {
     const [joinedRow] = await db.execute(
-      `SELECT posts.id, posts.image_small, posts.title, posts.pageviews, posts.user_id, posts.is_slider, posts.is_breaking, posts.is_featured, posts.category_id, categories.color AS color, categories.name_slug AS name_slug, categories.parent_id AS parent_id, categories.name AS sub_category, users.username AS username 
+      `SELECT posts.id, posts.image_small, posts.title, posts.pageviews, posts.created_at, posts.user_id, posts.is_slider, posts.is_breaking, posts.is_featured, posts.category_id, categories.color AS color, categories.name_slug AS name_slug, categories.parent_id AS parent_id, categories.name AS sub_category, users.username AS username 
       FROM posts 
       INNER JOIN users ON posts.user_id = users.id
       INNER JOIN categories ON posts.category_id = categories.id ORDER BY posts.id DESC`
@@ -126,6 +126,30 @@ postRoutes.get("/sliced-all", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "internal err" });
+  }
+});
+
+postRoutes.get("/sliderView", async (req, res) => {
+  try {
+    const [results] = await db.execute(`SELECT * FROM slider WHERE id = 1`);
+
+    res.json(results);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "internal server error" });
+  }
+});
+
+postRoutes.put("/sliderEdit", async (req, res) => {
+  try {
+    const { slider_type } = req.body;
+    await db.execute(`UPDATE slider SET slider_type = ? WHERE id = 1`, [
+      slider_type,
+    ]);
+    res.json("updated slider data");
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "internal server error" });
   }
 });
 
@@ -256,7 +280,7 @@ postRoutes.get("/main/:maincategory/:subcategory", async (req, res) => {
       const category_id = row[0].id;
 
       const [results] = await db.execute(
-        `SELECT id, title, title_slug, summary, image_big, image_mid, created_at FROM posts WHERE category_id = ?`,
+        `SELECT id, title, title_slug, summary, image_big, image_mid, created_at FROM posts WHERE category_id = ? ORDER BY id DESC`,
         [category_id]
       );
 
