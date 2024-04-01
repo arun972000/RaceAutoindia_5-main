@@ -1,38 +1,60 @@
-import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import NewsLetter from "./components/NewsLetter/NewsLetter";
-import Layout1 from "./components/EventPage/Layouts/Layout1";
-import Layout2 from "./components/EventPage/Layouts/Layout2";
-import Layout3 from "./components/EventPage/Layouts/Layout3";
-import Admin_newLetter from "./components/Admin_Components/Admin_newLetter";
-import Admin_Event from "./components/Admin_Components/Admin_Event";
-import PDFPage from "./components/NewsLetter/PDFPage";
-import Home from "./components/Home/Home";
-import SearchPage from "./components/SearchPanel/SearchPage";
-import PostPage from "./components/PostPage/Post";
-import ScrollToTop from "./components/ScrollToTop";
-import PostList_Sub from "./components/PostComponentList/PostList_sub_category";
-import PostList_Main from "./components/PostComponentList/PostList_main_category";
-import PrivateRoute from "./components/PrivateRoute";
-import ErrorPage from "./components/ErrorPage";
-import Admin_dashboard from "./components/Admin_Components/Admin_dashboard";
-import { useState } from "react";
-import Admin_article from "./components/Admin_Components/Admin_article";
-import Admin_ArticleList from "./components/Admin_Components/Admin_articleList";
-import Admin_articleEdit from "./components/Admin_Components/Admin_articleEdit";
-import Admin_mainCategory from "./components/Admin_Components/Admin_mainCategory";
-import Admin_Edit_mainCategory from "./components/Admin_Components/Admin_Edit_mainCategory";
-import Admin_subCategory from "./components/Admin_Components/Admin_subCategory";
-import Admin_Edit_subCategory from "./components/Admin_Components/Admin_Edit_subCategory";
+import { Suspense, lazy, useState } from "react";
+
+const NewsLetter = lazy(() => import("./components/NewsLetter/NewsLetter"));
+const Layout1 = lazy(() => import("./components/EventPage/Layouts/Layout1"));
+const Layout2 = lazy(() => import("./components/EventPage/Layouts/Layout2"));
+const Layout3 = lazy(() => import("./components/EventPage/Layouts/Layout3"));
+const Admin_newLetter = lazy(() =>
+  import("./components/Admin_Components/Admin_newLetter")
+);
+const Admin_Event = lazy(() =>
+  import("./components/Admin_Components/Admin_Event")
+);
+const PDFPage = lazy(() => import("./components/NewsLetter/PDFPage"));
+const Home = lazy(() => import("./components/Home/Home"));
+const SearchPage = lazy(() => import("./components/SearchPanel/SearchPage"));
+const PostPage = lazy(() => import("./components/PostPage/Post"));
+// const ScrollToTop = lazy(() => import("./components/ScrollToTop"));
+const PostList_Sub = lazy(() =>
+  import("./components/PostComponentList/PostList_sub_category")
+);
+const PostList_Main = lazy(() =>
+  import("./components/PostComponentList/PostList_main_category")
+);
+const PrivateRoute = lazy(() => import("./components/PrivateRoute"));
+const ErrorPage = lazy(() => import("./components/ErrorPage"));
+const Admin_dashboard = lazy(() =>
+  import("./components/Admin_Components/Admin_dashboard")
+);
+const Admin_article = lazy(() =>
+  import("./components/Admin_Components/Admin_article")
+);
+const Admin_ArticleList = lazy(() =>
+  import("./components/Admin_Components/Admin_articleList")
+);
+const Admin_articleEdit = lazy(() =>
+  import("./components/Admin_Components/Admin_articleEdit")
+);
+const Admin_mainCategory = lazy(() =>
+  import("./components/Admin_Components/Admin_mainCategory")
+);
+const Admin_Edit_mainCategory = lazy(() =>
+  import("./components/Admin_Components/Admin_Edit_mainCategory")
+);
+const Admin_subCategory = lazy(() =>
+  import("./components/Admin_Components/Admin_subCategory")
+);
+const Admin_Edit_subCategory = lazy(() =>
+  import("./components/Admin_Components/Admin_Edit_subCategory")
+);
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleTrigger = () => setIsOpen(!isOpen);
-
   return (
-    <>
-      <ScrollToTop />
+    <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/newsletter" element={<NewsLetter />} />
@@ -166,7 +188,7 @@ function App() {
         <Route path="/category/:main_category" element={<PostList_Main />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-    </>
+    </Suspense>
   );
 }
 

@@ -6,7 +6,7 @@ const categoryRoutes = express.Router();
 categoryRoutes.get("/categoryList", async (req, res) => {
   try {
     const [results] = await db.execute(
-      `SELECT * FROM categories WHERE parent_id = 0`
+      `SELECT id, name, name_slug, description, keywords, show_at_homepage, show_on_menu, color, block_type FROM categories WHERE parent_id = 0`
     );
     res.json(results);
   } catch (err) {
@@ -55,10 +55,9 @@ categoryRoutes.get("/main_sub/:category", async (req, res) => {
   try {
     const { category } = req.params;
 
-    const [row] = await db.execute(
-      `SELECT * FROM categories WHERE name_slug = ?`,
-      [category]
-    );
+    const [row] = await db.execute(`SELECT * FROM categories WHERE id = ?`, [
+      category,
+    ]);
 
     if (row.length > 0) {
       const parent = row[0].id;

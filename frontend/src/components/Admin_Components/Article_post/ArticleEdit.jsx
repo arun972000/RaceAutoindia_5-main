@@ -22,15 +22,13 @@ const ArticleEdit = () => {
     isFeatured: "",
     isSlider: "",
     summary: "",
-    category_main: "",
-    category_sub: "",
     keywords: "",
     image_default: "",
   });
   const [isFileSelected, setIsFileSelected] = useState(false);
 
-  const [category_main, setCategory_main] = useState(formData.category_main);
-  const [category_sub, setCategory_sub] = useState(formData.category_sub);
+  const [category_main, setCategory_main] = useState("");
+  const [category_sub, setCategory_sub] = useState("");
 
   const [image_default, setImage_default] = useState(null);
   const [mainCategory_array, setMainCategory_array] = useState([]);
@@ -95,10 +93,10 @@ const ArticleEdit = () => {
         isFeatured: res.data[0].is_featured,
         isSlider: res.data[0].is_slider,
         image_default: res.data[0].image_mid,
-        category_main: res.data[0].main_category_slug,
-        category_sub: res.data[0].sub_category,
         keywords: res.data[0].keywords,
       });
+      setCategory_main(res.data[0].parent_id);
+      setCategory_sub(res.data[0].category_id);
     } catch (err) {
       console.log(err);
     }
@@ -174,7 +172,6 @@ const ArticleEdit = () => {
     subCategoryApi();
   }, [category_main]);
 
-  console.log(category_main);
 
   return (
     <div className="col-12">
@@ -228,7 +225,7 @@ const ArticleEdit = () => {
                 onChange={(e) => setCategory_main(e.target.value)}
               >
                 {mainCategory_array.map((item) => (
-                  <option key={item.id} value={item.name_slug}>
+                  <option key={item.id} value={item.id}>
                     {item.name}
                   </option>
                 ))}
@@ -238,7 +235,7 @@ const ArticleEdit = () => {
               <Form.Label>Sub Category</Form.Label>
               <Form.Control
                 as="select"
-                value={formData.category_sub}
+                value={category_sub}
                 onChange={(e) =>
                   setFormData({ ...formData, category_sub: e.target.value })
                 }

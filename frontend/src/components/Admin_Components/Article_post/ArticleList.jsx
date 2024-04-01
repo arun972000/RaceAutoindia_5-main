@@ -10,12 +10,14 @@ import {
   FormGroup,
   FormLabel,
   Modal,
+  Pagination,
 } from "react-bootstrap";
-import PaginatedArticle from "./Pagination_Article";
+
 import { FaFilter, FaSave } from "react-icons/fa";
 import { BiCategory } from "react-icons/bi";
-import { MdCreateNewFolder } from "react-icons/md";
+import { MdCreateNewFolder, MdModeEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { MDBTable, MDBTableBody, MDBTableHead } from "mdb-react-ui-kit";
 
 const ArticleList = () => {
   const [open, setOpen] = useState(false);
@@ -29,28 +31,75 @@ const ArticleList = () => {
   const [selectedPostType, setSelectedPostType] = useState("");
   const [mainCategory_array, setMainCategory_array] = useState([]);
   const [subCategory_array, setSubCategory_array] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const [totalItems, setTotalItems] = useState(0);
+
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const paginationApi = async () => {
+    try {
+      const res = await axios.get(
+        `${Url}api/post/admin-post?username=${selectedUsers}&mainCategory=${selectedCategory}&subCategory=${selectedSubCategory}&offset=${currentPage}`
+      );
+      setData(res.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
 
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => setOpen(false);
 
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const monthIndex = date.getMonth();
+    const month = months[monthIndex];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month} ${day}, ${year}`;
+  };
+
   const userApi = async () => {
     try {
-      const res = await axios.get(`${Url}api/post/admin-postList`);
-      const user = [];
-      const encounteredUsernames = {};
+      const res = await axios.get(`${Url}api/post/post-user`);
 
-      for (let i = 0; i < res.data.length; i++) {
-        const username = res.data[i].username;
+      setUsers(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-        if (!encounteredUsernames[username]) {
-          encounteredUsernames[username] = true;
+  const totalPageApi = async () => {
+    try {
+      const res = await axios.get(`${Url}api/post/admin-post`);
 
-          user.push(res.data[i].username);
-        }
-      }
-
-      setUsers(user);
+      setTotalItems(res.data.totalPost);
     } catch (err) {
       console.log(err);
     }
@@ -82,45 +131,6 @@ const ArticleList = () => {
     }
   };
 
-  const applyFilters = async () => {
-    try {
-      const res = await axios.get(`${Url}api/post/admin-postList`);
-      const value = res.data;
-
-      const filtered = value.filter((item) => {
-        if (
-          selectedCategory !== "none" &&
-          selectedCategory &&
-          item.main_category_slug !== selectedCategory
-        ) {
-          return false;
-        }
-
-        if (
-          selectedSubCategory &&
-          selectedSubCategory !== "none" &&
-          item.name_slug !== selectedSubCategory
-        ) {
-          return false;
-        }
-
-        if (
-          selectedUsers !== "none" &&
-          selectedUsers &&
-          item.username !== selectedUsers
-        ) {
-          return false;
-        }
-
-        return true;
-      });
-
-      return filtered;
-    } catch (err) {
-      console.log(err);
-      return [];
-    }
-  };
   const [selectedOption, setSelectedOption] = useState(1);
 
   const handleOptionChange = (e) => {
@@ -130,8 +140,11 @@ const ArticleList = () => {
   const handlePostType = async () => {
     if (selectedPostType === "none") {
       try {
-        const res = await axios.get(`${Url}api/post/admin-postList`);
-        setData(res.data);
+        const res = await axios.get(
+          `${Url}api/post/admin-post?username=${selectedUsers}&mainCategory=${selectedCategory}&subCategory=${selectedSubCategory}&offset=${currentPage}`
+        );
+        setData(res.data.data);
+        setTotalItems(res.data.totalPost);
       } catch (err) {
         console.log(err);
       }
@@ -149,8 +162,11 @@ const ArticleList = () => {
 
   const handleApplyFilter = async () => {
     try {
-      const filteredData = await applyFilters();
-      setData(filteredData);
+      const res = await axios.get(
+        `${Url}api/post/admin-post?username=${selectedUsers}&mainCategory=${selectedCategory}&subCategory=${selectedSubCategory}&offset=${currentPage}`
+      );
+      setData(res.data.data);
+      setTotalItems(res.data.totalPost);
       handleClose();
       subCategoryValue();
     } catch (err) {
@@ -169,11 +185,10 @@ const ArticleList = () => {
 
   const SliderChangeApi = async () => {
     try {
-      const res=await axios.put(`${Url}api/post/sliderEdit`, {
+      const res = await axios.put(`${Url}api/post/sliderEdit`, {
         slider_type: selectedOption,
       });
-      console.log(res)
-
+      console.log(res);
     } catch (err) {
       console.log(err);
     }
@@ -186,16 +201,21 @@ const ArticleList = () => {
 
   const allPostApi = async () => {
     try {
-      const res = await axios.get(`${Url}api/post/admin-postList`);
-      setData(res.data);
+      const res = await axios.get(
+        `${Url}api/post/admin-post?offset=${currentPage}`
+      );
+      setData(res.data.data);
     } catch (err) {
       console.log(err);
     }
   };
 
-  
+  useEffect(() => {
+    paginationApi();
+  }, [currentPage]);
 
   useEffect(() => {
+    totalPageApi();
     userApi();
     sliderApi();
     allPostApi();
@@ -298,16 +318,15 @@ const ArticleList = () => {
               </FormGroup>
               <FormGroup>
                 <FormLabel>Users</FormLabel>
-                {/* Assume selectedUsers is an array of user IDs */}
                 <FormControl
                   as="select"
                   value={selectedUsers}
                   onChange={(e) => setSelectedUsers(e.target.value)}
                 >
-                  <option value={"none"}>None</option>
+                  <option value={""}>None</option>
                   {users.map((item) => (
-                    <option value={item} key={item}>
-                      {item}
+                    <option value={item.username} key={item.username}>
+                      {item.username}
                     </option>
                   ))}
                 </FormControl>
@@ -319,9 +338,9 @@ const ArticleList = () => {
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
                 >
-                  <option value="none">None</option>
+                  <option value="">None</option>
                   {mainCategory_array.map((item) => (
-                    <option key={item.id} value={item.name_slug}>
+                    <option key={item.id} value={item.id}>
                       {item.name}
                     </option>
                   ))}
@@ -334,7 +353,7 @@ const ArticleList = () => {
                   value={selectedSubCategory}
                   onChange={(e) => setSelectedSubCategory(e.target.value)}
                 >
-                  <option value={"none"}>None</option>
+                  <option value={""}>None</option>
 
                   {subCategory_array.map((item) => (
                     <option key={item.id} value={item.name_slug}>
@@ -354,8 +373,109 @@ const ArticleList = () => {
             </Button>
           </Modal.Footer>
         </Modal>
+        <MDBTable align="middle" responsive className="text-center">
+          <MDBTableHead>
+            <tr>
+              <th>ID</th>
+              <th>Post</th>
+              <th>Category</th>
+              <th>Author</th>
+              <th>Pageviews</th>
+              <th>Posted Date</th>
+              <th>Actions</th>
+            </tr>
+          </MDBTableHead>
+          <MDBTableBody>
+            {data.map((item) => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>
+                  <div className="d-flex align-items-center">
+                    <img
+                      src={`https://raceautoindia.com/${item.image_small}`}
+                      className="image-fluid"
+                      style={{ width: 80 }}
+                      alt={item.id}
+                    ></img>
+                    <p className="ms-3 text-small p-0 m-0">{item.title}</p>
+                  </div>
+                </td>
+                <td>
+                  <div className="d-flex table-badge flex-column">
+                    <p
+                      className="text-small px-2 mb-3"
+                      style={{
+                        backgroundColor: item.color,
+                        borderRadius: 25,
+                        fontSize: 11,
+                        fontWeight: 700,
+                        color: "white",
+                      }}
+                    >
+                      {item.main_category}
+                    </p>
+                    <p
+                      className="text-small px-2 "
+                      style={{
+                        backgroundColor: item.color,
+                        borderRadius: 25,
+                        fontSize: 11,
+                        fontWeight: 700,
+                        color: "white",
+                      }}
+                    >
+                      {item.sub_category}
+                    </p>
+                  </div>
+                </td>
+                <td>{item.username}</td>
+                <td>{item.pageviews}</td>
+                <td>{formatDate(item.created_at)}</td>
+                <td>
+                  <Link to={`/admin/edit-post/${item.id}`}>
+                    <button className="btn btn-primary me-3">
+                      <MdModeEdit size={20} />
+                    </button>
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </MDBTableBody>
+        </MDBTable>
 
-        <PaginatedArticle data={data} itemsPerPage={selectedTitleCount} />
+        {(selectedPostType == "" || selectedPostType == "none") && (
+          <Pagination>
+            <Pagination.First onClick={() => handlePageChange(1)} />
+            <Pagination.Prev
+              onClick={() =>
+                handlePageChange(currentPage > 1 ? currentPage - 1 : 1)
+              }
+            />
+            {pageNumbers.map((page) => {
+              if (totalPages > 5 && Math.abs(page - currentPage) > 2) {
+                return null;
+              }
+
+              return (
+                <Pagination.Item
+                  key={page}
+                  active={page === currentPage}
+                  onClick={() => handlePageChange(page)}
+                >
+                  {page}
+                </Pagination.Item>
+              );
+            })}
+            <Pagination.Next
+              onClick={() =>
+                handlePageChange(
+                  currentPage < totalPages ? currentPage + 1 : totalPages
+                )
+              }
+            />
+            <Pagination.Last onClick={() => handlePageChange(totalPages)} />
+          </Pagination>
+        )}
       </div>
     </>
   );

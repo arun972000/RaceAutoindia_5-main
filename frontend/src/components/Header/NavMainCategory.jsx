@@ -11,11 +11,8 @@ const NavMainCategory = ({ item, active, setActive }) => {
 
   const SubCategory = async () => {
     try {
-      const res = await axios.get(
-        `${Url}api/category/main_sub/${item.name_slug}`
-      );
+      const res = await axios.get(`${Url}api/category/main_sub/${item.id}`);
       setData(res.data.data);
-
     } catch (err) {
       console.log(err);
     }
@@ -26,7 +23,7 @@ const NavMainCategory = ({ item, active, setActive }) => {
   }, []);
 
   const sub_Category = data.map((post) => (
-    <NavSubCategory item={post} key={post.id} main_title={item.name_slug}/>
+    <NavSubCategory item={post} key={post.id} main_title={item.name_slug} />
   ));
   return (
     <li className="nav-item dropdown mx-2">
@@ -39,10 +36,8 @@ const NavMainCategory = ({ item, active, setActive }) => {
         }
         onClick={() => {
           setActive(item.name);
-          sessionStorage.setItem('activeItem', item.name)
-        
-        }
-        }
+          sessionStorage.setItem("activeItem", item.name);
+        }}
       >
         {item.name.toUpperCase()}
       </Link>

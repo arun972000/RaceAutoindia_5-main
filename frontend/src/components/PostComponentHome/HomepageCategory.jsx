@@ -20,9 +20,7 @@ const HomepageCategory = ({ postData }) => {
 
   const categoryListApi = async () => {
     try {
-      const res = await axios.get(
-        `${Url}api/category/main_sub/${postData.name_slug}`
-      );
+      const res = await axios.get(`${Url}api/category/main_sub/${postData.id}`);
       setCategoryList(res.data.data);
     } catch (err) {
       console.log(err);
