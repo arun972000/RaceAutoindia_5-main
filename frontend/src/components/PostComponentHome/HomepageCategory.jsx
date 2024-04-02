@@ -59,10 +59,16 @@ const HomepageCategory = ({ postData }) => {
       <div className="d-flex justify-content-between mt-5 align-items-center">
         <h6 className="">
           <span
+            className="home-component-heading"
             style={{
-              backgroundColor: postData.color,
+              borderLeft: `4px solid ${postData.color}`,
+              fontFamily: "'Roboto', sans-serif",
+              fontWeight: "900",
+              fontStyle: "normal",
               padding: 5,
-              color: "white",
+              paddingLeft: 10,
+              color: "black",
+              fontSize: 30,
             }}
           >
             {postData.name.toUpperCase()}
@@ -83,6 +89,7 @@ const HomepageCategory = ({ postData }) => {
           </select>
         </div>
       </div>
+      <hr />
       <Row className="mt-3">
         {postData.block_type == "block-1" &&
           data

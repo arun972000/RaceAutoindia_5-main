@@ -439,6 +439,18 @@ postRoutes.get("/slider", async (req, res) => {
   }
 });
 
+postRoutes.get("/singlePost/:title_slug",async(req,res)=>{
+  try{
+    const {title_slug}=req.params;
+
+    const [results]=await db.execute(`SELECT id, title, image_big, summary, content FROM posts WHERE title_slug = ?`,[title_slug])
+    res.json(results)
+  }catch(err){
+    console.error("Error:", err);
+    res.status(500).send("Internal Server Error");
+  }
+})
+
 postRoutes.get("/single/:id", async (req, res) => {
   try {
     const { id } = req.params;

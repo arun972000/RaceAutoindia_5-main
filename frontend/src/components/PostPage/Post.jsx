@@ -44,7 +44,7 @@ const PostPage = () => {
 
   const singlePost = async () => {
     try {
-      const res = await axios.get(`${Url}api/post/single/${title_slug}`);
+      const res = await axios.get(`${Url}api/post/singlePost/${title_slug}`);
       setData(res.data);
     } catch (err) {
       console.log(err);

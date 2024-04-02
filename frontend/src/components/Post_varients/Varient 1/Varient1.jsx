@@ -39,7 +39,7 @@ const Varient1 = ({ item}) => {
               className="varient-image"
               style={{
                 aspectRatio: "16/9",
-                objectFit: "fill",
+                objectFit: "cover",
                 borderRadius: 0,
               }}
             />

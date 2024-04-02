@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Suspense, lazy, useState } from "react";
+import "./App.css";
 
 const NewsLetter = lazy(() => import("./components/NewsLetter/NewsLetter"));
 const Layout1 = lazy(() => import("./components/EventPage/Layouts/Layout1"));
@@ -62,6 +63,15 @@ function App() {
         <Route path="/event" element={<Layout1 />} />
         <Route path="/eventlist/:category" element={<Layout2 />} />
         <Route path="/eventpage/:title" element={<Layout3 />} />
+        <Route path="/search/:word" element={<SearchPage />} />
+        <Route path="/post/:title_slug" element={<PostPage />} />
+        <Route
+          path="/article/:main_category/:sub_category"
+          element={<PostList_Sub />}
+        />
+        <Route path="/category/:main_category" element={<PostList_Main />} />
+        <Route path="*" element={<ErrorPage />} />
+
         <Route
           path="/admin"
           element={
@@ -179,14 +189,6 @@ function App() {
             />
           }
         />
-        <Route path="/search/:word" element={<SearchPage />} />
-        <Route path="/post/:title_slug" element={<PostPage />} />
-        <Route
-          path="/article/:main_category/:sub_category"
-          element={<PostList_Sub />}
-        />
-        <Route path="/category/:main_category" element={<PostList_Main />} />
-        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Suspense>
   );

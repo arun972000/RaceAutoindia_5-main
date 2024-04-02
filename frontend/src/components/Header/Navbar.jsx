@@ -11,6 +11,7 @@ import LoginPage from "../Login/Register/Login_Register";
 import { FaUser } from "react-icons/fa";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
+import { IoSearch } from "react-icons/io5";
 
 function MyNavbar() {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ function MyNavbar() {
         userComponent = (
           <div className="dropdown mx-3">
             <button
-              className="btn btn-secondary dropdown-toggle"
+              className="btn btn-light dropdown-toggle"
               type="button"
               id="dropdownMenuButton"
               data-bs-toggle="dropdown"
@@ -143,7 +144,7 @@ function MyNavbar() {
             src={logo}
             className="img-fluid mx-2"
             alt="Responsive image"
-            width="190px"
+            width="160px"
           />
         </Link>
         <button
@@ -184,8 +185,8 @@ function MyNavbar() {
               <a
                 className={
                   active == "more"
-                    ? "nav-link border_bottom dropdown-toggle active-nav mx-2 "
-                    : "nav-link dropdown-toggle border_bottom mx-2"
+                    ? "nav-link border_bottom dropdown-toggle active-nav "
+                    : "nav-link dropdown-toggle border_bottom "
                 }
                 href="#"
                 onClick={() => {
@@ -206,29 +207,30 @@ function MyNavbar() {
           </ul>
           <div className="d-flex ms-auto align-items-center">
             {!location.pathname.includes("/search/") && (
-              <div className="search__root ">
-                {" "}
-                <form role="search" className="search__form">
-                  <label htmlFor="search" className="search__label">
-                    Search for stuff
-                  </label>
-                  <input
-                    id="search"
-                    type="search"
-                    className="search__input"
-                    placeholder="Search..."
-                    autoFocus
-                    required
-                    onChange={(e) => setSearch(e.target.value)}
-                  />
-                  <button
-                    className="search__btn"
-                    onClick={() => navigate(`/search/${search}`)}
-                  >
-                    Go
-                  </button>
-                </form>
-              </div>
+              // <div className="search__root ">
+              //   {" "}
+              //   <form role="search" className="search__form">
+              //     <label htmlFor="search" className="search__label">
+              //       Search for stuff
+              //     </label>
+              //     <input
+              //       id="search"
+              //       type="search"
+              //       className="search__input"
+              //       placeholder="Search..."
+              //       autoFocus
+              //       required
+              //       onChange={(e) => setSearch(e.target.value)}
+              //     />
+              //     <button
+              //       className="search__btn"
+              //       onClick={() => navigate(`/search/${search}`)}
+              //     >
+              //       Go
+              //     </button>
+              //   </form>
+              // </div>
+              <IoSearch size={25} className="me-3"/>
             )}
             {/* <button
               type="button"
