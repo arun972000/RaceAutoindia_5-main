@@ -1,25 +1,75 @@
-.swiper-slide-content{
-    position: relative;
+.swiper-slide-content {
+  position: relative;
 }
 
 .slider__img {
-    margin-top: 10px;
-    aspect-ratio: 16/9;
-    object-fit: cover;
-    filter: brightness(90%);
+  margin-top: 10px;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  filter: brightness(90%);
 }
 
-
-.slider__overlay--text{
-    position: absolute;
-    bottom: 0px;
-    left: 9px;
-    color: white;
-    z-index: 1;
+.swiper-container {
+  position:relative;
+  width: 90vw;
+  height: 300px;
+}
+.swiper-container > .swiper-slide__content {
+position:absolute;
+top:0;
 }
 
-.slider__overlay--text p{
-    font-size: 10px;
+.swiper-slide {
+height: 300px;
+display:flex;
+background: #eee;
+align-items: center;
+justify-content:center;
+transition:all 200ms linear;
+transform: scale(0.8);
+
+&.swiper-slide-active{
+  transform: scale(1);
+  background: #fc0
+}
+.swiper-slide img{
+ aspect-ratio: 16/9;
+ width:500px;
+
+  
+  }
+}
+.swiper-slide__content {
+height: 300px;
+}
+
+.prevArrow {
+  position: absolute;
+  top: 40%;
+  left: 60px;
+  z-index: 100;
+  cursor: pointer;
+  font-size: 2rem;
+}
+.nextArrow {
+  position: absolute;
+  top: 40%;
+  right: 60px;
+  z-index: 100;
+  cursor: pointer;
+  font-size: 2rem;
+}
+
+.slider__overlay--text {
+  position: absolute;
+  bottom: 0px;
+  left: 9px;
+  color: white;
+  z-index: 1;
+}
+
+.slider__overlay--text p {
+  font-size: 10px;
 }
 
 .slick-prev,
@@ -28,7 +78,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-   /* Adjust arrow background color */
+  /* Adjust arrow background color */
   width: 40px; /* Adjust arrow width */
   height: 40px; /* Adjust arrow height */
   border-radius: 50%; /* Make arrows circular */
@@ -45,11 +95,6 @@
   right: 10px; /* Adjust right position of next arrow */
 }
 
-
 .material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
 }

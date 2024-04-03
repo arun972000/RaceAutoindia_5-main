@@ -1,78 +1,90 @@
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import "./Slider.css";
-
-import axios from "axios"
-import { Url } from '../../../url';
-import { useEffect, useState } from 'react';
-
-
-
-
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
+import axios from "axios";
+import { Url } from "../../../url";
+import { useEffect, useState } from "react";
 
 const SliderImage = () => {
-    const settings = {
-        infinite: true,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-        speed: 1000,
-        autoplaySpeed: 6000,
-        cssEase: "linear",
-        pauseOnHover: true,
-        arrows: true,
-    };
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const monthIndex = date.getMonth();
-        const month = months[monthIndex];
-        const day = date.getDate();
-        const year = date.getFullYear();
-        return `${month} ${day}, ${year}`;
-    };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const monthIndex = date.getMonth();
+    const month = months[monthIndex];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month} ${day}, ${year}`;
+  };
 
-    const [data, setData] = useState([])
+  const [data, setData] = useState([]);
 
-    const sliderApi = async () => {
-        try {
-            const res = await axios.get(`${Url}api/post/slider`)
-            setData(res.data)
-        } catch (err) {
-            console.log(err)
-        }
+  const sliderApi = async () => {
+    try {
+      const res = await axios.get(`${Url}api/post/slider`);
+      setData(res.data);
+    } catch (err) {
+      console.log(err);
     }
+  };
 
-    useEffect(() => {
-        sliderApi()
-    },[])
+  useEffect(() => {
+    sliderApi();
+  }, []);
 
-    console.log()
-    const SliderData = data.map(item => (
+  console.log();
+  return (
+    <>
+      <Swiper
+        effect={"coverflow"}
+        grabCursor={true}
+        centeredSlides={true}
+        loop={true}
+        slidesPerView={"auto"}
+        coverflowEffect={{
+          rotate: 0,
+          stretch: 0,
+          depth: 100,
+          modifier: 2.5,
+        }}
+        pagination={{ el: ".swiper-pagination", clickable: true }}
+        navigation={{
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+          clickable: true,
+        }}
+        modules={[EffectCoverflow, Pagination, Navigation]}
+        className="swiper_container"
+      >
+        {data.map((i, el) => {
+          return (
+            <SwiperSlide key={el}>
+              <img src={ `https://raceautoindia.com/${i.image_mid}`} className="img-fluid" alt="Responsive image"/>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
+    </>
+  );
+};
 
-        <div className="swiper-slide-content" key={item.id}>
-            <img
-                src={`https://raceautoindia.com/${item.image_big}`}
-                alt={item.title}
-                className="d-block w-100 slider__img"
-            />
-            <div className="slider__overlay--text">
-                <h6>{item.title}</h6>
-                <p>Date Posted: {formatDate(item.created_at)}</p>
-            </div>
-        </div>
-
-    ))
-    return (
-
-        <Slider {...settings}>
-            {SliderData}
-        </Slider>
-
-    )
-}
-
-export default SliderImage
+export default SliderImage;

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import axios from "axios";
 import logo from "/src/assets/raceindialogo.svg";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Url } from "../../url";
 import NavMainCategory from "./NavMainCategory";
 import "./Navbar.css";
@@ -12,11 +12,14 @@ import { FaUser } from "react-icons/fa";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import { IoSearch } from "react-icons/io5";
+import { Modal, ModalBody } from "react-bootstrap";
+import Toggle from "../Theme/Toggle";
+import { ThemeDataContext } from "../Theme/Theme";
 
 function MyNavbar() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-
+  const theme = useContext(ThemeDataContext);
   const params = useParams();
 
   const token = Cookies.get("token");
@@ -26,6 +29,7 @@ function MyNavbar() {
   const location = useLocation();
 
   const [search, setSearch] = useState("");
+  const [smShow, setSmShow] = useState(false);
 
   const [active, setActive] = useState(
     sessionStorage.getItem("activeItem") || "home"
@@ -138,7 +142,13 @@ function MyNavbar() {
 
   return (
     <div className="position-Nav">
-      <nav className="navbar shadow navbar-expand-lg navbar-light bg-light">
+      <nav
+        className={
+          theme.theme
+            ? "navbar shadow navbar-expand-lg navbar-light bg-light"
+            : "navbar shadow navbar-expand-lg navbar-dark bg-dark"
+        }
+      >
         <Link to="/" className="navbar-brand">
           <img
             src={logo}
@@ -205,33 +215,51 @@ function MyNavbar() {
               </div>
             </li>
           </ul>
-          <div className="d-flex ms-auto align-items-center">
+          <div className="d-flex ms-auto align-items-center justify-content-between">
+            <Toggle />
             {!location.pathname.includes("/search/") && (
-              // <div className="search__root ">
-              //   {" "}
-              //   <form role="search" className="search__form">
-              //     <label htmlFor="search" className="search__label">
-              //       Search for stuff
-              //     </label>
-              //     <input
-              //       id="search"
-              //       type="search"
-              //       className="search__input"
-              //       placeholder="Search..."
-              //       autoFocus
-              //       required
-              //       onChange={(e) => setSearch(e.target.value)}
-              //     />
-              //     <button
-              //       className="search__btn"
-              //       onClick={() => navigate(`/search/${search}`)}
-              //     >
-              //       Go
-              //     </button>
-              //   </form>
-              // </div>
-              <IoSearch size={25} className="me-3"/>
+              <IoSearch
+                size={25}
+                className={theme.theme == "dark" ? "mx-3 text-light" : "mx-3"}
+                onClick={() => setSmShow(true)}
+              />
             )}
+            <Modal
+              size="sm"
+              show={smShow}
+              onHide={() => setSmShow(false)}
+              aria-labelledby="example-modal-sizes-title-sm"
+            >
+              <ModalBody>
+                <div className="input-group rounded d-flex justify-content-center">
+                  <div className="" style={{ width: 200 }}>
+                    <input
+                      type="search"
+                      className="form-control rounded"
+                      placeholder="Search"
+                      aria-label="Search"
+                      aria-describedby="search-addon"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                    />
+                  </div>
+
+                  <span
+                    className="input-group-text border-0 ms-2 p-0"
+                    id="search-addon"
+                  >
+                    <Link to={`/search/${search}`}>
+                      {" "}
+                      <i
+                        className="fas fa-search"
+                        style={{ textDecoration: "none", margin: 0 }}
+                      ></i>
+                    </Link>
+                  </span>
+                </div>
+              </ModalBody>
+            </Modal>
+
             {/* <button
               type="button"
               className="mx-3 btn btn-light"

@@ -33,7 +33,7 @@ const SideContent = () => {
                 style={{
                   borderBottom: "3px solid black",
                   padding: 5,
-                  color: "black",
+
                 }}
               >
                 LATEST NEWS

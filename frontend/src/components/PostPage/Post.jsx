@@ -72,9 +72,7 @@ const PostPage = () => {
                   <b>{post.title}</b>
                 </h3>
                 <p>{post.summary}</p>
-                <small className="text-muted">
-                  Date: {formatDate(post.created_at)}
-                </small>
+                <small className="">Date: {formatDate(post.created_at)}</small>
                 <LogoButtons />
                 <hr />
                 <div

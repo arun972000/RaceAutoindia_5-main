@@ -4,81 +4,17 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+@import url('https://fonts.googleapis.com/css?family=Proxima+Nova');
 * {
   padding: 0;
   margin-bottom: 0;
   box-sizing: border-box !important;
 }
 
-body {
-  background-color: rgb(255, 255, 255) !important;
-  color: rgb(0, 0, 0) !important;
 
-  .card {
-    background-color: rgb(255, 255, 255) !important;
-    color: rgb(0, 0, 0);
-  }
-
-  a {
-    text-decoration: none;
-  }
-
-  .navbar {
-    background-color: #01e3b0 !important;
-    color: rgb(255, 255, 255) !important;
-  }
-
-  .roboto-black {
-    font-family: "Roboto", sans-serif;
-    font-weight: 900;
-    font-style: normal;
-  }
-
-  .navbar ul li a {
-    font-family: "Roboto", sans-serif;
-    font-weight: 900;
-    font-style: normal;
-    font-size: 17px !important;
-    color: rgb(255, 255, 255) !important;
-  }
-  .navbar .dropdown-menu {
-    color: rgb(0, 0, 0) !important;
-    background-color: rgb(255, 255, 255) !important;
-  }
-
-  .navbar .dropdown-menu a {
-    color: rgb(0, 0, 0) !important;
-    background-color: rgb(255, 255, 255) !important;
-  }
-
-  .nav-item .nav-link:hover {
-    background-color: #fec701 !important;
-    color: rgb(255, 255, 255) !important;
-  }
-
-  .dropdown:hover .dropdown-toggle {
-    background-color: #fec701 !important;
-    color: white !important;
-
-    color: rgb(255, 255, 255) !important;
-  }
-
-  .nav-item .active-nav {
-    background-color: #fec701;
-    color: rgb(255, 255, 255) !important;
-  }
-  .dropdown-menu a:hover {
-    background-color: #01e3b0 !important;
-    color: rgb(255, 255, 255) !important;
-  }
-  .card-heading:hover {
-    color:#fec701;
-  }
-  .footer {
-    background-color: #01e3b0;
-    color: white;
-  }
-}
 
 body.red {
   background-color: rgb(66, 66, 66) !important;
@@ -130,10 +66,8 @@ body.red {
 
   .home-component-heading {
     color: white;
-    background-color: rgb(186, 0, 0) !important;
-  }
 
- 
+  }
 }
 
 a {

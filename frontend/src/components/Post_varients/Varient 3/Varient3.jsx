@@ -50,7 +50,7 @@ const Varient3 = ({ item, single }) => {
               </div>
               <Card.Body>
                 <h6 className="mt-3 card-heading">{single.title}</h6>
-                <p className="card-text text-muted small">
+                <p className="card-text small">
                   {formatDate(single.created_at)}
                 </p>
               </Card.Body>

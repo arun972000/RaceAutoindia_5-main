@@ -7,7 +7,6 @@ import HomeBannerV4 from "./HomeBannerv4/HomeBannerV4";
 import HomeBannerV2 from "./Homebanner_v2/HomeBannerV2";
 import axios from "axios";
 import { Url } from "../../url";
-import Ad_2 from "../Ads/Ad_2";
 import { IoMdClose } from "react-icons/io";
 import "./homTopContent.css";
 
@@ -29,14 +28,12 @@ const HomeContentTop = () => {
   }, [sliderOption]);
   return (
     <>
-      <div
-        className={`row mt-3  ${
-          displayTopAd ? "ad-top-container" : "ad-top-hidden"
-        }`}
-      >
+      <div className={displayTopAd ? "row mt-3" : ""}>
         <div className="col-12 d-flex justify-content-center">
-          <Ad_2 />
-          <IoMdClose onClick={() => setDisplayTopAd(false)} />
+          <div
+            className={`${displayTopAd ? "ad-top-container" : "ad-top-hidden"}`}
+          />
+          <IoMdClose onClick={() => setDisplayTopAd(false)} className={displayTopAd ? "d-block" : "d-none"}/>
         </div>
       </div>
       <div className="row mt-3">

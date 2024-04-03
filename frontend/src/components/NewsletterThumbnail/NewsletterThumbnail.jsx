@@ -1,7 +1,7 @@
 const NewsletterThumbnail = () => {
   return (
     <>
-      <h6 style={{ backgroundColor: "#013f7c", padding: 5, color: "white" }}>
+      <h6 style={{ backgroundColor: "#1d5dec", padding: 5, color: "white" }}>
         NEWS LETTER
       </h6>
       <img

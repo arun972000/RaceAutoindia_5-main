@@ -75,7 +75,7 @@ function PaginatedItems({ data }) {
                 <h6 className="mt-3 card-heading-top">{item.title}</h6>
 
                 <p className="card-summary">{item.summary}</p>
-                <p className="card-text text-muted small">
+                <p className="card-text small">
                   {formatDate(item.created_at)}
                 </p>
               </Card.Body>

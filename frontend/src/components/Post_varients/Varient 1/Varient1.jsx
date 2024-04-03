@@ -50,7 +50,7 @@ const Varient1 = ({ item}) => {
                 ? `${item.title.slice(0, 40)}...`
                 : item.title}
             </h6>
-            <p className="card-text text-muted small">
+            <p className="card-text small">
               {formatDate(item.created_at)}
             </p>
           </Card.Body>

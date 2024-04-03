@@ -1,9 +1,12 @@
 .ad-top-hidden {
-    display: none;
-    opacity: 0;
+  height: 0;
+  transition-property: height;
+  transition-duration: 300ms;
+  transition-timing-function: ease;
 }
 
 .ad-top-container {
-    transition: all 2s linear;
-    display: block;
+  height: 250px;
+  width: 970px;
+  background-color: green;
 }

@@ -51,7 +51,7 @@ const SubcardV2_1 = ({ item }) => {
                   ? `${item.title.slice(0, 90)}...`
                   : item.title}
               </h6>
-              <p className="card-text text-muted small">
+              <p className="card-text small">
                 {formatDate(item.created_at)}
               </p>
             </Card.Body>

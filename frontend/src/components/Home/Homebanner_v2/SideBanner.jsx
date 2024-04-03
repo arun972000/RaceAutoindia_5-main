@@ -3,6 +3,9 @@ import "./HomeBannerV2.css";
 import { Col } from "react-bootstrap";
 
 const SideBanner = ({ item }) => {
+  {
+    console.log(item);
+  }
   return (
     <Col xs={6} className="mt-2">
       <div
@@ -11,7 +14,7 @@ const SideBanner = ({ item }) => {
       >
         <img
           className="d-block w-100 sideBanner_image"
-          src={`https://raceautoindia.com/${item.image_mid}`}
+          src={`https://raceautoindia.com/${item.image_small}`}
           alt={item.title}
           style={{ aspectRatio: "16/9", objectFit: "fill" }}
         />

@@ -26,7 +26,7 @@ const NavMainCategory = ({ item, active, setActive }) => {
     <NavSubCategory item={post} key={post.id} main_title={item.name_slug} />
   ));
   return (
-    <li className="nav-item dropdown mx-2">
+    <li className="nav-item dropdown mx-1">
       <Link
         to={`/category/${item.name_slug}`}
         className={
@@ -39,7 +39,7 @@ const NavMainCategory = ({ item, active, setActive }) => {
           sessionStorage.setItem("activeItem", item.name);
         }}
       >
-        {item.name.toUpperCase()}
+        {item.name}
       </Link>
       <div className="dropdown-menu shadow-sm">{sub_Category}</div>
     </li>

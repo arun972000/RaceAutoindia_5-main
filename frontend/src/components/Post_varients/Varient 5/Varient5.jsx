@@ -63,7 +63,7 @@ const Varient5 = ({ item, single }) => {
                     <div className="content mt-4">
                       <h6 className="card-heading">{item.title}</h6>
 
-                      <p className="card-text text-muted small">
+                      <p className="card-text small">
                         {formatDate(item.created_at)}
                       </p>
                       <p>{item.summary}</p>

@@ -4,6 +4,13 @@
   z-index: 999;
 }
 
+.position-Nav .navbar ul li a {
+  font-family: "Roboto", sans-serif;
+  font-weight: 1000;
+  font-style: normal;
+  font-size: 17px !important;
+}
+
 .dropdown:hover .dropdown-menu {
   display: block;
 }
@@ -30,12 +37,12 @@ li {
 }
 
 .nav-item .nav-link:hover {
-  background-color: rgb(186, 0, 0);
+  background-color: #ff7275;
   color: white !important;
 }
 
 .dropdown:hover .dropdown-toggle {
-  background-color: rgb(186, 0, 0);
+  background-color: #ff7275;
   color: white !important;
 }
 
@@ -49,7 +56,7 @@ li {
 
 .dropdown-menu a:hover {
   color: rgb(255, 255, 255) !important;
-  background-color: rgb(1, 63, 124) !important;
+  background-color: #bbbbbc !important;
 }
 
 .dropdown-menu {
@@ -59,7 +66,7 @@ li {
 }
 
 .nav-item .active-nav {
-  background-color: rgb(186, 0, 0);
+  background-color: #ff7275;
   color: white !important;
 }
 

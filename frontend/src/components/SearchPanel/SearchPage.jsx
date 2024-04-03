@@ -61,7 +61,7 @@ const SearchPage = () => {
 
   return (
     <>
-    <MyNavbar/>
+      <MyNavbar />
       <div className="container mt-3">
         <div className="row">
           <div className="col-lg-8 mt-3">
@@ -74,15 +74,14 @@ const SearchPage = () => {
                   placeholder="Search here..."
                   onKeyDown={handleKeyDown}
                 />
-                <button
-                  className="btn btn-primary"
-                  onClick={() =>
-                    navigate(`/search/${search}`, { replace: true })
-                  }
-                >
-                  <MDBIcon icon="search" />
-                </button>
               </MDBInputGroup>
+              <button
+                className="btn btn-primary"
+                style={{ borderRadius: 0 }}
+                onClick={() => navigate(`/search/${search}`, { replace: true })}
+              >
+                <MDBIcon icon="search" />
+              </button>
             </div>
             <h3 className="mt-3 text-center text-bold">
               {data.length} Search results for "{word}"{" "}
@@ -103,7 +102,7 @@ const SearchPage = () => {
           <SideContent />
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 };

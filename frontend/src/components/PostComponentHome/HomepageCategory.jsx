@@ -67,11 +67,10 @@ const HomepageCategory = ({ postData }) => {
               fontStyle: "normal",
               padding: 5,
               paddingLeft: 10,
-              color: "black",
-              fontSize: 30,
+              fontSize: 50,
             }}
           >
-            {postData.name.toUpperCase()}
+            {postData.name}
           </span>
         </h6>
         <div style={{ width: 200 }}>
