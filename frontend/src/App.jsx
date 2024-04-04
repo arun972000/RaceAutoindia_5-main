@@ -1,7 +1,13 @@
+/* eslint-disable no-useless-escape */
 import { Routes, Route } from "react-router-dom";
-import { Suspense, lazy, useContext, useState } from "react";
+import { Suspense, lazy, useContext, useEffect, useState } from "react";
 import "./App.css";
 import { ThemeDataContext } from "./components/Theme/Theme";
+import Admin_GeneralSettingsPage from "./components/Admin_Components/GeneralSettings/GeneralSettingsPage";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import axios from "axios";
+import { Url } from "./url";
+import parse from "html-react-parser";
 
 const NewsLetter = lazy(() => import("./components/NewsLetter/NewsLetter"));
 const Layout1 = lazy(() => import("./components/EventPage/Layouts/Layout1"));
@@ -52,11 +58,32 @@ const Admin_Edit_subCategory = lazy(() =>
 );
 
 function App() {
-  const theme=useContext(ThemeDataContext)
+  const theme = useContext(ThemeDataContext);
   const [isOpen, setIsOpen] = useState(false);
   const handleTrigger = () => setIsOpen(!isOpen);
+  const [metaTag, setMetaTag] = useState([]);
+  const fetchHeaderCode = async () => {
+    try {
+      const res = await axios.get(`${Url}api/settings/headerCode`);
+      setMetaTag(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchHeaderCode();
+  }, []);
   return (
     <div className={theme.theme ? "app" : "dark"}>
+      {metaTag.map((item, i) => (
+        <HelmetProvider key={i}>
+          <Helmet>
+            {parse(item.custom_header_codes)}
+          </Helmet>
+        </HelmetProvider>
+      ))}
+
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -80,6 +107,19 @@ function App() {
               <PrivateRoute
                 element={
                   <Admin_dashboard
+                    isOpen={isOpen}
+                    handleTrigger={handleTrigger}
+                  />
+                }
+              />
+            }
+          />
+          <Route
+            path="/admin/generalSettings"
+            element={
+              <PrivateRoute
+                element={
+                  <Admin_GeneralSettingsPage
                     isOpen={isOpen}
                     handleTrigger={handleTrigger}
                   />

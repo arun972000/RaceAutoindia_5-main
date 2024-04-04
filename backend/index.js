@@ -8,6 +8,7 @@ import searchRouter from "./Routes/search.js";
 import loginRoutes from "./Routes/user.js";
 import routingRouter from "./Routes/route.js";
 import dashboardRoutes from "./Routes/Dashboard.js";
+import settingRoutes from "./Routes/generalSettings.js";
 
 
 const app = express();
@@ -27,6 +28,7 @@ app.use("/api/search", searchRouter);
 app.use("/api/user", loginRoutes);
 app.use("/api/routing", routingRouter);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/settings", settingRoutes);
 app.use(express.static("public"));
 
 const PORT = process.env.PORT || 3000;

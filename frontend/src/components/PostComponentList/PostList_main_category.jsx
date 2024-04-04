@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { Url } from "../../url";
 import SideContent from "../SideContent/SideContent";
 import PaginatedItems from "./PaginationList";
-import Ad_1 from "../Ads/Ad_1";
+import Ad_1 from "../Ads/Ad_90_1024";
 import MyNavbar from "../Header/Navbar";
 import Footer from "../Footer/Footer";
 
@@ -28,7 +28,7 @@ const PostList_Main = () => {
 
   return (
     <>
-    <MyNavbar/>
+      <MyNavbar />
       <div className="container mt-3">
         <div className="row mb-2">
           <div className="col-12 d-flex justify-content-center">
@@ -44,7 +44,7 @@ const PostList_Main = () => {
           <SideContent />
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 };

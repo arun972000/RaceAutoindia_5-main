@@ -7,7 +7,6 @@ import Varient1 from "../Post_varients/Varient 1/Varient1";
 import Varient2 from "../Post_varients/Varient 2/Varient2";
 import Varient3 from "../Post_varients/Varient 3/Varient3";
 import Varient4 from "../Post_varients/Varient 4/Varient4";
-import Ad_1 from "../Ads/Ad_1";
 import { useEffect, useState } from "react";
 import Varient5 from "../Post_varients/Varient 5/Varient5";
 
@@ -106,9 +105,7 @@ const HomepageCategory = ({ postData }) => {
             .map((item) => <Varient4 key={item.id} item={item} />)
             .slice(0, 2)}
       </Row>
-      <div className="col-12 mt-3 d-flex justify-content-center">
-        <Ad_1 />
-      </div>
+
     </>
   );
 };

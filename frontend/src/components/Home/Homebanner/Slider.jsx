@@ -11,6 +11,8 @@ import axios from "axios";
 import { Url } from "../../../url";
 import { useEffect, useState } from "react";
 
+// install Swiper modules
+
 const SliderImage = () => {
   const months = [
     "January",
@@ -55,8 +57,10 @@ const SliderImage = () => {
   return (
     <>
       <Swiper
+        autoHeight={true}
         effect={"coverflow"}
         grabCursor={true}
+        navigation={true}
         centeredSlides={true}
         loop={true}
         slidesPerView={"auto"}
@@ -66,19 +70,17 @@ const SliderImage = () => {
           depth: 100,
           modifier: 2.5,
         }}
-        pagination={{ el: ".swiper-pagination", clickable: true }}
-        navigation={{
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-          clickable: true,
-        }}
         modules={[EffectCoverflow, Pagination, Navigation]}
-        className="swiper_container"
+        className="swiper_container mt-4"
       >
         {data.map((i, el) => {
           return (
             <SwiperSlide key={el}>
-              <img src={ `https://raceautoindia.com/${i.image_mid}`} className="img-fluid" alt="Responsive image"/>
+              <img
+                src={`https://raceautoindia.com/${i.image_mid}`}
+                className="img-fluid image__slider"
+                alt="Responsive image"
+              />
             </SwiperSlide>
           );
         })}

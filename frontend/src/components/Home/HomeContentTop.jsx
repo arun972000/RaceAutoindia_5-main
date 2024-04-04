@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Ad_1 from "../Ads/Ad_1";
+import Ad_1 from "../Ads/Ad_90_1024";
 import BreakingNews from "../BreakingNews/breakingNews";
 import Features from "../Features/Features";
 import HomeBannerV3 from "./HomeBannerv3/HomeBannerV3";
@@ -33,7 +33,10 @@ const HomeContentTop = () => {
           <div
             className={`${displayTopAd ? "ad-top-container" : "ad-top-hidden"}`}
           />
-          <IoMdClose onClick={() => setDisplayTopAd(false)} className={displayTopAd ? "d-block" : "d-none"}/>
+          <IoMdClose
+            onClick={() => setDisplayTopAd(false)}
+            className={displayTopAd ? "d-block" : "d-none"}
+          />
         </div>
       </div>
       <div className="row mt-3">

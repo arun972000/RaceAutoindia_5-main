@@ -8,7 +8,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Url } from "../../url";
 import SideContent from "../SideContent/SideContent";
-import Ad_1 from "../Ads/Ad_1";
+import Ad_1 from "../Ads/Ad_90_1024";
 import DOMPurify from "dompurify";
 import MyNavbar from "../Header/Navbar";
 import Footer from "../Footer/Footer";
