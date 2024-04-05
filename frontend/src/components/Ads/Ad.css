@@ -19,3 +19,19 @@
 .swiper-3d .swiper-slide-shadow {
   background: none !important;
 }
+
+.ad_90_728 {
+  width: 728px;
+  height: 90px;
+}
+
+:root{
+ --size-3: 200px;
+}
+
+@media only screen and (max-width: 600px) {
+  .ad_90_728 {
+    width: var(--size-3);
+    height: 50px;
+  }
+}

@@ -2,9 +2,9 @@
 import { MdArticle, MdEventAvailable } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { CiMenuBurger } from "react-icons/ci";
-import { IoIosMail } from "react-icons/io";
+import { IoIosMail, IoIosSettings } from "react-icons/io";
 import { IoHome } from "react-icons/io5";
-
+import { RiAdvertisementFill } from "react-icons/ri";
 import "./sideBar.css";
 
 import { Link } from "react-router-dom";
@@ -68,6 +68,18 @@ function SideBar({ isOpen, handleTrigger }) {
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
+        <Link to="/admin/ad_space">
+          <div className="sidebar-position">
+            <RiAdvertisementFill />
+            <span>AD SPACE</span>
+          </div>
+        </Link>
+        <Link to="/admin/generalSettings">
+          <div className="sidebar-position">
+          <IoIosSettings />
+            <span>GENERAL SETTINGS</span>
+          </div>
+        </Link>
       </div>
     </div>
   );

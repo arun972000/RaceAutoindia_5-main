@@ -3,14 +3,17 @@ import { Routes, Route } from "react-router-dom";
 import { Suspense, lazy, useContext, useEffect, useState } from "react";
 import "./App.css";
 import { ThemeDataContext } from "./components/Theme/Theme";
-import Admin_GeneralSettingsPage from "./components/Admin_Components/GeneralSettings/GeneralSettingsPage";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import axios from "axios";
 import { Url } from "./url";
 import parse from "html-react-parser";
 
+
+
 const NewsLetter = lazy(() => import("./components/NewsLetter/NewsLetter"));
 const Layout1 = lazy(() => import("./components/EventPage/Layouts/Layout1"));
+const AboutUsPage = lazy(() => import("./components/Aboutus"));
+const Contact = lazy(() => import("./components/Contact"));
 const Layout2 = lazy(() => import("./components/EventPage/Layouts/Layout2"));
 const Layout3 = lazy(() => import("./components/EventPage/Layouts/Layout3"));
 const Admin_newLetter = lazy(() =>
@@ -22,6 +25,7 @@ const Admin_Event = lazy(() =>
 const PDFPage = lazy(() => import("./components/NewsLetter/PDFPage"));
 const Home = lazy(() => import("./components/Home/Home"));
 const SearchPage = lazy(() => import("./components/SearchPanel/SearchPage"));
+const PrivacyPage = lazy(() => import("./components/Privacy"));
 const PostPage = lazy(() => import("./components/PostPage/Post"));
 // const ScrollToTop = lazy(() => import("./components/ScrollToTop"));
 const PostList_Sub = lazy(() =>
@@ -41,6 +45,9 @@ const Admin_article = lazy(() =>
 const Admin_ArticleList = lazy(() =>
   import("./components/Admin_Components/Admin_articleList")
 );
+const Admin_GeneralSettingsPage = lazy(() =>
+  import("./components/Admin_Components/GeneralSettings/GeneralSettingsPage")
+);
 const Admin_articleEdit = lazy(() =>
   import("./components/Admin_Components/Admin_articleEdit")
 );
@@ -49,6 +56,9 @@ const Admin_mainCategory = lazy(() =>
 );
 const Admin_Edit_mainCategory = lazy(() =>
   import("./components/Admin_Components/Admin_Edit_mainCategory")
+);
+const Admin_AdForm = lazy(() =>
+  import("./components/Admin_Components/Admin_ad_form")
 );
 const Admin_subCategory = lazy(() =>
   import("./components/Admin_Components/Admin_subCategory")
@@ -75,12 +85,13 @@ function App() {
     fetchHeaderCode();
   }, []);
   return (
-    <div className={theme.theme ? "app" : "dark"}>
+    <div
+      className={theme.theme ? "app" : "dark"}
+      style={{ fontFamily: '"Montserrat", Helvetica, sans-serif' }}
+    >
       {metaTag.map((item, i) => (
         <HelmetProvider key={i}>
-          <Helmet>
-            {parse(item.custom_header_codes)}
-          </Helmet>
+          <Helmet>{parse(item.custom_header_codes)}</Helmet>
         </HelmetProvider>
       ))}
 
@@ -93,6 +104,9 @@ function App() {
           <Route path="/eventlist/:category" element={<Layout2 />} />
           <Route path="/eventpage/:title" element={<Layout3 />} />
           <Route path="/search/:word" element={<SearchPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPage />} />
+          <Route path="/about-us" element={<AboutUsPage />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/post/:title_slug" element={<PostPage />} />
           <Route
             path="/article/:main_category/:sub_category"
@@ -152,6 +166,16 @@ function App() {
                     isOpen={isOpen}
                     handleTrigger={handleTrigger}
                   />
+                }
+              />
+            }
+          />
+          <Route
+            path="/admin/ad_space"
+            element={
+              <PrivateRoute
+                element={
+                  <Admin_AdForm isOpen={isOpen} handleTrigger={handleTrigger} />
                 }
               />
             }

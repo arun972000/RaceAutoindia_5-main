@@ -4,12 +4,12 @@
   z-index: 999;
 }
 
-.position-Nav .navbar ul li a {
+/* .position-Nav .navbar ul li a {
   font-family: "Roboto", sans-serif;
   font-weight: 1000;
   font-style: normal;
   font-size: 17px !important;
-}
+} */
 
 .dropdown:hover .dropdown-menu {
   display: block;

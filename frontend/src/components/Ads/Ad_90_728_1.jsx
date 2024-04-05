@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
+import "./Ad.css"
 
-
-const Ad__90_728_1 = () => {
+const Ad__90_728_1 = ({children}) => {
   return (
-    <div style={{width:728,height:90,backgroundColor:"grey"}}></div>
+    <div className="ad_90_728">{children}</div>
   )
 }
 

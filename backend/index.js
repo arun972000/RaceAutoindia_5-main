@@ -9,6 +9,8 @@ import loginRoutes from "./Routes/user.js";
 import routingRouter from "./Routes/route.js";
 import dashboardRoutes from "./Routes/Dashboard.js";
 import settingRoutes from "./Routes/generalSettings.js";
+import adSpaceRoutes from "./Routes/adSpace.js";
+import pageRoutes from "./Routes/pages.js";
 
 
 const app = express();
@@ -29,7 +31,10 @@ app.use("/api/user", loginRoutes);
 app.use("/api/routing", routingRouter);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/settings", settingRoutes);
+app.use("/api/ad_space",adSpaceRoutes)
+app.use("/api/pages",pageRoutes)
 app.use(express.static("public"));
+
 
 const PORT = process.env.PORT || 3000;
 

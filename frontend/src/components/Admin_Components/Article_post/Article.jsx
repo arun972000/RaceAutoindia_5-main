@@ -215,7 +215,7 @@ const Article = () => {
               >
                 <option value="none">None</option>
                 {mainCategory_array.map((item) => (
-                  <option key={item.id} value={item.name_slug}>
+                  <option key={item.id} value={item.id}>
                     {item.name}
                   </option>
                 ))}

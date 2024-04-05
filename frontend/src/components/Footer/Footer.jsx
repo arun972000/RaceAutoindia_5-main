@@ -1,7 +1,12 @@
 import logo from "/src/assets/raceindialogo.svg";
 import "./Footer.css";
 
+import { Link } from "react-router-dom";
+
 const Footer = () => {
+
+
+
   return (
     <>
       <div className="footer mt-5 pb-2">
@@ -48,10 +53,24 @@ const Footer = () => {
                   Copyright 2024 Race Auto India - All Rights Reserved
                 </p>
               </div>
-              <div className="col-6 col-md-4">
-                <p className="text-center p-1">Privacy Policy</p>
+              <div className="col-6 col-md-2">
+                <Link to="/privacy-policy"><p className="text-center p-1" style={{ cursor: "pointer" }}>Privacy Policy</p></Link>
               </div>
-              <div className="col-6 col-md-4">
+              <div className="col-6 col-md-2">
+              <Link to="/contact"><p
+                  className="text-center p-1"
+
+                  style={{ cursor: "pointer" }}
+                >
+                  Contact
+                </p></Link>
+              </div>
+              <div className="col-6 col-md-2">
+              <Link to="/about-us"><p className="text-center p-1" style={{ cursor: "pointer" }}>
+                  About us
+                </p></Link>
+              </div>
+              <div className="col-6 col-md-2">
                 <p className="text-center p-1">Terms and Condition</p>
               </div>
             </div>

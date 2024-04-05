@@ -141,7 +141,7 @@ function MyNavbar() {
     ));
 
   return (
-    <div className="position-Nav">
+    <div className="position-Nav" style={{fontFamily:'"Poppins", Helvetica, sans-serif'}}>
       <nav
         className={
           theme.theme

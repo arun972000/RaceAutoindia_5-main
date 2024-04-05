@@ -57,3 +57,7 @@ color:rgb(158, 155, 155);
   margin: 0;
   padding: 0;
 }
+
+.footer a {
+  color: inherit;
+}

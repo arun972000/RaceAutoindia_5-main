@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 
 
-const Ad__90_1024 = () => {
+const Ad__90_1024 = ({children}) => {
   return (
-    <div style={{height:90,width:1024,backgroundColor:"grey"}}></div>
+    <div style={{height:90,width:1024}}>{children}</div>
   )
 }
 

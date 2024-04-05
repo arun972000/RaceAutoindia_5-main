@@ -1,5 +1,6 @@
 .ad-top-hidden {
   height: 0;
+  opacity: 0;
   transition-property: height;
   transition-duration: 300ms;
   transition-timing-function: ease;
@@ -8,5 +9,5 @@
 .ad-top-container {
   height: 250px;
   width: 970px;
-  background-color: green;
+  opacity: 1;
 }

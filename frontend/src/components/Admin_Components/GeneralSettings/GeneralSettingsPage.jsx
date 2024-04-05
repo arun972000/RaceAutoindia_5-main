@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { Tab, Tabs } from "react-bootstrap";
 import AdminNavbar from "../Admin Navbar/Navbar";
 import SideBar from "../Sidebar";
 import HeaderCode from "./HeaderCode";
@@ -18,7 +19,15 @@ const Admin_GeneralSettingsPage = ({ isOpen, handleTrigger }) => {
           >
             <div className="row">
               <AdminNavbar />
-              <HeaderCode />
+              <Tabs
+                defaultActiveKey="Header Code"
+                id="headerTab"
+                className="mt-3 ms-3"
+              >
+                <Tab eventKey="Header Code" title="Header Code" className="">
+                  <HeaderCode />
+                </Tab>
+              </Tabs>
             </div>
           </div>
         </div>
