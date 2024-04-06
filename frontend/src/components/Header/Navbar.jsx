@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import axios from "axios";
-import logo from "/src/assets/raceindialogo.svg";
+
+import logo2 from "/src/assets/logo final .png";
 import { useContext, useEffect, useState } from "react";
 import { Url } from "../../url";
 import NavMainCategory from "./NavMainCategory";
@@ -34,6 +35,25 @@ function MyNavbar() {
   const [active, setActive] = useState(
     sessionStorage.getItem("activeItem") || "home"
   );
+  const [scrollvalue, setScrollvalue] = useState(false);
+
+  const throttle = (callback, delay) => {
+    let lastCall = 0;
+    return function () {
+      const now = new Date().getTime();
+      if (now - lastCall >= delay) {
+        lastCall = now;
+        callback.apply(null, arguments);
+      }
+    };
+  };
+
+  const handleScroll = throttle(() => {
+    const scrollY = window.scrollY;
+    const threshold = 150;
+    setScrollvalue(scrollY >= threshold);
+  }, 100);
+  // Attach scroll event listener when component mounts
 
   let userComponent;
 
@@ -127,7 +147,14 @@ function MyNavbar() {
 
   useEffect(() => {
     mainCategory();
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
+
+
 
   const Main_Category = data
     .filter((item) => item.show_on_menu == 1)
@@ -141,7 +168,10 @@ function MyNavbar() {
     ));
 
   return (
-    <div className="position-Nav" style={{fontFamily:'"Poppins", Helvetica, sans-serif'}}>
+    <div
+      className={scrollvalue ? "position-Nav" : "position-Nav-nosticky"}
+      style={{ fontFamily: '"Poppins", Helvetica, sans-serif' }}
+    >
       <nav
         className={
           theme.theme
@@ -149,150 +179,267 @@ function MyNavbar() {
             : "navbar shadow navbar-expand-lg navbar-dark bg-dark"
         }
       >
-        <Link to="/" className="navbar-brand">
-          <img
-            src={logo}
-            className="img-fluid mx-2"
-            alt="Responsive image"
-            width="160px"
-          />
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div
-          className="collapse py-2 navbar-collapse nav-list__bg-red"
-          id="navbarSupportedContent"
-        >
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link
-                to="/"
-                className={
-                  active == "home"
-                    ? "nav-link border_bottom nav-home_btn active-nav mx-2 "
-                    : "nav-link border_bottom mx-2"
-                }
-                onClick={() => {
-                  setActive("home");
-                  sessionStorage.setItem("activeItem", "home");
-                }}
-              >
-                HOME
-              </Link>
-            </li>
-            {Main_Category}
-            <li className="nav-item dropdown mx-1 ">
-              <a
-                className={
-                  active == "more"
-                    ? "nav-link border_bottom dropdown-toggle active-nav "
-                    : "nav-link dropdown-toggle border_bottom "
-                }
-                href="#"
-                onClick={() => {
-                  setActive("more");
-                }}
-              >
-                MORE
-              </a>
-              <div className="dropdown-menu">
-                <a className="dropdown-item" href="#">
-                  CONTACT
-                </a>
-                <a className="dropdown-item" href="#">
-                  ABOUT US
-                </a>
-              </div>
-            </li>
-          </ul>
-          <div className="d-flex ms-auto align-items-center justify-content-between">
-            <Toggle />
-            {!location.pathname.includes("/search/") && (
-              <IoSearch
-                size={25}
-                className={theme.theme == "dark" ? "mx-3 text-light" : "mx-3"}
-                onClick={() => setSmShow(true)}
+         {!scrollvalue ? <div className="d-flex flex-column">
+          <div className="d-flex justify-content-center">
+            <Link to="/" className="navbar-brand">
+              <img
+                src={logo2}
+                className="img-fluid mx-3"
+                alt="Responsive image"
+                width="90px"
               />
-            )}
-            <Modal
-              size="sm"
-              show={smShow}
-              onHide={() => setSmShow(false)}
-              aria-labelledby="example-modal-sizes-title-sm"
+            </Link>
+          </div>
+          <div>
+            <div
+              className="collapse py-2 navbar-collapse nav-list__bg-red"
+              id="navbarSupportedContent"
             >
-              <ModalBody>
-                <div className="input-group rounded d-flex justify-content-center">
-                  <div className="" style={{ width: 200 }}>
-                    <input
-                      type="search"
-                      className="form-control rounded"
-                      placeholder="Search"
-                      aria-label="Search"
-                      aria-describedby="search-addon"
-                      value={search}
-                      onChange={(e) => setSearch(e.target.value)}
-                    />
-                  </div>
-
-                  <span
-                    className="input-group-text border-0 ms-2 p-0"
-                    id="search-addon"
+              <ul className="navbar-nav mr-auto">
+                <li className="nav-item">
+                  <Link
+                    to="/"
+                    className={
+                      active == "home"
+                        ? "nav-link border_bottom nav-home_btn active-nav mx-2 "
+                        : "nav-link border_bottom mx-2"
+                    }
+                    onClick={() => {
+                      setActive("home");
+                      sessionStorage.setItem("activeItem", "home");
+                    }}
                   >
-                    <Link to={`/search/${search}`}>
-                      {" "}
-                      <i
-                        className="fas fa-search"
-                        style={{ textDecoration: "none", margin: 0 }}
-                      ></i>
-                    </Link>
-                  </span>
-                </div>
-              </ModalBody>
-            </Modal>
+                    HOME
+                  </Link>
+                </li>
+                {Main_Category}
+                <li className="nav-item dropdown mx-1 ">
+                  <a
+                    className={
+                      active == "more"
+                        ? "nav-link border_bottom dropdown-toggle active-nav "
+                        : "nav-link dropdown-toggle border_bottom "
+                    }
+                    href="#"
+                    onClick={() => {
+                      setActive("more");
+                    }}
+                  >
+                    MORE
+                  </a>
+                  <div className="dropdown-menu">
+                    <a className="dropdown-item" href="#">
+                      CONTACT
+                    </a>
+                    <a className="dropdown-item" href="#">
+                      ABOUT US
+                    </a>
+                  </div>
+                </li>
+              </ul>
+              <div className="d-flex ms-auto align-items-center justify-content-between">
+                <Toggle />
+                {!location.pathname.includes("/search/") && (
+                  <IoSearch
+                    size={25}
+                    className={
+                      theme.theme == "dark" ? "mx-3 text-light" : "mx-3"
+                    }
+                    onClick={() => setSmShow(true)}
+                  />
+                )}
+                <Modal
+                  size="sm"
+                  show={smShow}
+                  onHide={() => setSmShow(false)}
+                  aria-labelledby="example-modal-sizes-title-sm"
+                >
+                  <ModalBody>
+                    <div className="input-group rounded d-flex justify-content-center">
+                      <div className="" style={{ width: 200 }}>
+                        <input
+                          type="search"
+                          className="form-control rounded"
+                          placeholder="Search"
+                          aria-label="Search"
+                          aria-describedby="search-addon"
+                          value={search}
+                          onChange={(e) => setSearch(e.target.value)}
+                        />
+                      </div>
 
-            {/* <button
-              type="button"
-              className="mx-3 btn btn-light"
-              onClick={() => setShowLogin(true)}
-            >
-              Login
-            </button> */}
-            {userComponent}
-            <LoginPage showLogin={showLogin} hideLogin={handlecloseLogin} />
+                      <span
+                        className="input-group-text border-0 ms-2 p-0"
+                        id="search-addon"
+                      >
+                        <Link to={`/search/${search}`}>
+                          {" "}
+                          <i
+                            className="fas fa-search"
+                            style={{ textDecoration: "none", margin: 0 }}
+                          ></i>
+                        </Link>
+                      </span>
+                    </div>
+                  </ModalBody>
+                </Modal>
+
+                {/* <button
+          type="button"
+          className="mx-3 btn btn-light"
+          onClick={() => setShowLogin(true)}
+        >
+          Login
+        </button> */}
+                {userComponent}
+                <LoginPage showLogin={showLogin} hideLogin={handlecloseLogin} />
+              </div>
+            </div>
+
+            
           </div>
           {/* <div>
-            <FaUser />
-            <li className="nav-item dropdown mx-1 ">
-              <a
-                className="nav-link dropdown-toggle border_bottom mx-2"
-                href="#"
-                onClick={() => {
-                  setActive("more");
-                }}
-              >
-                USER
-              </a>
-              <div className="dropdown-menu">
-                <a className="dropdown-item" href="#">
-                  Admin
-                </a>
-                <a className="dropdown-item" href="#">
-                  ABOUT US
-                </a>
-              </div>
-            </li>
-          </div> */}
+        <FaUser />
+        <li className="nav-item dropdown mx-1 ">
+          <a
+            className="nav-link dropdown-toggle border_bottom mx-2"
+            href="#"
+            onClick={() => {
+              setActive("more");
+            }}
+          >
+            USER
+          </a>
+          <div className="dropdown-menu">
+            <a className="dropdown-item" href="#">
+              Admin
+            </a>
+            <a className="dropdown-item" href="#">
+              ABOUT US
+            </a>
+          </div>
+        </li>
+      </div> */}
         </div>
+        : <>
+        
+             <Link to="/" className="navbar-brand">
+            <img
+              src={logo2}
+              className="img-fluid mx-3"
+              alt="Responsive image"
+              width="60px"
+            />
+          </Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div
+            className="collapse py-2 navbar-collapse nav-list__bg-red"
+            id="navbarSupportedContent"
+          >
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <Link
+                  to="/"
+                  className={
+                    active == "home"
+                      ? "nav-link border_bottom nav-home_btn active-nav mx-2 "
+                      : "nav-link border_bottom mx-2"
+                  }
+                  onClick={() => {
+                    setActive("home");
+                    sessionStorage.setItem("activeItem", "home");
+                  }}
+                >
+                  HOME
+                </Link>
+              </li>
+              {Main_Category}
+              <li className="nav-item dropdown mx-1 ">
+                <a
+                  className={
+                    active == "more"
+                      ? "nav-link border_bottom dropdown-toggle active-nav "
+                      : "nav-link dropdown-toggle border_bottom "
+                  }
+                  href="#"
+                  onClick={() => {
+                    setActive("more");
+                  }}
+                >
+                  MORE
+                </a>
+                <div className="dropdown-menu">
+                  <a className="dropdown-item" href="#">
+                    CONTACT
+                  </a>
+                  <a className="dropdown-item" href="#">
+                    ABOUT US
+                  </a>
+                </div>
+              </li>
+            </ul>
+            <div className="d-flex ms-auto align-items-center justify-content-between">
+              <Toggle />
+              {!location.pathname.includes("/search/") && (
+                <IoSearch
+                  size={25}
+                  className={theme.theme == "dark" ? "mx-3 text-light" : "mx-3"}
+                  onClick={() => setSmShow(true)}
+                />
+              )}
+              <Modal
+                size="sm"
+                show={smShow}
+                onHide={() => setSmShow(false)}
+                aria-labelledby="example-modal-sizes-title-sm"
+              >
+                <ModalBody>
+                  <div className="input-group rounded d-flex justify-content-center">
+                    <div className="" style={{ width: 200 }}>
+                      <input
+                        type="search"
+                        className="form-control rounded"
+                        placeholder="Search"
+                        aria-label="Search"
+                        aria-describedby="search-addon"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                      />
+                    </div>
+
+                    <span
+                      className="input-group-text border-0 ms-2 p-0"
+                      id="search-addon"
+                    >
+                      <Link to={`/search/${search}`}>
+                        {" "}
+                        <i
+                          className="fas fa-search"
+                          style={{ textDecoration: "none", margin: 0 }}
+                        ></i>
+                      </Link>
+                    </span>
+                  </div>
+                </ModalBody>
+              </Modal>
+
+              {userComponent}
+              <LoginPage showLogin={showLogin} hideLogin={handlecloseLogin} />
+            </div>
+          </div>
+
+        </>}
       </nav>
     </div>
   );

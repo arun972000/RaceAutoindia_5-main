@@ -1,4 +1,4 @@
-import logo from "/src/assets/raceindialogo.svg";
+import logo from "/src/assets/logo final .png";
 import "./Footer.css";
 
 import { Link } from "react-router-dom";
