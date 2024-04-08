@@ -7,8 +7,8 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import axios from "axios";
 import { Url } from "./url";
 import parse from "html-react-parser";
-
-
+import ScrollToTop from "./components/ScrollToTop";
+import Links from "./components/Links";
 
 const NewsLetter = lazy(() => import("./components/NewsLetter/NewsLetter"));
 const Layout1 = lazy(() => import("./components/EventPage/Layouts/Layout1"));
@@ -70,6 +70,7 @@ const Admin_Edit_subCategory = lazy(() =>
 function App() {
   const theme = useContext(ThemeDataContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [font, setFont] = useState("");
   const handleTrigger = () => setIsOpen(!isOpen);
   const [metaTag, setMetaTag] = useState([]);
   const fetchHeaderCode = async () => {
@@ -80,21 +81,29 @@ function App() {
       console.log(err);
     }
   };
-
+  const fontapi = async () => {
+    try {
+      const res = await axios.get(`${Url}api/settings/default-font`);
+      setFont(res.data[0].font_name);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     fetchHeaderCode();
+    fontapi();
   }, []);
   return (
     <div
       className={theme.theme ? "app" : "dark"}
-      style={{ fontFamily: '"Montserrat", Helvetica, sans-serif' }}
+      style={{ fontFamily: `"${font}", Helvetica, sans-serif` }}
     >
       {metaTag.map((item, i) => (
         <HelmetProvider key={i}>
           <Helmet>{parse(item.custom_header_codes)}</Helmet>
         </HelmetProvider>
       ))}
-
+      <ScrollToTop />
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -107,6 +116,7 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPage />} />
           <Route path="/about-us" element={<AboutUsPage />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/links" element={<Links />} />
           <Route path="/post/:title_slug" element={<PostPage />} />
           <Route
             path="/article/:main_category/:sub_category"

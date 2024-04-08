@@ -3,6 +3,7 @@ import { Tab, Tabs } from "react-bootstrap";
 import AdminNavbar from "../Admin Navbar/Navbar";
 import SideBar from "../Sidebar";
 import HeaderCode from "./HeaderCode";
+import FontSetting from "./Fontsettings";
 
 const Admin_GeneralSettingsPage = ({ isOpen, handleTrigger }) => {
   return (
@@ -26,6 +27,9 @@ const Admin_GeneralSettingsPage = ({ isOpen, handleTrigger }) => {
               >
                 <Tab eventKey="Header Code" title="Header Code" className="">
                   <HeaderCode />
+                </Tab>
+                <Tab eventKey="font style" title="font style" className="">
+                  <FontSetting />
                 </Tab>
               </Tabs>
             </div>

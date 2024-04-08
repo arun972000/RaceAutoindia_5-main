@@ -9,19 +9,25 @@ width: 100%;
   top: 0;
   z-index: 999;
 }
-/* .position-Nav .navbar ul li a {
-  font-family: "Roboto", sans-serif;
-  font-weight: 1000;
+
+.navbar ul li a {
+  /* font-family: "Roboto", sans-serif; */
+  font-weight: 900;
   font-style: normal;
   font-size: 17px !important;
+}
+
+/* .nav-details .nav-link {
+font-size: 16px !important;
+font-weight: 900;
 } */
 
-.navbar-expand-lg {
+ .navbar-expand-lg {
   flex-wrap: nowrap;
   justify-content: space-around !important;
 }
 
-.dropdown:hover .dropdown-menu {
+.nav-details .dropdown:hover .dropdown-menu {
   display: block;
 }
 
@@ -29,58 +35,55 @@ li {
   list-style-type: none;
 }
 
-.nav-home_btn {
+.nav-details .nav-home_btn {
   border: none !important;
   font-size: 14px !important;
   font-weight: bold !important;
 }
 
-.dropdown-toggle {
+.nav-details .dropdown-toggle {
   border-bottom: 1px solid transparent;
   transition: 0.3s ease;
-  font-size: 14px !important;
-  font-weight: 600 !important;
 }
 
-.dropdown:hover {
+.nav-details .dropdown:hover {
   background-color: rgb(255, 255, 255);
 }
 
-.nav-item .nav-link:hover {
+.nav-details .nav-item .nav-link:hover {
   background-color: #ff7275;
   color: white !important;
 }
 
-.dropdown:hover .dropdown-toggle {
+.nav-details .dropdown:hover .dropdown-toggle {
   background-color: #ff7275;
   color: white !important;
 }
 
-.dropdown-menu a {
+.nav-details .dropdown-menu a {
   padding: 10px 15px !important;
 }
 
-.dropdown-menu a:not(:last-child) {
+.nav-details .dropdown-menu a:not(:last-child) {
   border-bottom: 2px solid rgb(241, 241, 241) !important;
 }
 
-.dropdown-menu a:hover {
+.nav-details .dropdown-menu a:hover {
   color: rgb(255, 255, 255) !important;
   background-color: #bbbbbc !important;
 }
 
-.dropdown-menu {
+.nav-details .dropdown-menu {
   border: none !important;
-  font-size: 14px !important;
-  font-weight: bold !important;
+
 }
 
-.nav-item .active-nav {
+.nav-details .nav-item .active-nav {
   background-color: #ff7275;
   color: white !important;
 }
 
-.dropdown-menu {
+.nav-details .dropdown-menu {
   --bs-dropdown-zindex: 1000;
   --bs-dropdown-max-width: 18rem !important;
   --bs-dropdown-padding-x: 0;

@@ -10,6 +10,8 @@ import { FaFileImage } from "react-icons/fa";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Url } from "../../../url";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 const Article = () => {
   const [isFileSelected, setIsFileSelected] = useState(false);
@@ -27,6 +29,10 @@ const Article = () => {
 
   const [mainCategory_array, setMainCategory_array] = useState([]);
   const [subCategory_array, setSubCategory_array] = useState([]);
+
+  const cookieData = Cookies.get("token");
+  const token = jwtDecode(cookieData);
+  const user_id = token.userid;
 
   var toolbarOptions = [
     ["bold", "italic", "underline", "strike"],
@@ -153,15 +159,14 @@ const Article = () => {
     formData.append("is_featured", isFeatured);
     formData.append("is_recommended", isRecommended);
     formData.append("is_breaking", isBreaking);
+    formData.append("user_id", user_id);
 
     try {
       await axios.post("http://localhost:3000/api/post/upload", formData);
     } catch (err) {
       console.log(err);
-      console.log(image_default);
     }
   };
-
   useEffect(() => {
     MainCategoryApi();
     subCategoryApi();

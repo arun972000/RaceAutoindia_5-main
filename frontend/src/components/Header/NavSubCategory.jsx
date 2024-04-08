@@ -6,7 +6,7 @@ const NavSubCategory = ({ item,main_title,}) => {
   return (
     <>
       <Link to={`/article/${main_title}/${item.name_slug}`} className="dropdown-item" >
-        {item.name.toUpperCase()}
+        {item.name}
       </Link>
     </>
   );

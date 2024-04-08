@@ -1,6 +1,15 @@
+.footer {
+  position: fixed;
+  bottom: 0;
+  z-index: -1;
+width: 100%;
+}
+
 .footer p {
   font-size: smaller;
 }
+
+
 .footer {
   background-color: #eaeaea;
   color: rgb(0, 0, 0);

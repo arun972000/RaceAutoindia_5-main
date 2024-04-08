@@ -98,7 +98,6 @@ const ArticleList = () => {
   const totalPageApi = async () => {
     try {
       const res = await axios.get(`${Url}api/post/admin-post`);
-
       setTotalItems(res.data.totalPost);
     } catch (err) {
       console.log(err);
@@ -166,6 +165,7 @@ const ArticleList = () => {
         `${Url}api/post/admin-post?username=${selectedUsers}&mainCategory=${selectedCategory}&subCategory=${selectedSubCategory}&offset=${currentPage}`
       );
       setData(res.data.data);
+      
       setTotalItems(res.data.totalPost);
       handleClose();
       subCategoryValue();

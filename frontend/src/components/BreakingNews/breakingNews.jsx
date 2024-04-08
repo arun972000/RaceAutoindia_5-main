@@ -6,6 +6,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Url } from "../../url";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const BreakingNews = () => {
   const settings = {
@@ -40,7 +41,9 @@ const BreakingNews = () => {
 
   const breakingNewsData = data.map((item) => (
     <div key={item.id}>
-      <p>{item.title}</p>
+       <Link className="link-style" to={`/post/${item.title_slug}`}>
+      <p className="p-0 m-0">{item.title}</p>
+      </Link>
     </div>
   ));
 
@@ -49,7 +52,7 @@ const BreakingNews = () => {
       <div className="col-auto mt-3">
         <span className="News__label text-center">Breaking News</span>
       </div>
-      <div className="col-md-10 mt-3">
+      <div className="col-md-10 mt-3 breaking-news__content">
         <Slider {...settings}>{breakingNewsData}</Slider>
       </div>
     </div>

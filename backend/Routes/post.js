@@ -97,13 +97,13 @@ postRoutes.get("/admin-post", async (req, res) => {
     queryParams.push(filterParams.username);
   }
 
-  if (filterParams.mainCategory && filterParams.mainCategory !== '') {
+  if (filterParams.mainCategory && filterParams.mainCategory !== "") {
     query += ` AND parent_id = ?`;
     totalPostQuery += ` AND parent_id = ?`;
     queryParams.push(filterParams.mainCategory);
   }
 
-  if (filterParams.subCategory && filterParams.subCategory !== '') {
+  if (filterParams.subCategory && filterParams.subCategory !== "") {
     query += ` AND name_slug = ?`;
     totalPostQuery += ` AND name_slug = ?`;
     queryParams.push(filterParams.subCategory);
@@ -195,12 +195,19 @@ postRoutes.put("/sliderEdit", async (req, res) => {
   }
 });
 
-postRoutes.put("/update/:id", async (req, res) => {
+postRoutes.put("/update/:id", singleUpload, async (req, res) => {
   try {
     const { id } = req.params;
-
-    let { is_breaking, is_featured, is_slider } = req.body;
-
+    let {
+      title,
+      content,
+      summary,
+      is_breaking,
+      is_featured,
+      is_slider,
+      keywords,
+      category_id,
+    } = req.body;
     const [row] = await db.execute(
       `SELECT is_slider, is_breaking, is_featured FROM posts WHERE id = ${id}`
     );
@@ -216,10 +223,67 @@ postRoutes.put("/update/:id", async (req, res) => {
       is_slider = row[0].is_featured;
     }
 
-    const query = [is_breaking, is_featured, is_slider];
+    if (req.file !== undefined) {
+      const image_default = "./public/postUpload/" + req.file.originalname;
+      const image_big = "./public/postUpload/750" + req.file.originalname;
+      const image_small = "./public/postUpload/140" + req.file.originalname;
+      const image_mid = "./public/postUpload/380" + req.file.originalname;
 
+      try {
+        await fs.promises.access("./public/postUpload");
+      } catch (err) {
+        if (err.code === "ENOENT") {
+          await fs.promises.mkdir("./public/postUpload");
+        } else {
+          throw err;
+        }
+      }
+
+      const query = [
+        title,
+        content,
+        summary,
+        is_breaking,
+        is_featured,
+        is_slider,
+        image_default,
+        image_big,
+        image_mid,
+        image_small,
+        keywords,
+        category_id,
+      ];
+
+      const [results] = await db.execute(
+        `UPDATE posts SET title = ?, content = ?, summary = ?, is_breaking = ?, is_featured = ?, is_slider = ?, image_default = ?, image_big = ?, image_mid = ?, image_small = ?, keywords = ?, category_id = ? WHERE id = ${id}`,
+        query
+      );
+
+      await sharp(`./public/postUpload/${req.file.originalname}`)
+        .resize(750, 500)
+        .toFile(image_big);
+      await sharp(`./public/postUpload/${req.file.originalname}`)
+        .resize(140, 90)
+        .toFile(image_small);
+      await sharp(`./public/postUpload/${req.file.originalname}`)
+        .resize(380, 226)
+        .toFile(image_mid);
+
+      return res.json(results);
+    }
+
+    const query = [
+      title,
+      content,
+      summary,
+      is_breaking,
+      is_featured,
+      is_slider,
+      keywords,
+      category_id,
+    ];
     const [results] = await db.execute(
-      `UPDATE posts SET is_breaking = ?, is_featured = ?, is_slider = ? WHERE id = ${id}`,
+      `UPDATE posts SET title = ?, content = ?, summary = ?, is_breaking = ?, is_featured = ?, is_slider = ?, keywords = ?, category_id = ? WHERE id = ${id}`,
       query
     );
 
@@ -233,6 +297,7 @@ postRoutes.put("/update/:id", async (req, res) => {
 postRoutes.post("/upload", singleUpload, async (req, res) => {
   try {
     const { originalname } = req.file;
+
     const {
       title,
       keywords,
@@ -243,15 +308,14 @@ postRoutes.post("/upload", singleUpload, async (req, res) => {
       is_recommended,
       is_breaking,
       category_id,
+      user_id
     } = req.body;
-    const title_slug = title.split(" ").join("-");
 
     const image_default = "./public/postUpload/" + originalname;
-    const image_big = "./public/postUpload/750" + originalname;
-    const image_small = "./public/postUpload/140" + originalname;
-    const image_mid = "./public/postUpload/380" + originalname;
+    const image_big = "./public/postUpload/" + "750" + originalname;
+    const image_small = "./public/postUpload/" + "140" + originalname;
+    const image_mid = "./public/postUpload/" + "380" + originalname;
 
-    // Create directories if they don't exist
     try {
       await fs.promises.access("./public/postUpload");
     } catch (err) {
@@ -264,7 +328,6 @@ postRoutes.post("/upload", singleUpload, async (req, res) => {
 
     const query = [
       title,
-      title_slug,
       keywords,
       summary,
       content,
@@ -282,29 +345,29 @@ postRoutes.post("/upload", singleUpload, async (req, res) => {
     await db.execute(
       `
       INSERT INTO posts (
-        title, title_slug, keywords, summary, content, category_id, image_big, image_default, 
-        image_mid, image_small, is_slider, is_featured, is_recommended,
+        title, keywords, summary, content, category_id, image_big, image_default, 
+        image_mid, image_small, is_slider, is_featured, is_recommended,user_id,
         is_breaking
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
       query
     );
 
     // Resize images
-    await sharp(`postUpload/${originalname}`)
+    await sharp(`./public/postUpload/${originalname}`)
       .resize(750, 500)
       .toFile(image_big);
-    await sharp(`postUpload/${originalname}`)
+    await sharp(`./public/postUpload/${originalname}`)
       .resize(140, 90)
       .toFile(image_small);
-    await sharp(`postUpload/${originalname}`)
+    await sharp(`./public/postUpload/${originalname}`)
       .resize(380, 226)
       .toFile(image_mid);
 
-    console.log("Post submitted successfully");
-    res.status(200).json({ message: "Post submitted successfully" });
+    // Send response to client
+    res.status(200).json({ message: "post submitted successfully" });
   } catch (err) {
-    console.error(err);
+    console.log(err);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -439,17 +502,20 @@ postRoutes.get("/slider", async (req, res) => {
   }
 });
 
-postRoutes.get("/singlePost/:title_slug",async(req,res)=>{
-  try{
-    const {title_slug}=req.params;
+postRoutes.get("/singlePost/:title_slug", async (req, res) => {
+  try {
+    const { title_slug } = req.params;
 
-    const [results]=await db.execute(`SELECT id, title, image_big, summary, content,created_at FROM posts WHERE title_slug = ?`,[title_slug])
-    res.json(results)
-  }catch(err){
+    const [results] = await db.execute(
+      `SELECT id, title, image_big, summary, content,created_at FROM posts WHERE title_slug = ?`,
+      [title_slug]
+    );
+    res.json(results);
+  } catch (err) {
     console.error("Error:", err);
     res.status(500).send("Internal Server Error");
   }
-})
+});
 
 postRoutes.get("/single/:id", async (req, res) => {
   try {
@@ -477,7 +543,7 @@ postRoutes.get("/single/:id", async (req, res) => {
           main_category_slug: findParent.name_slug,
         };
       } else {
-        return { ...item, main_category: null, main_category_slug: null };
+        return { ...item, main_category: "", main_category_slug: "" };
       }
     });
 

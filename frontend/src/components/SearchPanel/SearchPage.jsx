@@ -62,6 +62,7 @@ const SearchPage = () => {
   return (
     <>
       <MyNavbar />
+      <div className="main-content__position">
       <div className="container mt-3">
         <div className="row">
           <div className="col-lg-8 mt-3">
@@ -101,6 +102,7 @@ const SearchPage = () => {
           </div>
           <SideContent />
         </div>
+      </div>
       </div>
       <Footer />
     </>

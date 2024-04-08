@@ -3,6 +3,7 @@
 import { Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./PostList.css";
+import { Url } from "../../url";
 
 const PostListCard = ({ item }) => {
   const months = [
@@ -28,7 +29,7 @@ const PostListCard = ({ item }) => {
     const year = date.getFullYear();
     return `${month} ${day}, ${year}`;
   };
-
+{console.log(item.image_mid)}
   return (
     <Col md={6} className="mb-3">
       <Card className="border-0 bg-transparent ">
@@ -36,7 +37,7 @@ const PostListCard = ({ item }) => {
           <div className="image-container">
             <Card.Img
               variant="top"
-              src={`https://raceautoindia.com/${item.image_mid}`}
+              src={`${Url}${item.image_mid}`}
               className="varient-image"
               style={{
                 aspectRatio: "16/9",

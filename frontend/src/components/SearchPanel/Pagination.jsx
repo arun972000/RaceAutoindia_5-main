@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
+import { Link } from "react-router-dom";
 
 const Pagination = ({ data }) => {
   const months = [
@@ -44,6 +45,7 @@ const Pagination = ({ data }) => {
       <div className="items">
         {currentItems.map((item) => (
           <div className="col-12 mt-3" key={item.id}>
+             <Link className="link-style" to={`/post/${item.title_slug}`}>
             <div className="row">
               <div className="col-md-4">
                 <img
@@ -57,6 +59,7 @@ const Pagination = ({ data }) => {
                 <p>{formatDate(item.created_at)}</p>
               </div>
             </div>
+            </Link>
           </div>
         ))}
       </div>

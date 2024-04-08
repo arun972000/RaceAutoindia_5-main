@@ -1,14 +1,14 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Url } from "../../url.js";
 import axios from "axios";
 
 import PopularCard from "./PopularCard.jsx";
-import { ThemeDataContext } from "../Theme/Theme.jsx";
+// import { ThemeDataContext } from "../Theme/Theme.jsx";
 
 const PopularPost = () => {
   const [data, setData] = useState([]);
 
-  const theme = useContext(ThemeDataContext);
+  // const theme = useContext(ThemeDataContext);
 
   const popularApi = async () => {
     try {
@@ -26,9 +26,9 @@ const PopularPost = () => {
     <>
       <h6
         style={{
-          backgroundColor: "#ffe900",
+          backgroundColor: "#1d5dec",
           padding: 5,
-          color: "black",
+          color:"white"
         }}
       >
         POPULAR POSTS

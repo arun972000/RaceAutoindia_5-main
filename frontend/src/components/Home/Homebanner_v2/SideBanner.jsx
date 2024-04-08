@@ -19,7 +19,7 @@ const SideBanner = ({ item }) => {
           style={{ aspectRatio: "16/9", objectFit: "fill" }}
         />
         <div className="home__overlay--text">
-          <h6>{item.title}</h6>
+          <h6>{item.title.slice(0,80)}</h6>
           <p>Date Posted: {new Date(item.created_at).toLocaleDateString()}</p>
         </div>
       </div>

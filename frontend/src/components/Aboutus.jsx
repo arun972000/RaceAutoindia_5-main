@@ -29,6 +29,7 @@ const AboutUsPage = () => {
   return (
     <>
       <MyNavbar />
+      <div className="main-content__position">
       <div className="container mt-5">
         <div
           style={{
@@ -40,6 +41,7 @@ const AboutUsPage = () => {
             __html: DOMPurify.sanitize(data),
           }}
         ></div>
+      </div>
       </div>
       <Footer />
     </>

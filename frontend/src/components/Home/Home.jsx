@@ -3,13 +3,15 @@ import MyNavbar from "../Header/Navbar";
 import SideContent from "../SideContent/SideContent";
 import HomeContentMiddle from "./HomeContentMiddle";
 import HomeContentTop from "./HomeContentTop";
+import "./home.css"
 
 const Home = () => {
   return (
     <>
       {/* <TopLogo /> */}
       <MyNavbar />
-      <div className="container">
+      <div className="main-content__position">
+      <div className="container ">
         <div className="row">
           <div className="col-12">
             <HomeContentTop />
@@ -21,6 +23,7 @@ const Home = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
       <Footer/>
     </>

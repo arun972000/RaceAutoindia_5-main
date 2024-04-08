@@ -9,6 +9,7 @@ import Varient3 from "../Post_varients/Varient 3/Varient3";
 import Varient4 from "../Post_varients/Varient 4/Varient4";
 import { useEffect, useState } from "react";
 import Varient5 from "../Post_varients/Varient 5/Varient5";
+import "./HomepageCategory.css"
 
 const HomepageCategory = ({ postData }) => {
   const [data, setData] = useState([]);
@@ -66,7 +67,7 @@ const HomepageCategory = ({ postData }) => {
               fontStyle: "normal",
               padding: 5,
               paddingLeft: 10,
-              fontSize: 50,
+              
             }}
           >
             {postData.name}

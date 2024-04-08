@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
-
 import { useEffect, useMemo, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useCallback } from "react";
@@ -12,28 +11,25 @@ import "react-quill/dist/quill.snow.css";
 import { Url } from "../../../url";
 import { useParams } from "react-router-dom";
 import EditorToolbar, { formats, modules } from "./TextEditor/Toolbar";
-// import , { modules, formats } from "./EditorToolbar";
+
 const ArticleEdit = () => {
   const { id } = useParams();
-  const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    isBreaking: "",
-    isFeatured: "",
-    isSlider: "",
-    summary: "",
-    keywords: "",
-    image_default: "",
-  });
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [isBreaking, setIsBreaking] = useState("");
+  const [isFeatured, setIsFeatured] = useState("");
+  const [isSlider, setIsSlider] = useState("");
+  const [summary, setSummary] = useState("");
+  const [keywords, setKeywords] = useState("");
+  const [imageDefault, setImageDefault] = useState("");
   const [isFileSelected, setIsFileSelected] = useState(false);
+  const [categoryMain, setCategoryMain] = useState("");
+  const [categorySub, setCategorySub] = useState("");
+  const [mainCategoryArray, setMainCategoryArray] = useState([]);
+  const [subCategoryArray, setSubCategoryArray] = useState([]);
 
-  const [category_main, setCategory_main] = useState("");
-  const [category_sub, setCategory_sub] = useState("");
-
-  const [image_default, setImage_default] = useState(null);
-  const [mainCategory_array, setMainCategory_array] = useState([]);
-  const [subCategory_array, setSubCategory_array] = useState([]);
-
+  // Dropzone styles
   const baseStyle = {
     flex: 1,
     display: "flex",
@@ -63,8 +59,8 @@ const ArticleEdit = () => {
   };
 
   const onDrop = useCallback((acceptedFiles) => {
-    setImage_default(acceptedFiles[0]);
-    setFormData.image_default(true);
+    setImageDefault(acceptedFiles[0]);
+    setIsFileSelected(true);
   }, []);
 
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
@@ -83,20 +79,21 @@ const ArticleEdit = () => {
   const formDetailApi = async () => {
     try {
       const res = await axios.get(`${Url}api/post/single/${id}`);
+      const data = res.data[0];
+      
+      setTitle(data.title);
+      setContent(data.content);
+      setSummary(data.summary);
+      setIsBreaking(data.is_breaking);
+      setIsFeatured(data.is_featured);
+      setIsSlider(data.is_slider);
+      setKeywords(data.keywords);
+      setImageDefault(data.image_mid);
+      setCategoryMain(data.parent_id);
+      setCategorySub(data.category_id);
 
-      setFormData({
-        ...formData,
-        title: res.data[0].title,
-        content: res.data[0].content,
-        summary: res.data[0].summary,
-        isBreaking: res.data[0].is_breaking,
-        isFeatured: res.data[0].is_featured,
-        isSlider: res.data[0].is_slider,
-        image_default: res.data[0].image_mid,
-        keywords: res.data[0].keywords,
-      });
-      setCategory_main(res.data[0].parent_id);
-      setCategory_sub(res.data[0].category_id);
+
+      
     } catch (err) {
       console.log(err);
     }
@@ -105,7 +102,7 @@ const ArticleEdit = () => {
   const MainCategoryApi = async () => {
     try {
       const res = await axios.get(`${Url}api/category/categoryList`);
-      setMainCategory_array(res.data);
+      setMainCategoryArray(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -113,10 +110,8 @@ const ArticleEdit = () => {
 
   const subCategoryApi = async () => {
     try {
-      const res = await axios.get(
-        `${Url}api/category/main_sub/${category_main}`
-      );
-      setSubCategory_array(res.data.data);
+      const res = await axios.get(`${Url}api/category/main_sub/${categoryMain}`);
+      setSubCategoryArray(res.data.data);
     } catch (err) {
       console.log(err);
     }
@@ -124,40 +119,43 @@ const ArticleEdit = () => {
 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
-    setFormData({ ...formData, [name]: checked ? 1 : 0 });
+    switch(name) {
+      case 'isSlider':
+        setIsSlider(checked ? 1 : 0);
+        break;
+      case 'isFeatured':
+        setIsFeatured(checked ? 1 : 0);
+        break;
+      case 'isBreaking':
+        setIsBreaking(checked ? 1 : 0);
+        break;
+      default:
+        break;
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      !formData.title ||
-      !formData.content ||
-      !formData.summary ||
-      !formData.category_main ||
-      !formData.category_sub ||
-      !formData.keywords ||
-      !formData.image_default
-    ) {
+    if (!title || !content || !summary || !categoryMain || !categorySub || !keywords || !imageDefault) {
       alert("Please fill in all required fields.");
       return;
     }
 
-    // const formData = new FormData();
-
-    // formData.append("title", title);
-    // formData.append("content", content);
-    // formData.append("summary", summary);
-    // formData.append("category_id", category_sub);
-    // formData.append("keywords", keywords);
-    // formData.append("image_default", image_default);
-    // formData.append("is_slider", isSlider);
-    // formData.append("is_featured", isFeatured);
-    // formData.append("is_recommended", isRecommended);
-    // formData.append("is_breaking", isBreaking);
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("summary", summary);
+    formData.append("category_id", categorySub);
+    formData.append("keywords", keywords);
+    formData.append("image_default", imageDefault);
+    formData.append("is_slider", isSlider);
+    formData.append("is_featured", isFeatured);
+    formData.append("is_breaking", isBreaking);
 
     try {
-      await axios.post("http://localhost:3000/api/post/upload", formData);
+      await axios.put(`http://localhost:3000/api/post/update/${id}`, formData);
+      console.log("updated");
     } catch (err) {
       console.log(err);
     }
@@ -170,12 +168,11 @@ const ArticleEdit = () => {
   useEffect(() => {
     MainCategoryApi();
     subCategoryApi();
-  }, [category_main]);
-
-
+  }, [categoryMain]);
+  
   return (
     <div className="col-12">
-      <div className="shadow-sm p-3 mb-5  mt-5 bg-white rounded border-0">
+      <div className="shadow-sm p-3 mb-5 mt-5 bg-white rounded border-0">
         <div className="row">
           <div className="col-md-6">
             <Form.Group controlId="formTitle" className="mb-3">
@@ -183,14 +180,21 @@ const ArticleEdit = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter title"
-                value={formData.title}
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 required
               />
             </Form.Group>
-
+            <Form.Group controlId="formkeywords" className="mb-3">
+              <Form.Label>Summary</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter keywords"
+                value={summary}
+                onChange={(e) => setSummary(e.target.value)}
+                required
+              />
+            </Form.Group>
             <Form.Group controlId="formContent" className="mb-3">
               <Form.Label>Content</Form.Label>
               <EditorToolbar />
@@ -198,21 +202,8 @@ const ArticleEdit = () => {
                 modules={modules}
                 formats={formats}
                 theme="snow"
-                value={formData.content}
-                onChange={(content) => setFormData({ ...formData, content })}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="formkeywords" className="mb-3">
-              <Form.Label>Keywords</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter keywords"
-                value={formData.summary}
-                onChange={(e) =>
-                  setFormData({ ...formData, summary: e.target.value })
-                }
-                required
+                value={content}
+                onChange={(value) => setContent(value)}
               />
             </Form.Group>
           </div>
@@ -221,10 +212,10 @@ const ArticleEdit = () => {
               <Form.Label>Category</Form.Label>
               <Form.Control
                 as="select"
-                value={category_main}
-                onChange={(e) => setCategory_main(e.target.value)}
+                value={categoryMain}
+                onChange={(e) => setCategoryMain(e.target.value)}
               >
-                {mainCategory_array.map((item) => (
+                {mainCategoryArray.map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.name}
                   </option>
@@ -235,13 +226,11 @@ const ArticleEdit = () => {
               <Form.Label>Sub Category</Form.Label>
               <Form.Control
                 as="select"
-                value={category_sub}
-                onChange={(e) =>
-                  setFormData({ ...formData, category_sub: e.target.value })
-                }
+                value={categorySub}
+                onChange={(e) => setCategorySub(e.target.value)}
                 required
               >
-                {subCategory_array.map((item) => (
+                {subCategoryArray.map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.name}
                   </option>
@@ -253,7 +242,7 @@ const ArticleEdit = () => {
               id="sliderCheckbox"
               name="isSlider"
               label="Is Slider"
-              checked={formData.isSlider === 1}
+              checked={isSlider === 1}
               onChange={handleCheckboxChange}
             />
             <Form.Check
@@ -261,7 +250,7 @@ const ArticleEdit = () => {
               id="featuredCheckbox"
               name="isFeatured"
               label="Is Featured"
-              checked={formData.isFeatured === 1}
+              checked={isFeatured === 1}
               onChange={handleCheckboxChange}
             />
             <Form.Check
@@ -269,23 +258,19 @@ const ArticleEdit = () => {
               id="breakingCheckbox"
               name="isBreaking"
               label="Is Breaking"
-              checked={formData.isBreaking === 1}
+              checked={isBreaking === 1}
               onChange={handleCheckboxChange}
             />
-
             <Form.Group controlId="formKeywords" className="mb-3">
               <Form.Label>Keywords</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter keywords"
-                value={formData.keywords}
-                onChange={(e) =>
-                  setFormData({ ...formData, keywords: e.target.value })
-                }
+                value={keywords}
+                onChange={(e) => setKeywords(e.target.value)}
                 required
               />
             </Form.Group>
-
             <Form.Group controlId="image_default" className="mb-3">
               <Form.Label>Select Image</Form.Label>
               <div {...getRootProps({ style })}>
@@ -299,14 +284,11 @@ const ArticleEdit = () => {
                 ) : (
                   <div className="text-center">
                     <FaFileImage className="mb-3" style={{ fontSize: 35 }} />
-                    <p>
-                      Drag 'n' drop image files here, or click to select files
-                    </p>
+                    <p>Drag 'n' drop image files here, or click to select files</p>
                   </div>
                 )}
               </div>
             </Form.Group>
-
             <Button variant="primary" onClick={handleSubmit}>
               Submit
             </Button>

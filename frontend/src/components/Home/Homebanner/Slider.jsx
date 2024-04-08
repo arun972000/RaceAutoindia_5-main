@@ -10,33 +10,34 @@ import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
 import axios from "axios";
 import { Url } from "../../../url";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 // install Swiper modules
 
 const SliderImage = () => {
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+  // const months = [
+  //   "January",
+  //   "February",
+  //   "March",
+  //   "April",
+  //   "May",
+  //   "June",
+  //   "July",
+  //   "August",
+  //   "September",
+  //   "October",
+  //   "November",
+  //   "December",
+  // ];
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const monthIndex = date.getMonth();
-    const month = months[monthIndex];
-    const day = date.getDate();
-    const year = date.getFullYear();
-    return `${month} ${day}, ${year}`;
-  };
+  // const formatDate = (dateString) => {
+  //   const date = new Date(dateString);
+  //   const monthIndex = date.getMonth();
+  //   const month = months[monthIndex];
+  //   const day = date.getDate();
+  //   const year = date.getFullYear();
+  //   return `${month} ${day}, ${year}`;
+  // };
 
   const [data, setData] = useState([]);
 
@@ -76,11 +77,13 @@ const SliderImage = () => {
         {data.map((i, el) => {
           return (
             <SwiperSlide key={el}>
+              <Link className="link-style" to={`/post/${i.title_slug}`}>
               <img
                 src={`https://raceautoindia.com/${i.image_mid}`}
                 className="img-fluid image__slider"
                 alt="Responsive image"
               />
+              </Link>
             </SwiperSlide>
           );
         })}

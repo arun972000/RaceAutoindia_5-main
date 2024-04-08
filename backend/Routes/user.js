@@ -78,7 +78,7 @@ loginRoutes.post("/login", async (req, res) => {
           return res.status(400).send("invalid credentials");
         } else {
           const token = jwt.sign(
-            { email: payload.email, role: verifyEmail[0].role },
+            { email: payload.email, userid:verifyEmail[0].id, role: verifyEmail[0].role },
             process.env.JWT_KEY
           );
 

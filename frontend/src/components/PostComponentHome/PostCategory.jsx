@@ -32,7 +32,7 @@ const PostCategory = () => {
   return (
     <>
       {showHome_1}
-< MyComponent />
+{/* < MyComponent /> */}
       {showHome_2}
       <div className="col-12 mt-3 d-flex justify-content-center">
         <Ad__90_728_1 />

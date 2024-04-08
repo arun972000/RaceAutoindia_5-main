@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unknown-property */
 import axios from "axios";
 
@@ -83,11 +84,11 @@ function MyNavbar() {
               <FaUser /> <span className="ms-3">USER</span>
             </button>
             <ul className="dropdown-menu " aria-labelledby="dropdownMenuButton">
-              <li>
+              {/* <li>
                 <a className="dropdown-item" href="#">
                   Profile
                 </a>
-              </li>
+              </li> */}
               <li>
                 <Link className="dropdown-item" to="/admin">
                   Admin
@@ -175,8 +176,8 @@ function MyNavbar() {
       <nav
         className={
           theme.theme
-            ? "navbar shadow navbar-expand-lg navbar-light bg-light"
-            : "navbar shadow navbar-expand-lg navbar-dark bg-dark"
+            ? "navbar shadow navbar-expand-lg navbar-light bg-light nav-details"
+            : "navbar shadow navbar-expand-lg navbar-dark bg-dark nav-details"
         }
       >
          {!scrollvalue ? <div className="d-flex flex-column">
@@ -209,7 +210,7 @@ function MyNavbar() {
                       sessionStorage.setItem("activeItem", "home");
                     }}
                   >
-                    HOME
+                   Home
                   </Link>
                 </li>
                 {Main_Category}
@@ -225,15 +226,13 @@ function MyNavbar() {
                       setActive("more");
                     }}
                   >
-                    MORE
+                    More
                   </a>
                   <div className="dropdown-menu">
-                    <a className="dropdown-item" href="#">
-                      CONTACT
-                    </a>
-                    <a className="dropdown-item" href="#">
-                      ABOUT US
-                    </a>
+                    <Link to ="/newsletter" className="dropdown-item" href="#">
+                     NewsLetter
+                    </Link>
+                    
                   </div>
                 </li>
               </ul>
@@ -328,7 +327,7 @@ function MyNavbar() {
               src={logo2}
               className="img-fluid mx-3"
               alt="Responsive image"
-              width="60px"
+              width="45px"
             />
           </Link>
           <button
@@ -361,7 +360,7 @@ function MyNavbar() {
                     sessionStorage.setItem("activeItem", "home");
                   }}
                 >
-                  HOME
+                  Home
                 </Link>
               </li>
               {Main_Category}
@@ -377,15 +376,13 @@ function MyNavbar() {
                     setActive("more");
                   }}
                 >
-                  MORE
+                  More
                 </a>
                 <div className="dropdown-menu">
-                  <a className="dropdown-item" href="#">
-                    CONTACT
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    ABOUT US
-                  </a>
+                  <Link to ="/newsletter" className="dropdown-item" href="#">
+                    NewsLetter
+                  </Link>
+                 
                 </div>
               </li>
             </ul>

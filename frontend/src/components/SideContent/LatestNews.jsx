@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Url } from "../../url";
 import "./Sidebar.css";
+import { Link } from "react-router-dom";
 
 const LatestNews = () => {
   const scrollContainerStyle = { width: "350px", maxHeight: "300px" };
@@ -29,7 +30,9 @@ const LatestNews = () => {
       >
         {data.map((item) => (
           <div key={item.id} className="pe-2">
+            <Link className="link-style" to={`/post/${item.title_slug}`}>
             <p>{item.title}</p>
+            </Link>
             <hr />
           </div>
         ))}

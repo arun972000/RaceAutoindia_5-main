@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import Card from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom';
 
 const PopularCard = ({ item }) => {
 
@@ -17,10 +18,12 @@ const PopularCard = ({ item }) => {
 
   return (
     <Card className="border-0 mt-3">
+      <Link className="link-style" to={`/post/${item.title_slug}`}>
       <Card.Body>
         <div className="row">
           <div className="col-6">
             <div className="image-container">
+            
               <Card.Img
                 variant="top"
                 src={`https://raceautoindia.com/${item.image_mid}`}
@@ -38,6 +41,7 @@ const PopularCard = ({ item }) => {
           </div>
         </div>
       </Card.Body>
+      </Link>
     </Card>
   );
 };

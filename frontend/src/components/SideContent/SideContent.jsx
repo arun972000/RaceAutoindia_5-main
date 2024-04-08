@@ -8,13 +8,13 @@ const SideContent = () => {
     <>
       <div className="col-lg-4">
         <div className="row mt-3">
-          {/* <div className="col-12 d-flex justify-content-center">
+          <div className="col-12 d-flex justify-content-center">
             <ReactPlayer
               url="https://www.youtube.com/watch?v=Q3YBcEpJIK4"
               controls
               height="250px"
             />
-          </div> */}
+          </div>
         </div>
         <div className="row mt-3">
           <div className="col-12">

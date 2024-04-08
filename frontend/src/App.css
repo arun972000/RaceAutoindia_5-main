@@ -2,90 +2,37 @@
   font-family: "Montserrat", sans-serif;
 }
 
-.app.red {
-  background-color: rgb(255, 255, 255) !important;
-  color: rgb(0, 0, 0) !important;
-
-  .card {
-    background-color: rgb(255, 255, 255) !important;
-    color: rgb(0, 0, 0);
+.main-content__position{
+  min-height: 100vh;
+    padding-top: 0;
+    position: relative;
+    z-index: 1;
+  margin-bottom: 300px;
+  background-color: white;
   }
 
-  a {
-    text-decoration: none;
+  :root {
+    --bg-dark: #121212;
   }
-
-  .position-Nav .navbar {
-    background-color: #bbbbbc !important;
-    color: rgb(255, 255, 255) !important;
-  }
-
-  .roboto-black {
-    font-family: "Roboto", sans-serif;
-    font-weight: 900;
-    font-style: normal;
-  }
-
-  .position-Nav .navbar ul li a {
-    font-family: "Roboto", sans-serif;
-    font-weight: 900;
-    font-style: normal;
-    font-size: 17px !important;
-    color: rgb(255, 255, 255) !important;
-  }
-  .position-Nav .navbar .dropdown-menu {
-    color: rgb(0, 0, 0) !important;
-    background-color: rgb(255, 255, 255) !important;
-  }
-
-  .position-Nav .navbar .dropdown-menu a {
-    color: rgb(0, 0, 0) !important;
-    background-color: rgb(255, 255, 255) !important;
-  }
-
-  .position-Nav .nav-item .nav-link:hover {
-    background-color: #ffffff !important;
-    color: rgb(0, 0, 0) !important;
-  }
-
-  .position-Nav .dropdown:hover .dropdown-toggle {
-    background-color: #ffffff !important;
-    color: rgb(0, 0, 0) !important;
-  }
-
-  .position-Nav .nav-item .active-nav {
-    background-color: #ffffff;
-    color: rgb(0, 0, 0) !important;
-  }
-  .position-Nav .dropdown-menu a:hover {
-    background-color: rgb(254, 199, 1) !important;
-    color: rgb(255, 255, 255) !important;
-  }
-  .card-heading:hover {
-    color: #01e3b0;
-  }
-  .footer {
-    background-color: #01e3b0;
-    color: white;
-  }
-}
 
 .dark {
-  background-color: #121212 !important;
+  
+  background-color: var(--bg-dark) !important;
   color: rgb(255, 255, 255) !important;
 
-  .card {
-    background-color: #121212 !important;
-    color: rgb(255, 255, 255);
-  }
+ 
 
   a {
     text-decoration: none;
   }
 
-  .position-Nav .navbar {
-    background-color: #121212 !important;
-    color:#121212 !important;
+  .card {
+    background-color: var(--bg-dark) !important;
+    color: rgb(255, 255, 255);
+  }
+  .navbar {
+    background-color: var(--bg-dark) !important;
+    color:#ffffff !important;
   }
 
   .roboto-black {
@@ -94,49 +41,72 @@
     font-style: normal;
   }
 
-  .position-Nav .navbar ul li a {
+   .navbar ul li a {
     font-family: "Roboto", sans-serif;
     font-weight: 900;
     font-style: normal;
     font-size: 17px !important;
     color: rgb(255, 255, 255) !important;
   }
-  .position-Nav .navbar .dropdown-menu {
+
+
+   .navbar .dropdown-menu {
     color: rgb(255, 255, 255) !important;
-    background-color: #121212 !important;
+    background-color: var(--bg-dark) !important;
   }
 
-  .position-Nav .navbar .dropdown-menu a {
+  .navbar .dropdown-menu a {
     color: rgb(255, 255, 255) !important;
-    background-color:#121212 !important;
+    background-color:var(--bg-dark) !important;
   }
 
-  .position-Nav .nav-item .nav-link:hover {
+  .nav-details .nav-item .nav-link:hover {
     background-color: #ffffff !important;
-    color: #121212 !important;
+    color: var(--bg-dark) !important;
   }
 
-  .position-Nav .dropdown:hover .dropdown-toggle {
-    background-color: #ffffff !important;
-    color: #121212 !important;
+  .nav-details .dropdown:hover .dropdown-toggle {
+    background-color:  var(--bg-dark) !important;
+color: white !important;
   }
 
-  .position-Nav .nav-item .active-nav {
+  .nav-details .nav-item .active-nav {
     background-color: #ffffff;
-    color: #121212 !important;
+    color: var(--bg-dark) !important;
   }
-  .position-Nav .dropdown-menu a:hover {
+  .nav-details .dropdown-menu a:hover {
     background-color: #ff7275 !important;
     color: rgb(255, 255, 255) !important;
   }
   .card-heading:hover {
     color: #ff7275;
   }
+  .main-content__position{
+    min-height: 100vh;
+      padding-top: 0;
+      position: relative;
+      z-index: 1;
+    margin-bottom: 215px;
+    background-color: var(--bg-dark);
+    }
+ 
+
+   
+
   .footer {
-    background-color: #121212;
+    background-color:var(--bg-dark);
     color: rgb(255, 255, 255);
   }
 }
+
+
+.main-content__position{
+  min-height: 100vh;
+    padding-top: 0;
+    position: relative;
+    z-index: 1;
+  margin-bottom: 250px;
+  }
 
 img {
   border-radius: 0;
@@ -150,3 +120,4 @@ img {
 a {
   text-decoration: none;
 }
+

@@ -25,14 +25,15 @@ const HomeBannerV3 = () => {
     useEffect(() => {
         sideBannerApi()
     }, [])
-    const sideBannerData = data.map(item => (<SideBanner item={item} key={item.id} />)).slice(0,2)
+    const sideBannerData1 = data.map(item => (<SideBanner item={item} key={item.id} />)).slice(0,2)
+    const sideBannerData2 = data.map(item => (<SideBanner item={item} key={item.id} />)).slice(2,4)
 
     return (
 
         <Row className="g-2 mb-4">
             <Col lg={3}>
                 <Row className="">
-                    {sideBannerData}
+                    {sideBannerData1}
                 </Row>
             </Col>
 
@@ -41,7 +42,7 @@ const HomeBannerV3 = () => {
             </Col>
             <Col lg={3}>
                 <Row className="">
-                    {sideBannerData}
+                    {sideBannerData2}
                 </Row>
             </Col>
         </Row>

@@ -12,7 +12,7 @@ const Contact = () => {
   return (
     <>
       <MyNavbar />
-
+<div className="main-content__position">
       <div className="container mt-5">
         <div className="row row-contact-text">
           <div className="col-sm-12 font-text">
@@ -145,6 +145,7 @@ const Contact = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
       <Footer />
     </>

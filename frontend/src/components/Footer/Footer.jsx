@@ -12,9 +12,9 @@ const Footer = () => {
       <div className="footer mt-5 pb-2">
         <div className="container">
           <div className="row ">
-            <div className="col-sm-12 mt-3 ">
+            <div className="col mt-3 ">
               <div className="d-flex justify-content-between">
-                <div>
+                <div className="ms-5">
                   <img
                     src={logo}
                     className="img-fluid"
