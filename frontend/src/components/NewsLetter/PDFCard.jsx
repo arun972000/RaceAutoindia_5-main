@@ -11,7 +11,7 @@ const PDFCard = ({ item }) => {
           <Card.Img
             variant="top"
             src={`http://localhost:3000/newsletterUpload/${item.image_url}`}
-            style={{ objectFit: "cover", aspectRatio: "1.142" }}
+            style={{ objectFit: "cover", aspectRatio: "210 / 297" }}
           />
           <Card.Body style={{ padding: "0" }}>
             <Card.Title

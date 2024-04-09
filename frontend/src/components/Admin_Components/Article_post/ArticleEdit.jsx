@@ -11,10 +11,13 @@ import "react-quill/dist/quill.snow.css";
 import { Url } from "../../../url";
 import { useParams } from "react-router-dom";
 import EditorToolbar, { formats, modules } from "./TextEditor/Toolbar";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {useNavigate} from "react-router-dom"
 
 const ArticleEdit = () => {
   const { id } = useParams();
-
+const naviagte=useNavigate()
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isBreaking, setIsBreaking] = useState("");
@@ -26,6 +29,7 @@ const ArticleEdit = () => {
   const [isFileSelected, setIsFileSelected] = useState(false);
   const [categoryMain, setCategoryMain] = useState("");
   const [categorySub, setCategorySub] = useState("");
+  const [imageDescription,setImageDescription]=useState("")
   const [mainCategoryArray, setMainCategoryArray] = useState([]);
   const [subCategoryArray, setSubCategoryArray] = useState([]);
 
@@ -80,7 +84,7 @@ const ArticleEdit = () => {
     try {
       const res = await axios.get(`${Url}api/post/single/${id}`);
       const data = res.data[0];
-      
+console.log(res.data[0])
       setTitle(data.title);
       setContent(data.content);
       setSummary(data.summary);
@@ -91,9 +95,7 @@ const ArticleEdit = () => {
       setImageDefault(data.image_mid);
       setCategoryMain(data.parent_id);
       setCategorySub(data.category_id);
-
-
-      
+      setImageDescription(data.image_description)
     } catch (err) {
       console.log(err);
     }
@@ -110,7 +112,9 @@ const ArticleEdit = () => {
 
   const subCategoryApi = async () => {
     try {
-      const res = await axios.get(`${Url}api/category/main_sub/${categoryMain}`);
+      const res = await axios.get(
+        `${Url}api/category/main_sub/${categoryMain}`
+      );
       setSubCategoryArray(res.data.data);
     } catch (err) {
       console.log(err);
@@ -119,14 +123,14 @@ const ArticleEdit = () => {
 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
-    switch(name) {
-      case 'isSlider':
+    switch (name) {
+      case "isSlider":
         setIsSlider(checked ? 1 : 0);
         break;
-      case 'isFeatured':
+      case "isFeatured":
         setIsFeatured(checked ? 1 : 0);
         break;
-      case 'isBreaking':
+      case "isBreaking":
         setIsBreaking(checked ? 1 : 0);
         break;
       default:
@@ -137,10 +141,7 @@ const ArticleEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title || !content || !summary || !categoryMain || !categorySub || !keywords || !imageDefault) {
-      alert("Please fill in all required fields.");
-      return;
-    }
+
 
     const formData = new FormData();
     formData.append("title", title);
@@ -152,10 +153,24 @@ const ArticleEdit = () => {
     formData.append("is_slider", isSlider);
     formData.append("is_featured", isFeatured);
     formData.append("is_breaking", isBreaking);
+    formData.append("image_description", imageDescription)
 
     try {
       await axios.put(`http://localhost:3000/api/post/update/${id}`, formData);
-      console.log("updated");
+      toast.success('Article updated', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+        setTimeout(() => {
+          naviagte("/admin/articlelist")
+        }, 3000);
+        
     } catch (err) {
       console.log(err);
     }
@@ -169,9 +184,10 @@ const ArticleEdit = () => {
     MainCategoryApi();
     subCategoryApi();
   }, [categoryMain]);
-  
+
   return (
     <div className="col-12">
+      <ToastContainer/>
       <div className="shadow-sm p-3 mb-5 mt-5 bg-white rounded border-0">
         <div className="row">
           <div className="col-md-6">
@@ -204,6 +220,16 @@ const ArticleEdit = () => {
                 theme="snow"
                 value={content}
                 onChange={(value) => setContent(value)}
+              />
+            </Form.Group>
+            <Form.Group controlId="formdescription" className="mb-3">
+              <Form.Label>Image Description</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Image Description"
+                value={imageDescription}
+                onChange={(e) => setImageDescription(e.target.value)}
+                required
               />
             </Form.Group>
           </div>
@@ -284,7 +310,9 @@ const ArticleEdit = () => {
                 ) : (
                   <div className="text-center">
                     <FaFileImage className="mb-3" style={{ fontSize: 35 }} />
-                    <p>Drag 'n' drop image files here, or click to select files</p>
+                    <p>
+                      Drag 'n' drop image files here, or click to select files
+                    </p>
                   </div>
                 )}
               </div>

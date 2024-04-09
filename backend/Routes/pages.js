@@ -17,4 +17,28 @@ pageRoutes.get("/pageData/:slug", async (req, res) => {
   }
 });
 
+pageRoutes.get("/leftBar", async (req, res) => {
+  try {
+    const [results] = await db.execute(`SELECT * FROM pages WHERE id = 20`);
+    res.json(results);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json("internal server");
+  }
+});
+
+pageRoutes.put("/edit-leftbar", async (req, res) => {
+  try {
+    const {visibility} = req.body;
+    const [results] = await db.execute(`UPDATE pages SET visibility = ? WHERE id = 20`, [
+      visibility
+    ]);
+    res.json("updated");
+  } catch (err) {
+    console.log(err);
+    res.status(500).json("internal server error");
+    
+  }
+});
+
 export default pageRoutes;

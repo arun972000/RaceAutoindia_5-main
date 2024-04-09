@@ -4,6 +4,7 @@ import AdminNavbar from "../Admin Navbar/Navbar";
 import SideBar from "../Sidebar";
 import HeaderCode from "./HeaderCode";
 import FontSetting from "./Fontsettings";
+import SidebarVisible from "./sideBarvisible";
 
 const Admin_GeneralSettingsPage = ({ isOpen, handleTrigger }) => {
   return (
@@ -30,6 +31,9 @@ const Admin_GeneralSettingsPage = ({ isOpen, handleTrigger }) => {
                 </Tab>
                 <Tab eventKey="font style" title="font style" className="">
                   <FontSetting />
+                </Tab>
+                <Tab eventKey="sidebar_visible" title="sidebar_visible" className="">
+                  <SidebarVisible />
                 </Tab>
               </Tabs>
             </div>

@@ -58,7 +58,17 @@ const NewsLetterPost = () => {
     }), [isFocused, isDragAccept, isDragReject]);
 
     const handleFileChange = (e) => {
-        setPdf_url(e.target.files[0]);
+        const selectedFile = e.target.files[0];
+        const maxSize = 50 * 1024 * 1024; // 50MB in bytes
+    
+        if (selectedFile && selectedFile.size <= maxSize) {
+          setPdf_url(selectedFile);
+        } else {
+          alert('Please select a file smaller than 50MB.');
+          e.target.value = null; 
+        }
+
+        
     };
 
     const handleKeywordsChange = (e) => {

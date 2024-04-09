@@ -8,6 +8,7 @@ import SideBar from "./Sidebar"
 const Admin_Event = ({isOpen, handleTrigger}) => {
   return (
     <>
+    <div className="admin-panel__elements">
       <div className="container-fluid custom-container-fluid">
         <div className="row d-flex">
         <SideBar isOpen={isOpen} handleTrigger={handleTrigger}/>
@@ -18,6 +19,7 @@ const Admin_Event = ({isOpen, handleTrigger}) => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </>
   )

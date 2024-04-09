@@ -12,6 +12,7 @@ const Edit_subCategory = () => {
   const [description, setDescription] = useState("");
   const [keywords, setKeywords] = useState("");
   const [showOnMenu, setShowOnMenu] = useState(false);
+  const [showOnhomepage, setShowOnhomepage] = useState(false);
   const [main_category, setCategory_main] = useState("");
   const [mainCategory_array, setMainCategory_array] = useState([]);
 
@@ -22,6 +23,7 @@ const Edit_subCategory = () => {
       setDescription(res.data[0].description);
       setKeywords(res.data[0].keywords);
       setShowOnMenu(res.data[0].show_on_menu === 1);
+      setShowOnhomepage(res.data[0].show_at_homepage === 1)
     } catch (err) {
       console.log(err);
     }
@@ -29,17 +31,20 @@ const Edit_subCategory = () => {
 
   const EditApi = async () => {
     try {
-      await axios.put(`${Url}api/category/edit/${id}`, {
+      await axios.put(`${Url}api/category/edit-sub/${id}`, {
         categoryName,
         description,
         keywords,
         show_on_menu: showOnMenu ? 1 : 0,
+show_at_homepage: showOnhomepage ? 1 :0,
         parent_id: main_category,
       });
+      
     } catch (err) {
       console.log(err);
     }
   };
+
 
   const Main_CategoryApi = async () => {
     try {
@@ -126,6 +131,18 @@ const Edit_subCategory = () => {
               />
               <label className="form-check-label" htmlFor="showOnMenu">
                 Show on Menu
+              </label>
+            </div>
+            <div className="mb-3 form-check">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="showOnhomepage"
+                checked={showOnhomepage}
+                onChange={(e) => setShowOnhomepage(e.target.checked)}
+              />
+              <label className="form-check-label" htmlFor="showOnhomepage">
+                Show on Homepage
               </label>
             </div>
 

@@ -15,8 +15,8 @@ const PostList_Main = () => {
 
   const [data, setData] = useState([]);
 
-  const [postTopad, setPostTopAd] = useState("");
-  const [postBottomad, setPostBottomAd] = useState("");
+  const [postTopad, setPostTopAd] = useState({});
+  const [postBottomad, setPostBottomAd] = useState({});
 
   const postAdApi = async () => {
     try {
@@ -26,8 +26,8 @@ const PostList_Main = () => {
       const resfooter = await axios.get(
         `${Url}api/ad_space/single_ad/category_bottom`
       );
-      setPostTopAd(resheader.data[0].ad_code_728);
-      setPostBottomAd(resfooter.data[0].ad_code_728);
+      setPostTopAd({...postTopad, ad_code_728:resheader.data[0].ad_code_728, ad_code_300:resheader.data[0].ad_code_300});
+      setPostBottomAd({...postBottomad,ad_code_728:resfooter.data[0].ad_code_728, ad_code_300:resfooter.data[0].ad_code_300});
     } catch (err) {
       console.log(err);
     }
@@ -54,13 +54,11 @@ const PostList_Main = () => {
       <div className="row my-3">
           <div className="col-12 d-flex justify-content-center">
             <Ad__90_728_1>
-              {postTopad ? (
-                parse(postTopad)
-              ) : window.innerWidth < 600 ? (
-                <img src="https://placehold.co/400x50" alt="Placeholder Ad" />
-              ) : (
-                <img src="https://placehold.co/728x90" alt="Placeholder Ad" />
-              )}
+            {window.innerWidth < 600 ? (
+              parse(String(postTopad.ad_code_300))
+            ) : (
+              parse(String(postTopad.ad_code_728))
+            )}
             </Ad__90_728_1>
           </div>
         </div>
@@ -75,13 +73,11 @@ const PostList_Main = () => {
         <div className="row my-3">
           <div className="col-12 d-flex justify-content-center">
             <Ad__90_728_1>
-              {postBottomad ? (
-                parse(postBottomad)
-              ) : window.innerWidth < 600 ? (
-                <img src="https://placehold.co/400x50" alt="Placeholder Ad" />
-              ) : (
-                <img src="https://placehold.co/728x90" alt="Placeholder Ad" />
-              )}
+            {window.innerWidth < 600 ? (
+              parse(String(postBottomad.ad_code_300))
+            ) : (
+              parse(String(postBottomad.ad_code_728))
+            )}
             </Ad__90_728_1>
           </div>
         </div>

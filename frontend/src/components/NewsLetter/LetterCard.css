@@ -4,13 +4,17 @@
   color: red;
 }
 
+.letterCard_container{
+  overflow: hidden;
+}
+
 .custom-card:hover .LetterCard__image {
-  transform: scale(1.05);
-  transition: transform 0.5s ease-in-out;
+  transform: scale(1.2);
+  transition: transform 0.3s ease-in-out;
 }
 
 .custom-card {
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 }
 
 .LetterCard__image {

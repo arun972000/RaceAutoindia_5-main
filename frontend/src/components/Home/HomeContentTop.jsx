@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import BreakingNews from "../BreakingNews/breakingNews";
 import Features from "../Features/Features";
@@ -13,8 +14,8 @@ import Ad__90_728_1 from "../Ads/Ad_90_728_1";
 const HomeContentTop = () => {
   const [displayTopAd, setDisplayTopAd] = useState(true);
   const [sliderOption, setSliderOption] = useState("");
-  const [headerAd, setHeaderAd] = useState("");
-  const [indexTopAd, setIndexTopAd] = useState("");
+  const [headerAd, setHeaderAd] = useState({});
+  const [indexTopAd, setIndexTopAd] = useState({});
 
   const sliderApi = async () => {
     try {
@@ -32,8 +33,8 @@ const HomeContentTop = () => {
       const resIndexTop = await axios.get(
         `${Url}api/ad_space/single_ad/index_top`
       );
-      setHeaderAd(resheader.data[0].ad_code_728);
-      setIndexTopAd(resIndexTop.data[0].ad_code_728);
+      setHeaderAd({...headerAd, ad_code_728:resheader.data[0].ad_code_728, ad_code_300:resheader.data[0].ad_code_300});
+      setIndexTopAd({...indexTopAd, ad_code_728:resIndexTop.data[0].ad_code_728, ad_code_300:resIndexTop.data[0].ad_code_300});
     } catch (err) {
       console.log(err);
     }
@@ -56,13 +57,13 @@ const HomeContentTop = () => {
           <div
             className={`${displayTopAd ? "ad-top-container" : "ad-top-hidden"}`}
           >
-            {headerAd ? (
-              parse(headerAd)
-            ) : window.innerWidth < 600 ? (
-              <img src="https://placehold.co/350x50" alt="Placeholder Ad" />
+            <Ad__90_728_1>
+          {window.innerWidth < 600 ? (
+              parse(String(headerAd.ad_code_300))
             ) : (
-              <img src="https://placehold.co/970x250" alt="Placeholder Ad" />
+              parse(String(headerAd.ad_code_728))
             )}
+          </Ad__90_728_1>
           </div>
         </div>
       </div>
@@ -85,12 +86,10 @@ const HomeContentTop = () => {
       <div className="row">
         <div className="col-12 d-flex justify-content-center">
           <Ad__90_728_1>
-            {indexTopAd ? (
-              parse(indexTopAd)
-            ) : window.innerWidth < 600 ? (
-              <img src="https://placehold.co/400x50" alt="Placeholder Ad" />
+          {window.innerWidth < 600 ? (
+              parse(String(indexTopAd.ad_code_300))
             ) : (
-              <img src="https://placehold.co/728x90" alt="Placeholder Ad" />
+              parse(String(indexTopAd.ad_code_728))
             )}
           </Ad__90_728_1>
         </div>

@@ -15,13 +15,14 @@ import {
 
 import { FaFilter, FaSave } from "react-icons/fa";
 import { BiCategory } from "react-icons/bi";
-import { MdCreateNewFolder, MdModeEdit } from "react-icons/md";
+import { MdCreateNewFolder, MdDelete, MdModeEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { MDBTable, MDBTableBody, MDBTableHead } from "mdb-react-ui-kit";
 
 const ArticleList = () => {
   const [open, setOpen] = useState(false);
-
+  const [smShow, setSmShow] = useState(false);
+  const [deleteId, setDeleteId] = useState(0);
   const [data, setData] = useState([]);
   const [selectedTitleCount, setSelectedTitleCount] = useState(15);
   const [selectedUsers, setSelectedUsers] = useState("none");
@@ -35,6 +36,7 @@ const ArticleList = () => {
   const [itemsPerPage] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
 
+
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const handlePageChange = (page) => {
@@ -47,6 +49,7 @@ const ArticleList = () => {
         `${Url}api/post/admin-post?username=${selectedUsers}&mainCategory=${selectedCategory}&subCategory=${selectedSubCategory}&offset=${currentPage}`
       );
       setData(res.data.data);
+
     } catch (err) {
       console.log(err);
     }
@@ -143,6 +146,7 @@ const ArticleList = () => {
           `${Url}api/post/admin-post?username=${selectedUsers}&mainCategory=${selectedCategory}&subCategory=${selectedSubCategory}&offset=${currentPage}`
         );
         setData(res.data.data);
+
         setTotalItems(res.data.totalPost);
       } catch (err) {
         console.log(err);
@@ -159,13 +163,23 @@ const ArticleList = () => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`${Url}api/post/delete/${deleteId}`);
+      allPostApi();
+      setSmShow(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleApplyFilter = async () => {
     try {
       const res = await axios.get(
         `${Url}api/post/admin-post?username=${selectedUsers}&mainCategory=${selectedCategory}&subCategory=${selectedSubCategory}&offset=${currentPage}`
       );
       setData(res.data.data);
-      
+
       setTotalItems(res.data.totalPost);
       handleClose();
       subCategoryValue();
@@ -226,6 +240,29 @@ const ArticleList = () => {
   return (
     <>
       <div className="container-fluid">
+        <Modal
+          size="sm"
+          show={smShow}
+          onHide={() => setSmShow(false)}
+          aria-labelledby="example-modal-sizes-title-sm"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="example-modal-sizes-title-sm">Confirm</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="d-flex justify-content-evenly">
+              <button
+                className="btn btn-secondary"
+                onClick={() => setSmShow(false)}
+              >
+                cancel
+              </button>
+              <button className="btn btn-danger" onClick={handleDelete}>
+                Yes
+              </button>
+            </div>
+          </Modal.Body>
+        </Modal>
         <div className="d-flex justify-content-between align-items-center my-3">
           <div style={{ width: 80 }}>
             <Button variant="primary" onClick={handleOpen}>
@@ -373,75 +410,215 @@ const ArticleList = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-        <MDBTable align="middle" responsive className="text-center">
-          <MDBTableHead>
-            <tr>
-              <th>ID</th>
-              <th>Post</th>
-              <th>Category</th>
-              <th>Author</th>
-              <th>Pageviews</th>
-              <th>Posted Date</th>
-              <th>Actions</th>
-            </tr>
-          </MDBTableHead>
-          <MDBTableBody>
-            {data.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>
-                  <div className="d-flex align-items-center">
-                    <img
-                      src={`https://raceautoindia.com/${item.image_small}`}
-                      className="image-fluid"
-                      style={{ width: 80 }}
-                      alt={item.id}
-                    ></img>
-                    <p className="ms-3 text-small p-0 m-0">{item.title}</p>
-                  </div>
-                </td>
-                <td>
-                  <div className="d-flex table-badge flex-column">
-                    <p
-                      className="text-small px-2 mb-3"
-                      style={{
-                        backgroundColor: item.color,
-                        borderRadius: 25,
-                        fontSize: 11,
-                        fontWeight: 700,
-                        color: "white",
-                      }}
-                    >
-                      {item.main_category}
-                    </p>
-                    <p
-                      className="text-small px-2 "
-                      style={{
-                        backgroundColor: item.color,
-                        borderRadius: 25,
-                        fontSize: 11,
-                        fontWeight: 700,
-                        color: "white",
-                      }}
-                    >
-                      {item.sub_category}
-                    </p>
-                  </div>
-                </td>
-                <td>{item.username}</td>
-                <td>{item.pageviews}</td>
-                <td>{formatDate(item.created_at)}</td>
-                <td>
-                  <Link to={`/admin/edit-post/${item.id}`}>
-                    <button className="btn btn-primary me-3">
-                      <MdModeEdit size={20} />
-                    </button>
-                  </Link>
-                </td>
+        {selectedPostType == ("is_featured" || "is_breaking" || "is_slider") ? (
+          <MDBTable align="middle" responsive className="text-center">
+            <MDBTableHead>
+              <tr>
+                <th>ID</th>
+                <th>Post</th>
+                <th>Category</th>
+                <th>Author</th>
+                <th>Pageviews</th>
+                <th>Order</th>
+                <th>Posted Date</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </MDBTableBody>
-        </MDBTable>
+            </MDBTableHead>
+            <MDBTableBody>
+              {data.map((item) => 
+               (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>
+                    <div className="d-flex align-items-center">
+                      <img
+                        src={`https://raceautoindia.com/${item.image_small}`}
+                        className="image-fluid"
+                        style={{ width: 80 }}
+                        alt={item.id}
+                      ></img>
+                      <p className="ms-3 text-small p-0 m-0">{item.title}</p>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="d-flex table-badge flex-column">
+                      <p
+                        className="text-small px-2 mb-3"
+                        style={{
+                          backgroundColor: item.color,
+                          borderRadius: 25,
+                          fontSize: 11,
+                          fontWeight: 700,
+                          color: "white",
+                        }}
+                      >
+                        {item.main_category}
+                      </p>
+                      <p
+                        className="text-small px-2 "
+                        style={{
+                          backgroundColor: item.color,
+                          borderRadius: 25,
+                          fontSize: 11,
+                          fontWeight: 700,
+                          color: "white",
+                        }}
+                      >
+                        {item.sub_category}
+                      </p>
+                    </div>
+                  </td>
+                  <td>{item.username}</td>
+                  <td>{item.pageviews}</td>
+                  <td>
+                    {selectedPostType == "is_featured" && (
+                      <Form>
+                        <Form.Group controlId="numberInput">
+                          <Form.Label>
+                            Enter a number between 1 and 4:
+                          </Form.Label>
+                          <Form.Control
+                            type="number"
+                            min="1"
+                            max="4"
+                            value={item.featured_order}
+                            // onChange={(e) => {}}
+                          />
+                        </Form.Group>
+                      </Form>
+                    )  }
+
+                    {selectedPostType=="is_slider" && (
+                      <Form>
+                        <Form.Group controlId="numberInput">
+                          <Form.Control
+                            type="number"
+                            min="1"
+                            max="7"
+                            value={item.slider_order}
+                            // onChange={async (e) => {
+                            //   try {
+                            //     await axios.put(
+                            //       `${Url}api/posts/slider-order/${item.id}`,
+                            //       { slider_order: e.target.value }
+                            //     );
+                            //   } catch (err) {
+                            //     console.log(err);
+                            //   }
+                            // }}
+                          />
+                        </Form.Group>
+                      </Form>
+                    ) }
+                  </td>
+                  <td>{formatDate(item.created_at)}</td>
+                  <td>
+                    <div className="d-flex">
+                      <Link to={`/admin/edit-post/${item.id}`}>
+                        <button className="btn btn-primary me-3">
+                          <MdModeEdit size={20} />
+                        </button>
+                      </Link>
+                      <button
+                        className="btn btn-danger me-3"
+                        onClick={() => {
+                          setSmShow(true);
+                          setDeleteId(item.id);
+                        }}
+                      >
+                        <MdDelete size={20} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </MDBTableBody>
+          </MDBTable>
+        ) : (
+          <MDBTable align="middle" responsive className="text-center">
+            <MDBTableHead>
+              <tr>
+                <th>ID</th>
+                <th>Post</th>
+                <th>Category</th>
+                <th>Author</th>
+                <th>Pageviews</th>
+                <th>Posted Date</th>
+                <th>Actions</th>
+              </tr>
+            </MDBTableHead>
+            <MDBTableBody>
+              {data.map((item) => 
+               
+                
+                (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>
+                    <div className="d-flex align-items-center">
+                      <img
+                        src={`https://raceautoindia.com/${item.image_small}`}
+                        className="image-fluid"
+                        style={{ width: 80 }}
+                        alt={item.id}
+                      ></img>
+                      <p className="ms-3 text-small p-0 m-0">{item.title}</p>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="d-flex table-badge flex-column">
+                      <p
+                        className="text-small px-2 mb-3"
+                        style={{
+                          backgroundColor: item.color,
+                          borderRadius: 25,
+                          fontSize: 11,
+                          fontWeight: 700,
+                          color: "white",
+                        }}
+                      >
+                        {item.main_category}
+                      </p>
+                      <p
+                        className="text-small px-2 "
+                        style={{
+                          backgroundColor: item.color,
+                          borderRadius: 25,
+                          fontSize: 11,
+                          fontWeight: 700,
+                          color: "white",
+                        }}
+                      >
+                        {item.sub_category}
+                      </p>
+                    </div>
+                  </td>
+                  <td>{item.username}</td>
+                  <td>{item.pageviews}</td>
+                  <td>{formatDate(item.created_at)}</td>
+                  <td>
+                    <div className="d-flex">
+                      <Link to={`/admin/edit-post/${item.id}`}>
+                        <button className="btn btn-primary me-3">
+                          <MdModeEdit size={20} />
+                        </button>
+                      </Link>
+                      <button
+                        className="btn btn-danger me-3"
+                        onClick={() => {
+                          setSmShow(true);
+                          setDeleteId(item.id);
+                        }}
+                      >
+                        <MdDelete size={20} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+))}
+            </MDBTableBody>
+          </MDBTable>
+        )}
 
         {(selectedPostType == "" || selectedPostType == "none") && (
           <Pagination>

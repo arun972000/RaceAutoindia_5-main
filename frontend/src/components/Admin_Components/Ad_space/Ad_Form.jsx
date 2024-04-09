@@ -3,6 +3,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { Url } from "../../../url";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AdForm = () => {
   const [selectedOption, setSelectedOption] = useState("");
@@ -43,8 +45,20 @@ const AdForm = () => {
       await axios.put(`${Url}api/ad_space/update_ad/${selectedOption}`, {
         image_code: textValue,
       });
+      toast.success('Link updated', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        
+        });
     } catch (err) {
       console.log(err);
+      
     }
   };
 
@@ -56,7 +70,9 @@ const AdForm = () => {
     titleApi();
   }, []);
   return (
+
     <div className="col-12">
+     <ToastContainer />
       <div className="shadow-sm p-3 mb-5  mt-5 bg-white rounded border-0">
         <Form>
           <Form.Group controlId="exampleForm.SelectCustom">

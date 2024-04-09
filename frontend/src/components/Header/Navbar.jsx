@@ -49,6 +49,8 @@ function MyNavbar() {
     };
   };
 
+
+  
   const handleScroll = throttle(() => {
     const scrollY = window.scrollY;
     const threshold = 150;
@@ -214,7 +216,7 @@ function MyNavbar() {
                   </Link>
                 </li>
                 {Main_Category}
-                <li className="nav-item dropdown mx-1 ">
+                {/* <li className="nav-item dropdown mx-1 ">
                   <a
                     className={
                       active == "more"
@@ -234,6 +236,23 @@ function MyNavbar() {
                     </Link>
                     
                   </div>
+                </li> */}
+                <li className="nav-item">
+                  <Link
+                    to="/newsletter"
+                    style={{backgroundColor:"#0192ef", color:"white"}}
+                    className={
+                      active == "newsletter"
+                        ? "nav-link border_bottom nav-home_btn active-nav mx-2 "
+                        : "nav-link border_bottom mx-2"
+                    }
+                    onClick={() => {
+                      setActive("newsletter");
+                      sessionStorage.setItem("activeItem", "newsletter");
+                    }}
+                  >
+                   E-magazine
+                  </Link>
                 </li>
               </ul>
               <div className="d-flex ms-auto align-items-center justify-content-between">
@@ -325,9 +344,9 @@ function MyNavbar() {
              <Link to="/" className="navbar-brand">
             <img
               src={logo2}
-              className="img-fluid mx-3"
+              className="img-fluid ms-4"
               alt="Responsive image"
-              width="45px"
+              width="60px"
             />
           </Link>
           <button
@@ -350,6 +369,7 @@ function MyNavbar() {
               <li className="nav-item">
                 <Link
                   to="/"
+                  
                   className={
                     active == "home"
                       ? "nav-link border_bottom nav-home_btn active-nav mx-2 "
@@ -364,7 +384,7 @@ function MyNavbar() {
                 </Link>
               </li>
               {Main_Category}
-              <li className="nav-item dropdown mx-1 ">
+              {/* <li className="nav-item dropdown mx-1 ">
                 <a
                   className={
                     active == "more"
@@ -384,7 +404,24 @@ function MyNavbar() {
                   </Link>
                  
                 </div>
-              </li>
+              </li> */}
+              <li className="nav-item">
+                  <Link
+                    to="/newsletter"
+                    style={{backgroundColor:"#0192ef", color:"white"}}
+                    className={
+                      active == "newsletter"
+                        ? "nav-link border_bottom nav-home_btn active-nav mx-2 "
+                        : "nav-link border_bottom mx-2"
+                    }
+                    onClick={() => {
+                      setActive("newsletter");
+                      sessionStorage.setItem("activeItem", "newsletter");
+                    }}
+                  >
+                   E-magazine
+                  </Link>
+                </li>
             </ul>
             <div className="d-flex ms-auto align-items-center justify-content-between">
               <Toggle />

@@ -5,7 +5,7 @@ import "./Sidebar.css";
 import { Link } from "react-router-dom";
 
 const LatestNews = () => {
-  const scrollContainerStyle = { width: "350px", maxHeight: "300px" };
+  const scrollContainerStyle = { maxHeight: "300px" };
 
   const [data, setData] = useState([]);
 

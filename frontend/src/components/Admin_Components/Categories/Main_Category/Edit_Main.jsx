@@ -35,7 +35,7 @@ const Edit_MainCategory = () => {
   console.log(blockType);
   const EditApi = async () => {
     try {
-      await axios.put(`${Url}api/category/edit/${id}`, {
+      await axios.put(`${Url}api/category/edit-main/${id}`, {
         categoryName,
         description,
         keywords,

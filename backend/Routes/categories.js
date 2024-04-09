@@ -123,7 +123,7 @@ categoryRoutes.post("/create_sub", async (req, res) => {
   }
 });
 
-categoryRoutes.put("/edit/:id", async (req, res) => {
+categoryRoutes.put("/edit-main/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -157,6 +157,49 @@ categoryRoutes.put("/edit/:id", async (req, res) => {
     }
     await db.execute(
       `UPDATE categories SET name = ?, name_slug = ?, description = ?, keywords = ?, color = ?, block_type = ?, show_on_menu = ?, show_at_homepage= ? WHERE id = ?`,
+      query
+    );
+
+    res.json({ message: "sub_menu edited" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err: "internal server error" });
+  }
+});
+
+categoryRoutes.put("/edit-sub/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const {
+      categoryName,
+      description,
+      keywords,
+      show_on_menu,
+      show_at_homepage,
+      parent_id,
+    } = req.body;
+
+    const name_slug = categoryName.split(" ").join("-");
+
+    const query = [
+      categoryName,
+      name_slug,
+      description,
+      keywords,
+      parent_id,
+      show_on_menu,
+      show_at_homepage,
+      id,
+    ];
+
+
+    const [row] = await db.execute(`SELECT * FROM categories WHERE id=?`, [id]);
+    if (row.length < 1) {
+      return res.status(404).json({ message: "item not found" });
+    }
+    await db.execute(
+      `UPDATE categories SET name = ?, name_slug = ?, description = ?, keywords = ?, parent_id = ?, show_on_menu = ?, show_at_homepage= ? WHERE id = ?`,
       query
     );
 

@@ -10,6 +10,7 @@ const Admin_dashboard = ({isOpen, handleTrigger}) => {
 
   return (
     <>
+    <div className="admin-panel__elements">
       <div className="container-fluid custom-container-fluid">
         <div className="row d-flex">
           <SideBar isOpen={isOpen} handleTrigger={handleTrigger}/>
@@ -20,6 +21,7 @@ const Admin_dashboard = ({isOpen, handleTrigger}) => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </>
   );

@@ -29,7 +29,7 @@ const Toggle = () => {
         onChange={handleChange}
         handleDiameter={28}
         offColor="#ffffff"
-        onColor="#0ff"
+        onColor="#87CEEB"
         offHandleColor="#0ff"
         onHandleColor="#08f"
         height={30}

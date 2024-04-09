@@ -16,7 +16,7 @@ import parse from "html-react-parser";
 
 const PostPage = () => {
   const { title_slug } = useParams();
-
+  const [sidebar, setsideBar] = useState(0);
   const [data, setData] = useState([]);
   const [postTopad, setPostTopAd] = useState("");
   const [postBottomad, setPostBottomAd] = useState("");
@@ -53,6 +53,12 @@ const PostPage = () => {
       const resfooter = await axios.get(
         `${Url}api/ad_space/single_ad/posts_bottom`
       );
+      // const ressideTop=await axios.get(
+      //   `${Url}api/ad_space/single_ad/sidebar_top`
+      // );
+      // const ressidebottom=await axios.get(
+      //   `${Url}api/ad_space/single_ad/sidebar_bottom`
+      // );
       setPostTopAd(resheader.data[0].ad_code_728);
       setPostBottomAd(resfooter.data[0].ad_code_728);
     } catch (err) {
@@ -70,6 +76,16 @@ const PostPage = () => {
   };
 
   useEffect(() => {
+    const fetchVisibility = async () => {
+      try {
+        const res = await axios.get(`${Url}api/pages/leftBar`);
+        setsideBar(res.data[0].visibility);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchVisibility();
     singlePost();
     postAdApi();
   }, []);
@@ -78,76 +94,194 @@ const PostPage = () => {
     <>
       <MyNavbar />
       <div className="main-content__position">
-      <div className="container mt-4">
-        <div className="row my-3">
-          <div className="col-12 d-flex justify-content-center">
-            <Ad__90_728_1>
-              {postTopad ? (
-                parse(postTopad)
-              ) : window.innerWidth < 600 ? (
-                <img src="https://placehold.co/400x50" alt="Placeholder Ad" />
-              ) : (
-                <img src="https://placehold.co/728x90" alt="Placeholder Ad" />
-              )}
-            </Ad__90_728_1>
+        <div className="container mt-4">
+          <div className="row my-3">
+            <div className="col-12 d-flex justify-content-center mb-5">
+              <Ad__90_728_1>
+                {postTopad ? (
+                  parse(postTopad)
+                ) : window.innerWidth < 600 ? (
+                  <img src="https://placehold.co/400x50" alt="Placeholder Ad" />
+                ) : (
+                  <img src="https://placehold.co/728x90" alt="Placeholder Ad" />
+                )}
+              </Ad__90_728_1>
+            </div>
           </div>
-        </div>
-        <div className="row  justify-content-center">
-          <div className="col-lg-7 mt-3">
-            {data.map((post) => (
-              <div key={post.id}>
-                <h3>
-                  <b>{post.title}</b>
-                </h3>
-                <p>{post.summary}</p>
-                <small className="">Date: {formatDate(post.created_at)}</small>
-                <LogoButtons />
-                <hr />
-                <div
-                  style={{
-                    width: "100%",
-                    maxWidth: "100%",
-                    textAlign: "center",
-                  }}
-                >
-                  <Image
-                    src={`https://raceautoindia.com/${post.image_big}`}
-                    alt="Post Image"
-                    fluid
-                    className="my-3"
-                    style={{ aspectRatio: "16/9", objectFit: "cover" }}
-                  />
+          {sidebar == 1 ? (
+            window.innerWidth < 600 ? (
+              <div className="col-12 mt-3">
+                {data.map((post) => (
+                  <div key={post.id}>
+                    <h3>
+                      <b>{post.title}</b>
+                    </h3>
+                    <p>{post.summary}</p>
+                    <small className="">
+                      Date: {formatDate(post.created_at)}
+                    </small>
+                    <LogoButtons />
+                    <hr />
+                    <div
+                      style={{
+                        width: "100%",
+                        maxWidth: "100%",
+                        textAlign: "center",
+                      }}
+                    >
+                      <Image
+                        src={`https://raceautoindia.com/${post.image_big}`}
+                        alt="Post Image"
+                        fluid
+                        className="my-3"
+                        style={{ aspectRatio: "16/9", objectFit: "cover" }}
+                      />
 
+                      <div
+                        style={{
+                          width: "100%",
+                          maxWidth: "100%",
+                          textAlign: "justify",
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(post.content),
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="row  justify-content-center">
+                <div className="col-lg-3 mt-3">
+                  {/* <Ad_300_600>
+                {parse(siderBar_Left)}
+               </Ad_300_600> */}
                   <div
                     style={{
+                      backgroundColor: "grey",
                       width: "100%",
-                      maxWidth: "100%",
-                      textAlign: "justify",
+                      height: 600,
                     }}
-                    dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(post.content),
+                  ></div>
+                </div>
+                <div className="col-lg-6 mt-3">
+                  {data.map((post) => (
+                    <div key={post.id}>
+                      <h3>
+                        <b>{post.title}</b>
+                      </h3>
+                      <p>{post.summary}</p>
+                      <small className="">
+                        Date: {formatDate(post.created_at)}
+                      </small>
+                      <LogoButtons />
+                      <hr />
+                      <div
+                        style={{
+                          width: "100%",
+                          maxWidth: "100%",
+                          textAlign: "center",
+                        }}
+                      >
+                        <Image
+                          src={`https://raceautoindia.com/${post.image_big}`}
+                          alt="Post Image"
+                          fluid
+                          className="my-3"
+                          style={{ aspectRatio: "16/9", objectFit: "cover" }}
+                        />
+
+                        <div
+                          style={{
+                            width: "100%",
+                            maxWidth: "100%",
+                            textAlign: "justify",
+                          }}
+                          dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(post.content),
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="col-lg-3">
+                  {/* <Ad_300_600>
+                {parse(siderBar_right)}
+               </Ad_300_600> */}
+                  <div
+                    style={{
+                      backgroundColor: "grey",
+                      width: "100%",
+                      height: 600,
                     }}
                   ></div>
                 </div>
               </div>
-            ))}
+            )
+          ) : (
+            <div className="row  justify-content-center">
+              <div className="col-lg-7 mt-3">
+                {data.map((post) => (
+                  <div key={post.id}>
+                    <h3>
+                      <b>{post.title}</b>
+                    </h3>
+                    <p>{post.summary}</p>
+                    <small className="">
+                      Date: {formatDate(post.created_at)}
+                    </small>
+                    {/* <LogoButtons /> */}
+                    <hr />
+                    <div
+                      style={{
+                        width: "100%",
+                        maxWidth: "100%",
+                        textAlign: "center",
+                      }}
+                    >
+                      <Image
+                        src={`https://raceautoindia.com/${post.image_big}`}
+                        alt="Post Image"
+                        fluid
+                        className="my-3"
+                        style={{ aspectRatio: "16/9", objectFit: "cover" }}
+                      />
+
+                      <div
+                        style={{
+                          width: "100%",
+                          maxWidth: "100%",
+                          textAlign: "justify",
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(post.content),
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <SideContent />
+            </div>
+          )}
+
+          <div className="row my-3">
+            <div className="col-12 d-flex justify-content-center mb-4">
+              <Ad__90_728_1>
+                {postBottomad ? (
+                  parse(postBottomad)
+                ) : window.innerWidth < 600 ? (
+                  <img src="https://placehold.co/400x50" alt="Placeholder Ad" />
+                ) : (
+                  <img src="https://placehold.co/728x90" alt="Placeholder Ad" />
+                )}
+              </Ad__90_728_1>
+            </div>
           </div>
-          <SideContent />
         </div>
-      </div>
-      <div className="row my-3">
-        <div className="col-12 d-flex justify-content-center">
-          <Ad__90_728_1>
-            {postBottomad ? (
-              parse(postBottomad)
-            ) : window.innerWidth < 600 ? (
-              <img src="https://placehold.co/400x50" alt="Placeholder Ad" />
-            ) : (
-              <img src="https://placehold.co/728x90" alt="Placeholder Ad" />
-            )}
-          </Ad__90_728_1>
-        </div>
-      </div>
       </div>
       <Footer />
     </>

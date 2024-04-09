@@ -1,5 +1,5 @@
 import NewsletterThumbnail from "../NewsletterThumbnail/NewsletterThumbnail";
-import ReactPlayer from "react-player/lazy";
+// import ReactPlayer from "react-player/lazy";
 import LatestNews from "./LatestNews";
 import PopularPost from "../PopularPost/PopularPostContent";
 
@@ -9,11 +9,11 @@ const SideContent = () => {
       <div className="col-lg-4">
         <div className="row mt-3">
           <div className="col-12 d-flex justify-content-center">
-            <ReactPlayer
+            {/* <ReactPlayer
               url="https://www.youtube.com/watch?v=Q3YBcEpJIK4"
               controls
               height="250px"
-            />
+            /> */}
           </div>
         </div>
         <div className="row mt-3">

@@ -68,7 +68,7 @@ postRoutes.get("/admin-post", async (req, res) => {
   const offset = (offValue - 1) * 10;
 
   let query = `
-  SELECT posts.id, posts.image_small, posts.title, posts.pageviews, posts.created_at, 
+  SELECT posts.id, posts.image_small, posts.title, posts.pageviews, posts.created_at, posts.featured_order, posts.slider_order,
          posts.user_id, posts.is_slider, posts.is_breaking, posts.is_featured, 
          posts.category_id, categories.color AS color, categories.name_slug AS name_slug, 
          categories.parent_id AS parent_id, categories.name AS sub_category, 
@@ -127,7 +127,7 @@ postRoutes.get("/is_available/:postType", async (req, res) => {
 
     // const [results]=await db.execute(`SELECT id, title, image_small, pageviews FROM posts WHERE ${postType} = 1`)
     const [joinedRow] = await db.execute(
-      `SELECT posts.id, posts.image_small, posts.title, posts.pageviews, posts.user_id, posts.is_slider, posts.is_featured, posts.is_breaking, posts.category_id, categories.name_slug AS name_slug, categories.parent_id AS parent_id, categories.color AS color, categories.name AS sub_category, users.username AS username 
+      `SELECT posts.id, posts.image_small, posts.title, posts.pageviews, posts.created_at, posts.user_id, posts.is_slider, posts.is_featured, posts.is_breaking, posts.category_id, categories.name_slug AS name_slug, categories.parent_id AS parent_id, categories.color AS color, categories.name AS sub_category, users.username AS username 
       FROM posts
       INNER JOIN users ON posts.user_id = users.id
       INNER JOIN categories ON posts.category_id = categories.id
@@ -158,6 +158,17 @@ postRoutes.get("/is_available/:postType", async (req, res) => {
     res.status(500).json({ message: "internal server error" });
   }
 });
+
+postRoutes.put("/slider-order/:id",async(res)=>{
+  try{
+    const {id}=req.params
+    const {slider_order}=req.body;
+    const res=await db.execute(`UPDATE posts SET slider_order = ? WHERE id = ?`,[slider_order,id])
+  }catch(err){
+    console.log(err)
+    res.status(500).json("internal server error")
+  }
+})
 
 postRoutes.get("/sliced-all", async (req, res) => {
   try {
@@ -202,6 +213,7 @@ postRoutes.put("/update/:id", singleUpload, async (req, res) => {
       title,
       content,
       summary,
+      image_description,
       is_breaking,
       is_featured,
       is_slider,
@@ -243,6 +255,7 @@ postRoutes.put("/update/:id", singleUpload, async (req, res) => {
         title,
         content,
         summary,
+        image_description,
         is_breaking,
         is_featured,
         is_slider,
@@ -255,7 +268,7 @@ postRoutes.put("/update/:id", singleUpload, async (req, res) => {
       ];
 
       const [results] = await db.execute(
-        `UPDATE posts SET title = ?, content = ?, summary = ?, is_breaking = ?, is_featured = ?, is_slider = ?, image_default = ?, image_big = ?, image_mid = ?, image_small = ?, keywords = ?, category_id = ? WHERE id = ${id}`,
+        `UPDATE posts SET title = ?, content = ?, summary = ?, image_description = ?, is_breaking = ?, is_featured = ?, is_slider = ?, image_default = ?, image_big = ?, image_mid = ?, image_small = ?, keywords = ?, category_id = ? WHERE id = ${id}`,
         query
       );
 
@@ -276,6 +289,7 @@ postRoutes.put("/update/:id", singleUpload, async (req, res) => {
       title,
       content,
       summary,
+      image_description,
       is_breaking,
       is_featured,
       is_slider,
@@ -283,7 +297,7 @@ postRoutes.put("/update/:id", singleUpload, async (req, res) => {
       category_id,
     ];
     const [results] = await db.execute(
-      `UPDATE posts SET title = ?, content = ?, summary = ?, is_breaking = ?, is_featured = ?, is_slider = ?, keywords = ?, category_id = ? WHERE id = ${id}`,
+      `UPDATE posts SET title = ?, content = ?, summary = ?, image_description = ?, is_breaking = ?, is_featured = ?, is_slider = ?, keywords = ?, category_id = ? WHERE id = ${id}`,
       query
     );
 
@@ -308,8 +322,10 @@ postRoutes.post("/upload", singleUpload, async (req, res) => {
       is_recommended,
       is_breaking,
       category_id,
-      user_id
+      user_id,
+      image_description
     } = req.body;
+const title_slug=title.split(" ").join("-")
 
     const image_default = "./public/postUpload/" + originalname;
     const image_big = "./public/postUpload/" + "750" + originalname;
@@ -328,6 +344,7 @@ postRoutes.post("/upload", singleUpload, async (req, res) => {
 
     const query = [
       title,
+      title_slug,
       keywords,
       summary,
       content,
@@ -339,16 +356,19 @@ postRoutes.post("/upload", singleUpload, async (req, res) => {
       is_slider,
       is_featured,
       is_recommended,
+      user_id,
       is_breaking,
+      image_description
     ];
+
 
     await db.execute(
       `
       INSERT INTO posts (
-        title, keywords, summary, content, category_id, image_big, image_default, 
+        title, title_slug, keywords, summary, content, category_id, image_big, image_default, 
         image_mid, image_small, is_slider, is_featured, is_recommended,user_id,
-        is_breaking
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        is_breaking, image_description
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
       query
     );
@@ -507,7 +527,7 @@ postRoutes.get("/singlePost/:title_slug", async (req, res) => {
     const { title_slug } = req.params;
 
     const [results] = await db.execute(
-      `SELECT id, title, image_big, summary, content,created_at FROM posts WHERE title_slug = ?`,
+      `SELECT id, title, image_big, summary, image_description, content,created_at FROM posts WHERE title_slug = ?`,
       [title_slug]
     );
     res.json(results);
@@ -522,7 +542,7 @@ postRoutes.get("/single/:id", async (req, res) => {
     const { id } = req.params;
 
     const [joinedRow] = await db.execute(
-      `SELECT posts.id, posts.image_mid, posts.summary, posts.title, posts.content, posts.keywords, posts.pageviews, posts.user_id, posts.is_slider, posts.is_featured, posts.is_breaking, posts.category_id, categories.name_slug AS name_slug, categories.parent_id AS parent_id, categories.color AS color, categories.name AS sub_category, users.username AS username 
+      `SELECT posts.id, posts.image_mid, posts.summary, posts.title, posts.content, posts.keywords, posts.pageviews, posts.user_id, posts.image_description, posts.is_slider, posts.is_featured, posts.is_breaking, posts.category_id, categories.name_slug AS name_slug, categories.parent_id AS parent_id, categories.color AS color, categories.name AS sub_category, users.username AS username 
       FROM posts
       INNER JOIN users ON posts.user_id = users.id
       INNER JOIN categories ON posts.category_id = categories.id
@@ -553,5 +573,24 @@ postRoutes.get("/single/:id", async (req, res) => {
     res.status(500).json({ message: "internal server error" });
   }
 });
+
+postRoutes.delete("/delete/:id",async(req,res)=>{
+  const id = req.params.id;
+
+  try {
+ 
+    const [result] = await db.execute('DELETE FROM posts WHERE id = ?', [id]);
+    
+
+    if (result.affectedRows === 1) {
+      res.status(200).json({ message: 'post deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'post not found' });
+    }
+  } catch (error) {
+    console.error('Error deleting node:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+})
 
 export default postRoutes;

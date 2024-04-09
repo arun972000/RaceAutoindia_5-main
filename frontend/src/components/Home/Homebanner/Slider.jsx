@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
+import { EffectCoverflow, Navigation, Pagination, Autoplay } from "swiper/modules";
 import axios from "axios";
 import { Url } from "../../../url";
 import { useEffect, useState } from "react";
@@ -64,6 +64,7 @@ const SliderImage = () => {
         navigation={true}
         centeredSlides={true}
         loop={true}
+        autoplay={{ delay: 1000 }}
         slidesPerView={"auto"}
         coverflowEffect={{
           rotate: 0,
@@ -71,7 +72,7 @@ const SliderImage = () => {
           depth: 100,
           modifier: 2.5,
         }}
-        modules={[EffectCoverflow, Pagination, Navigation]}
+        modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
         className="swiper_container mt-4"
       >
         {data.map((i, el) => {

@@ -2,29 +2,37 @@
   font-family: "Montserrat", sans-serif;
 }
 
-.main-content__position{
+.main-content__position {
   min-height: 100vh;
-    padding-top: 0;
-    position: relative;
-    z-index: 1;
+  padding-top: 0;
+  position: relative;
+  z-index: 1;
   margin-bottom: 300px;
   background-color: white;
-  }
+}
 
-  :root {
-    --bg-dark: #121212;
-  }
+:root {
+  --bg-dark: #121212;
+}
 
 .dark {
-  
   background-color: var(--bg-dark) !important;
   color: rgb(255, 255, 255) !important;
-
- 
 
   a {
     text-decoration: none;
   }
+
+  .admin-panel__elements{
+    color:black;
+    background-color:rgb(255, 255, 255) ;
+  }
+
+  .admin-panel__elements .navbar{
+    background-color: rgb(255, 255, 255) !important;
+  }
+
+  .admi
 
   .card {
     background-color: var(--bg-dark) !important;
@@ -32,7 +40,7 @@
   }
   .navbar {
     background-color: var(--bg-dark) !important;
-    color:#ffffff !important;
+    color: #ffffff !important;
   }
 
   .roboto-black {
@@ -41,7 +49,7 @@
     font-style: normal;
   }
 
-   .navbar ul li a {
+  .navbar ul li a {
     font-family: "Roboto", sans-serif;
     font-weight: 900;
     font-style: normal;
@@ -49,15 +57,14 @@
     color: rgb(255, 255, 255) !important;
   }
 
-
-   .navbar .dropdown-menu {
+  .navbar .dropdown-menu {
     color: rgb(255, 255, 255) !important;
     background-color: var(--bg-dark) !important;
   }
 
   .navbar .dropdown-menu a {
     color: rgb(255, 255, 255) !important;
-    background-color:var(--bg-dark) !important;
+    background-color: var(--bg-dark) !important;
   }
 
   .nav-details .nav-item .nav-link:hover {
@@ -66,8 +73,8 @@
   }
 
   .nav-details .dropdown:hover .dropdown-toggle {
-    background-color:  var(--bg-dark) !important;
-color: white !important;
+    background-color: var(--bg-dark) !important;
+    color: white !important;
   }
 
   .nav-details .nav-item .active-nav {
@@ -81,32 +88,48 @@ color: white !important;
   .card-heading:hover {
     color: #ff7275;
   }
-  .main-content__position{
+  .main-content__position {
     min-height: 100vh;
+    padding-top: 0;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 193px;
+    background-color: var(--bg-dark);
+  }
+
+  @media only screen and (max-width: 600px) {
+    .main-content__position {
+      min-height: 100vh;
       padding-top: 0;
       position: relative;
       z-index: 1;
-    margin-bottom: 215px;
-    background-color: var(--bg-dark);
+      margin-bottom:380px;
     }
- 
-
-   
+  }
 
   .footer {
-    background-color:var(--bg-dark);
+    background-color: var(--bg-dark);
     color: rgb(255, 255, 255);
   }
 }
 
-
-.main-content__position{
+.main-content__position {
   min-height: 100vh;
+  padding-top: 0;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 250px;
+}
+
+@media only screen and (max-width: 600px) {
+  .main-content__position {
+    min-height: 100vh;
     padding-top: 0;
     position: relative;
     z-index: 1;
-  margin-bottom: 250px;
+    margin-bottom: 380px;
   }
+}
 
 img {
   border-radius: 0;
@@ -120,4 +143,3 @@ img {
 a {
   text-decoration: none;
 }
-

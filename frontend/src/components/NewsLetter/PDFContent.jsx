@@ -7,6 +7,7 @@ import axios from "axios";
 import { Url } from "../../url";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import HTMLFlipBook from "react-pageflip";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
@@ -77,7 +78,9 @@ const PdfContent = () => {
         onContextMenu={(e) => e.target.value}
         className="pdf__container"
       >
+        <HTMLFlipBook >
         <Page pageNumber={pageNumber} onLoadSuccess={removeTextLayerOffset} />
+        </HTMLFlipBook>
       </Document>
     </div>
   );

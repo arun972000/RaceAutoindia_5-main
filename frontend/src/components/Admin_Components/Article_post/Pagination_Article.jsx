@@ -131,7 +131,9 @@ function PaginatedArticle({ itemsPerPage, data }) {
                     <MdModeEdit size={20} />
                   </button>
                 </Link>
+
               </td>
+              
             </tr>
           ))}
         </MDBTableBody>

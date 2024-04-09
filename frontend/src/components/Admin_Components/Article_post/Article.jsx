@@ -12,6 +12,9 @@ import "react-quill/dist/quill.snow.css";
 import { Url } from "../../../url";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
+import EditorToolbar, { formats, modules } from "./TextEditor/Toolbar";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Article = () => {
   const [isFileSelected, setIsFileSelected] = useState(false);
@@ -26,7 +29,7 @@ const Article = () => {
   const [category_sub, setCategory_sub] = useState("");
   const [keywords, setKeywords] = useState("");
   const [image_default, setImage_default] = useState(null);
-
+const [imageDescription,setImageDescription]=useState("")
   const [mainCategory_array, setMainCategory_array] = useState([]);
   const [subCategory_array, setSubCategory_array] = useState([]);
 
@@ -34,29 +37,8 @@ const Article = () => {
   const token = jwtDecode(cookieData);
   const user_id = token.userid;
 
-  var toolbarOptions = [
-    ["bold", "italic", "underline", "strike"],
-    ["blockquote", "code-block"],
+  
 
-    [{ header: 1 }, { header: 2 }],
-    [{ list: "ordered" }, { list: "bullet" }],
-    [{ script: "sub" }, { script: "super" }],
-    [{ indent: "-1" }, { indent: "+1" }],
-    [{ direction: "rtl" }],
-
-    [{ size: ["small", false, "large", "huge"] }],
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-    [{ color: [] }, { background: [] }],
-    [{ font: [] }],
-    [{ align: [] }],
-    ["link", "image"],
-    ["clean"],
-  ];
-
-  const module = {
-    toolbar: toolbarOptions,
-  };
 
   const baseStyle = {
     flex: 1,
@@ -143,7 +125,18 @@ const Article = () => {
       !keywords ||
       !image_default
     ) {
-      alert("Please fill in all required fields.");
+
+      toast.info('Please fill out all inputs', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+
+        });
       return;
     }
 
@@ -160,11 +153,46 @@ const Article = () => {
     formData.append("is_recommended", isRecommended);
     formData.append("is_breaking", isBreaking);
     formData.append("user_id", user_id);
+    formData.append("image_description",imageDescription)
 
     try {
       await axios.post("http://localhost:3000/api/post/upload", formData);
+      toast.success('Post Submitted', {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        
+        });
+       setTitle("")
+       setContent("")
+       setCategory_sub("")
+       setCategory_main("")
+       setKeywords("")
+       setIsBreaking(0)
+       setIsSlider(0)
+       setIsFeatured(0)
+       setIsRecommended(0)
+       setsummary("")
+       setImageDescription("")
+       setImage_default(null)
     } catch (err) {
       console.log(err);
+      toast.warn('An error occurred while submitting the form. Please try again later.', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+
+        });
     }
   };
   useEffect(() => {
@@ -174,6 +202,7 @@ const Article = () => {
 
   return (
     <div className="col-12">
+      <ToastContainer/>
       <div className="shadow-sm p-3 mb-5  mt-5 bg-white rounded border-0">
         <div className="row">
           <div className="col-md-6">
@@ -187,24 +216,37 @@ const Article = () => {
                 required
               />
             </Form.Group>
-
+            <Form.Group controlId="formsummary" className="mb-3">
+              <Form.Label>Summary</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Summary"
+                value={summary}
+                onChange={(e) => setsummary(e.target.value)}
+                required
+              />
+            </Form.Group>
             <Form.Group controlId="formContent" className="mb-3">
               <Form.Label>Content</Form.Label>
+              <EditorToolbar />
               <ReactQuill
-                modules={module}
+                modules={modules}
+                formats={formats}
                 theme="snow"
                 value={content}
-                onChange={setContent}
+                onChange={(value) => setContent(value)}
               />
             </Form.Group>
 
-            <Form.Group controlId="formLocation" className="mb-3">
-              <Form.Label>Location</Form.Label>
+
+            
+            <Form.Group controlId="formdescription" className="mb-3">
+              <Form.Label>Image Description</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter location"
-                value={summary}
-                onChange={(e) => setsummary(e.target.value)}
+                placeholder="Enter Image Description"
+                value={imageDescription}
+                onChange={(e) => setImageDescription(e.target.value)}
                 required
               />
             </Form.Group>
@@ -226,6 +268,7 @@ const Article = () => {
                 ))}
               </Form.Control>
             </Form.Group>
+            
             <Form.Group controlId="subCategory" className="mb-3">
               <Form.Label>Sub Category</Form.Label>
               <Form.Control
@@ -234,6 +277,7 @@ const Article = () => {
                 onChange={(e) => setCategory_sub(e.target.value)}
                 required
               >
+                <option value="none">None</option>
                 {subCategory_array.map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.name}

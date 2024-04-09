@@ -17,7 +17,7 @@ adSpaceRoutes.get("/single_ad/:title", async (req, res) => {
   try {
     const { title } = req.params;
     const [results] = await db.execute(
-      `SELECT ad_code_728 FROM ad_spaces WHERE ad_space = ?`,
+      `SELECT ad_code_728, ad_code_300 FROM ad_spaces WHERE ad_space = ?`,
       [title]
     );
     res.status(200).json(results);

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import HomepageCategory from "./HomepageCategory.jsx";
 import Ad__90_728_1 from "../Ads/Ad_90_728_1.jsx";
-import MyComponent from "../Ads/AdSlider.jsx";
+// import MyComponent from "../Ads/AdSlider.jsx";
 
 const PostCategory = () => {
   const [data, setData] = useState([]);
